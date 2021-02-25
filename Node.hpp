@@ -6,12 +6,12 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:27 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/02/24 12:50:11 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/02/25 12:03:47 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef NODE_HPP
-# define BODE_HPP
+# define NODE_HPP
 
 # include <iostream>
 
@@ -20,22 +20,30 @@ template<typename T>
 class Node {
 	private:
 		T		data;
-		Node	*next;
+		Node	*head;
+		Node	*tail;
 	public:
-		class Iterator {
-			public:
-				Iterator<T>(void);
-		};
-		Node<T>(void);
+		Node<T>(void) {
+			head = nullptr;
+			tail = nullptr;
+		}
 		Node<T>( Node<T> const & );
 		Node<T> & operator=( Node<T> const & );
 		~Node<T>(void);
 
-		bool	empty(void) const;
+		// bool	empty(void) const;
 		// size_type 	size(void) const;
 		// size_type max_size(void) const;
-		void	pop_back(void);
-		void	push_back(T data);
+		// void	pop_back(void);
+		Node	*getHead(void) const {
+			return this->head;
+		}
+		Node	*getTail(void) const {
+			return this->tail;
+		}
+		void	push_back(Node **head_ref, T const & data) {
+			
+		}
 };
 }
 

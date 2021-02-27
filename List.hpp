@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/02/26 22:01:35 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/02/27 12:21:02 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ namespace ft {
 			reference_type operator*() {
 				return _ptr->_data;
 			}
-		protected:
+		private:
 			pointer_type	_ptr;
 	};
 
@@ -70,12 +70,12 @@ namespace ft {
 				return iterator(_tail);
 			}
 
-			void	push_back(const value_type& val) {
-				node_type*	new_node = new Node<T>(val);
-				_tail->insert(new_node);
-				if (_size++ == 0)
-					_head = new_node;
-			}
+			// void	push_back(const value_type& val) {
+			// 	node_type*	new_node = new Node<T>(val);
+			// 	_tail->insert(new_node);
+			// 	if (_size++ == 0)
+			// 		_head = new_node;
+			// }
 	};
 }
 

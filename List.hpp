@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/02/27 12:21:02 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/02/27 17:50:26 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIST_HPP
 
 # include "Node.hpp"
+#include "Allocator.hpp"
 # include "ReverseIterator.hpp"
 
 namespace ft {
@@ -33,7 +34,7 @@ namespace ft {
 			pointer_type	_ptr;
 	};
 
-	template<class T>
+	template<class T, class Alloc = ft::Allocator<T> >
 	class List {
 		public:
 			typedef T value_type;

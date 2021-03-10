@@ -38,7 +38,7 @@ namespace ft {
 				operator delete(p);
 			}
 			size_type max_size() const {
-				return std::numeric_limits<size_type>::max();
+				return std::numeric_limits<size_type>::max() / sizeof(T);
 			}
 			// template<class U, class... Args>
 			// void	construct(U *p, Args && ...args) {

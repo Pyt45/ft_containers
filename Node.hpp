@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Node.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:27 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/03/09 15:55:22 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/03/10 23:27:26 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define NODE_HPP
 
 # include <iostream>
+# include <limits>
+# include <cstdlib>
 
 namespace ft
 {
@@ -48,27 +50,13 @@ namespace ft
 				delete _prev;
 				delete _next;
 			}
-			// void	insert(Node<T>* node) {
-			// 	node->_prev = this->_prev;
-			// 	node->_next = this;
-			// 	if (this->_prev)
-			// 		this->_prev->_next = node;
-			// 	this->_prev = node;
-			// 	return ;
-			// }
 
-			void	insert(Node<T>** head_ref, Node<T>* node) {
-				Node<T>*	last = *head_ref;
-				if (*head_ref == NULL)
-				{
-					node->_prev = NULL;
-					*head_ref = node;
-					return ;
-				}
-				while (last->_next)
-					last = last->_next;
-				last->_next = node;
-				node->_prev = last;
+			void	insert(Node<T>* node) {
+				node->_prev = this->_prev;
+				node->_next = this;
+				if (this->_prev)
+					this->_prev->_next = node;
+				this->_prev = node;
 				return ;
 			}
 			// void	erase();

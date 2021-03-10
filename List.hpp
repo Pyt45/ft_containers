@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/02/27 17:50:26 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/03/09 16:11:38 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ namespace ft {
 			typedef ListIterator< List<T> > iterator;
 		private:
 			node_type*	_head;
-			node_type*	_tail;
+			// node_type*	_tail;
 			size_type	_size;
 		public:
 			List<T>( void ) : _size(0) {
 				_head = new Node<T>();
-				_tail = new Node<T>();
+				// _tail = new Node<T>();
 			}
 			List<T>( T const & data ) {
 				_head = new Node<T>(data);
-				_tail = new Node<T>(data);
+				// _tail = new Node<T>(data);
 			}
 			List<T>( List<T> const & src );
 			List<T> & operator=( List<T> const & src );
@@ -68,9 +68,12 @@ namespace ft {
 				return iterator(_head);
 			}
 			iterator end() {
-				return iterator(_tail);
+				return iterator(_head->_next );
 			}
-
+			void	push_back(const value_type& val) {
+				node_type*	new_node = new Node<T>(val);
+				_head->insert(&_head, new_node);
+			}
 			// void	push_back(const value_type& val) {
 			// 	node_type*	new_node = new Node<T>(val);
 			// 	_tail->insert(new_node);

@@ -1,9 +1,10 @@
 #include "Node.hpp"
-// #include "List.hpp"
+#include "List.hpp"
 #include <vector>
 #include <iostream>
 #include <memory>
 #include "Allocator.hpp"
+#include <gtest/gtest.h>
 
 // template<typename type>
 // struct Allocator : std::allocator<type> {
@@ -29,19 +30,25 @@
 // 	};
 // };
 
-int		main()
+TEST(module_name, test_name) {
+	std::cout << "Hello world!" << std::endl;
+	// Google Test will also provide macros for assertions.
+	ASSERT_EQ(1+1, 2);
+}
+
+int		main(int argc, char **argv)
 {
-	std::vector<int , ft::Allocator<int> > v;
-	v.push_back(1);
-	v.push_back(2);
-	v.push_back(3);
-	v.push_back(4);
-	v.push_back(5);
-	v.push_back(6);
+	// std::vector<int , ft::Allocator<int> > v;
+	// v.push_back(1);
+	// v.push_back(2);
+	// v.push_back(3);
+	// v.push_back(4);
+	// v.push_back(5);
+	// v.push_back(6);
 	// std::cout << v.get_allocator().get_allocator() << std::endl;
-	std::vector<int, ft::Allocator<int> >::iterator it;
-	for (it = v.begin(); it != v.end(); it++)
-		std::cout << *it << std::endl;
+	// std::vector<int, ft::Allocator<int> >::iterator it;
+	// for (it = v.begin(); it != v.end(); it++)
+	// 	std::cout << *it << std::endl;
 	// ft::Node<int> *node = new ft::Node<int>(5);
 	// ft::Node<int> *node1 = new ft::Node<int>(6);
 	// ft::Node<int> *node2 = new ft::Node<int>(7);
@@ -55,9 +62,15 @@ int		main()
 	// std::cout << node->_next->_next->_data << std::endl;
 	// std::cout << node->getData() << std::endl;
 
-	//ft::List<int> *l = new ft::List<int>(5);
-	//ft::List<int>::iterator it = l->begin();
-	//std::cout << *it << std::endl;
+	// ft::List<int> *l = new ft::List<int>(5);
+	// ft::List<int>::iterator it = l->begin();
+	// std::cout << *it << std::endl;
+	// l->push_back(6);
+	// l->push_back(7);
+	// ft::List<int>::iterator eit = l->end();
+	// std::cout << *eit << std::endl;
+	::testing::InitGoogleTest(&argc, argv);
+ 	return RUN_ALL_TESTS();
 	// std::vector<int , Allocator<int> > v1;
 	// v1.push_back(1);
 	// v1.push_back(2);
@@ -67,5 +80,11 @@ int		main()
 	// 	std::cout << var << std::endl;
 
 	// std::getchar();
-	return 0;
+	// ft::Node<int>	*node = new ft::Node<int>(5);
+	// ft::Node<int>	*node1 = new ft::Node<int>(6);
+
+	// node->insert(&node, node1);
+	// std::cout << node->_data << std::endl;
+	// std::cout << node->_next->_data << std::endl;
+	// return 0;
 }

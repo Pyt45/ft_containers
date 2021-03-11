@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/03/10 23:56:06 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/03/11 18:49:28 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ namespace ft {
 			typedef typename List::value_type	value_type;
 			typedef typename List::node_type*	pointer_type;
 			typedef typename List::value_type&	reference_type;
+			typedef typename List::const_reference	const_reference_type;
 			ListIterator( void ) : _ptr(nullptr) {}
 			ListIterator(pointer_type ptr) : _ptr(ptr) {}
 			ListIterator( ListIterator const & rhs ) : _ptr(rhs._ptr) {}
 			reference_type operator*() {
 				return _ptr->_data;
 			}
+
 			bool	operator!=( ListIterator const & rhs ) const {
 				return _ptr != rhs._ptr;
 			}
@@ -40,6 +42,15 @@ namespace ft {
 			ListIterator operator++(int) {
 				ListIterator iter = *this;
 				++(*this);				
+				return iter;
+			}
+			ListIterator& operator--() {
+				_ptr = _ptr->_prev;
+				return *this;
+			}
+			ListIterator operator--(int) {
+				ListIterator iter = *this;
+				--(*this);
 				return iter;
 			}
 			ListIterator& operator=( ListIterator const & rhs ) {
@@ -62,6 +73,7 @@ namespace ft {
 			typedef ptrdiff_t difference_type;
 			typedef Node<value_type> node_type;
 			typedef ListIterator< List<T> > iterator;
+			typedef ListIterator< List<T> > const const_iterator;
 		private:
 			node_type*	_head;
 			node_type*	_tail;
@@ -89,7 +101,13 @@ namespace ft {
 			iterator begin() {
 				return iterator(_head);
 			}
+			const_iterator begin() const {
+				return iterator(_head);
+			}
 			iterator end() {
+				return iterator(_tail);
+			}
+			const_iterator end() const {
 				return iterator(_tail);
 			}
 			// Capacity
@@ -118,13 +136,46 @@ namespace ft {
 			// Modifiers
 			void	assign(iterator first, iterator end);
 			void	assign (size_type n, const value_type& val);
+			
+			void	push_front(const value_type& val) {
+				node_type* new_node = new Node<T>(val);
+				// _head->insert_front(new_node);
+				_head->_prev = new_node;
+				new_node->_next = _head;
+				_head = new_node;
+				// _size++;
+			}
+			
+			void 	pop_front() {
+				_size--;
+			}
 			void	push_back(const value_type& val) {
 				node_type* new_node = new Node<T>(val);
 				_tail->insert(new_node);
 				if (_size++ == 0)
 					_head = new_node;
 			}
-			void	clear();
+			void 	pop_back() {
+				iterator it = end();
+				it--;
+				std::cout << back() << std::endl;
+				// if (_tail->_prev)
+					// delete _tail->_prev;
+				_tail->erase(_tail->_prev);
+				// _tail->_prev->
+			}
+			iterator insert (iterator position, const value_type& val);
+			void 	insert (iterator position, size_type n, const value_type& val);
+    		void	insert (iterator position, iterator first, iterator last);
+			iterator erase (iterator position);
+			iterator erase (iterator first, iterator last);
+			void 	swap (List<T>& x);
+			void 	resize (size_type n, value_type val = value_type());
+			void	clear() {
+				while (!_tail->empty())
+					_tail->pop_back();
+				_size = 0;
+			}
 			// Operations
 			// Observers
 	};

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Node.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:27 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/03/10 23:27:26 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/03/11 18:49:04 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,37 @@ namespace ft
 				return *this;
 			}
 			~Node<T>(void) {
-				delete _prev;
-				delete _next;
+				if (_prev)
+					delete _prev;
+				if (_next)
+					delete _next;
 			}
 
 			void	insert(Node<T>* node) {
-				node->_prev = this->_prev;
 				node->_next = this;
+				node->_prev = this->_prev;
 				if (this->_prev)
 					this->_prev->_next = node;
 				this->_prev = node;
 				return ;
 			}
+			void	insert_front(Node<T>* node) {
+				this->_prev = node;
+				node->_next = this;
+			}
+			void erase(Node<T>* node) {
+				this->_prev = node->_prev;
+				node->_prev->_next = this;
+				delete node;
+			}
+			// void	print_content() {
+			// 	Node<T> *tmp = this;
+
+			// 	while (tmp) {
+			// 		std::cout << tmp->_data << std::endl;
+			// 		tmp = tmp->_next;
+			// 	}
+			// }
 			// void	erase();
 			// void	swap(Node<T>& node);
 	};

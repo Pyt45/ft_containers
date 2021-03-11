@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Node.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:27 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/03/11 18:49:04 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/03/11 22:04:31 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ namespace ft
 				return *this;
 			}
 			~Node<T>(void) {
-				if (_prev)
-					delete _prev;
-				if (_next)
-					delete _next;
 			}
 
 			void	insert(Node<T>* node) {
@@ -65,20 +61,19 @@ namespace ft
 				this->_prev = node;
 				node->_next = this;
 			}
-			void erase(Node<T>* node) {
-				this->_prev = node->_prev;
-				node->_prev->_next = this;
-				delete node;
+			Node<T>* erase() {
+				Node<T>* node = this->_next;
+				// delete this->_prev;
+				/*if (this->_prev)
+					this->_prev = this->_prev->_prev;
+				this->_prev->_next = this;*/
+				if (this->_prev)
+					this->_prev->_next = this->_next;
+				if (this->_next)
+					this->_next->_prev = this->_prev;
+				delete this;
+				return node;
 			}
-			// void	print_content() {
-			// 	Node<T> *tmp = this;
-
-			// 	while (tmp) {
-			// 		std::cout << tmp->_data << std::endl;
-			// 		tmp = tmp->_next;
-			// 	}
-			// }
-			// void	erase();
 			// void	swap(Node<T>& node);
 	};
 }

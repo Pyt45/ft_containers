@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/03/11 18:49:28 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/03/11 23:29:18 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ namespace ft {
 			bool	operator!=( ListIterator const & rhs ) const {
 				return _ptr != rhs._ptr;
 			}
+			bool	operator==( ListIterator const & rhs ) const {
+				return _ptr == rhs._ptr;
+			}
 			ListIterator& operator++() {
 				_ptr = _ptr->_next;
 				return *this;
@@ -56,6 +59,9 @@ namespace ft {
 			ListIterator& operator=( ListIterator const & rhs ) {
 				_ptr = rhs._ptr;
 				return *this;
+			}
+			pointer_type getPtr() const {
+				return _ptr;
 			}
 		private:
 			pointer_type	_ptr;
@@ -134,20 +140,34 @@ namespace ft {
 				return _tail->_prev->_data;
 			}
 			// Modifiers
-			void	assign(iterator first, iterator end);
-			void	assign (size_type n, const value_type& val);
+			void	assign(iterator first, iterator end) {
+				clear();
+				for(static_cast<void>(first); first != end; first++)
+					push_back(*first);
+			}
+			void	assign(size_type n, const value_type& val) {
+				clear();
+				Node<T>* new_node = new Node<T>(val);
+				for (size_type i = 0; i < n; i++)
+					push_back(val);
+			}
 			
 			void	push_front(const value_type& val) {
 				node_type* new_node = new Node<T>(val);
+				_head->insert(new_node);
 				// _head->insert_front(new_node);
-				_head->_prev = new_node;
-				new_node->_next = _head;
+				// _head->_prev = new_node;
+				// new_node->_next = _head;
 				_head = new_node;
-				// _size++;
+				_size++;
 			}
 			
 			void 	pop_front() {
-				_size--;
+				if (!_size)
+					return ;
+				_head = _head->erase();
+				if (_size-- == 1)
+					_head = _tail;
 			}
 			void	push_back(const value_type& val) {
 				node_type* new_node = new Node<T>(val);
@@ -156,25 +176,36 @@ namespace ft {
 					_head = new_node;
 			}
 			void 	pop_back() {
-				iterator it = end();
-				it--;
-				std::cout << back() << std::endl;
-				// if (_tail->_prev)
-					// delete _tail->_prev;
-				_tail->erase(_tail->_prev);
-				// _tail->_prev->
+					if (!_size)
+						return ;
+				_tail->_prev->erase();
+				if (_size-- == 1)
+					_head = _tail;
 			}
-			iterator insert (iterator position, const value_type& val);
-			void 	insert (iterator position, size_type n, const value_type& val);
-    		void	insert (iterator position, iterator first, iterator last);
+			iterator insert (iterator position, const value_type& val) {
+				Node<T>* node = new Node<T>(val);
+				position.getPtr()->insert(node);
+				_size++;
+				if (position == begin())
+					_head = node;
+				return iterator(node);
+			}
+			void 	insert (iterator position, size_type n, const value_type& val) {
+				for (size_type i = 0; i < n; i++)
+					insert(position, val);
+				return ;
+			}
+    		void	insert (iterator position, iterator first, iterator last) {
+				for (static_cast<void>(first); first != last; ++first)
+					insert(position, *first);
+			}
 			iterator erase (iterator position);
 			iterator erase (iterator first, iterator last);
 			void 	swap (List<T>& x);
 			void 	resize (size_type n, value_type val = value_type());
 			void	clear() {
-				while (!_tail->empty())
-					_tail->pop_back();
-				_size = 0;
+				while (!empty())
+					pop_back();
 			}
 			// Operations
 			// Observers

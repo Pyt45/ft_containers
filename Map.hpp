@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:21:20 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/16 16:28:57 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/16 16:29:05 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ namespace ft {
 		public:
 			typedef Key key_type;
 			typedef T	mapped_type;
-			typedef std::pair<const Key, T> value_type;
+			// typedef std::pair<const Key, T> value_type;
 			typedef size_type std::size_t;
 		private:
 		public:

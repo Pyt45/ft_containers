@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/15 16:07:31 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/17 15:00:26 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,11 @@ namespace ft {
 				for (static_cast<void>(first); first != last; ++first)
 					insert(position, *first);
 			}
-			iterator erase (iterator position);
+			iterator erase (iterator position) {
+				Node<T>* node = position.getPtr();
+				std::cout << node->_data << std::endl;
+				return position;
+			}
 			iterator erase (iterator first, iterator last);
 			void 	swap (List<T>& x);
 			void 	resize (size_type n, value_type val = value_type());

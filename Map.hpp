@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:21:20 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/16 16:29:05 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/17 11:21:51 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 # define MAP_HPP
 
 # include "BTree.hpp"
+# include "Compare.hpp"
 # include "ReverseIterator.hpp"
 
 namespace ft {
-	template<class Key, class T, class Compare = less<Key>>
+	template<class Key, class T, class Compare = ft::less<Key>>
 	class map {
 		public:
 			typedef Key key_type;

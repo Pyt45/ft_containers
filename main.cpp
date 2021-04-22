@@ -44,7 +44,66 @@ TEST(module_name, test_name) {
 // 	struct pair;
 // }
 
-int		main()
+void	test_erase()
+{
+	// l1
+	std::list<int> l1;
+	l1.push_back(10);
+	l1.push_back(13);
+	l1.push_back(15);
+	l1.push_back(19);
+	l1.push_back(20);
+	l1.push_back(1005);
+	std::list<int>::iterator l1t;
+	for (l1t = l1.begin(); l1t != l1.end(); ++l1t) {
+		std::cout << *l1t << std::endl;
+	}
+	std::cout << "\n=================\n\n";
+	l1t = l1.begin();
+	std::list<int>::iterator l1er = l1t;
+	l1er++;
+	l1er++;
+	std::cout << "last = " << *l1er << std::endl;
+	std::list<int>::iterator r = l1.erase(l1t, l1er);
+	std::cout << "r = " << *r << std::endl;
+	std::cout << "\n=================\n\n";
+	for (l1t = l1.begin(); l1t != l1.end(); ++l1t) {
+		std::cout << *l1t << std::endl;
+	}
+	std::cout << "\n=================\n\n";
+	// l
+	ft::List<int> l;
+	l.push_front(6);
+	l.push_front(7);
+	l.push_front(9);
+	l.push_front(12);
+	l.push_front(19);
+	ft::List<int>::iterator it;
+	for (it = l.begin(); it != l.end(); ++it) {
+		std::cout << *it << std::endl;
+	}
+	std::cout << "\n=================\n\n";
+	std::cout << l.size() << std::endl;
+	it = l.begin();
+	ft::List<int>::iterator er = it;
+	er++;
+	er++;
+	std::cout << "last = " << *er << std::endl;
+	// l.erase(it);
+	// it++;;
+	// l.erase(it);
+	// it++;;
+	// l.erase(it);
+	ft::List<int>::iterator lr = l.erase(it, er);
+	std::cout << "lr = " << *lr << std::endl;
+	std::cout << "\n=================\n\n";
+	std::cout << "size = " << l.size() << std::endl;
+	for (it = l.begin(); it != l.end(); ++it) {
+		std::cout << *it << std::endl;
+	}
+}
+
+void	mix_test(void)
 {
 	// std::pair<int ,int> foo;
 	// foo = std::make_pair(10, 20);
@@ -57,28 +116,15 @@ int		main()
 	// b.insert("print");
 	// b.insert("take");
 	// b.printTree();
-	ft::List<int> l;
-	std::list<int> l1;
-	l.push_front(6);
-	l.push_front(7);
-	l.push_front(9);
-	l.push_front(12);
-	l.push_front(19);
-	ft::List<int>::iterator it;
-	// l1
-	l1.push_back(10);
-	l1.push_back(13);
-	l1.push_back(15);
-	l1.push_back(19);
-	l1.push_back(20);
-	l1.push_back(1005);
-	for (it = l.begin(); it != l.end(); ++it) {
-		std::cout << *it << std::endl;
-	}
-	std::cout << "\n=================\n\n";
-	ft::List<int>::iterator t = l.begin();
-	ft::List<int>::iterator e = l.erase(t);
+	
+	// t++;
+	// std::cout << *t << std::endl;
+	// ft::List<int>::iterator e = l.erase(t);
 	// std::cout << *e << std::endl;
+	// std::cout << "\n\n\n";
+	// for (it = l.begin(); it != l.end(); ++it) {
+	// 	std::cout << *it << std::endl;
+	// }
 	// std::list<int>::iterator t = l1.begin();
 	// std::list<int>::iterator e = l1.erase(t);
 	// std::cout << "f = " << *e << std::endl;
@@ -139,5 +185,39 @@ int		main()
 	// std::cout << lst.back() << std::endl;
 	// ::testing::InitGoogleTest(&argc, argv);
  	//return RUN_ALL_TESTS();*/
+}
+
+void	test_swap(void)
+{
+	std::list<int> first(3, 100);
+	std::list<int> second(5, 200);
+
+	first.swap(second);
+	for (std::list<int>::iterator it = first.begin(); it != first.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
+	std::cout << "=====================\n";
+	for (std::list<int>::iterator t = second.begin(); t != second.end(); t++)
+		std::cout << ' ' << *t;
+	std::cout << std::endl;
+	ft::List<int> l;
+	ft::List<int> l1;
+
+	l.push_back(1);
+	l.push_back(2);
+
+	l1.push_back(1);
+	l1.push_back(2);
+	l1.push_back(3);
+
+	if (l == l1)
+		std::cout << "Yep\n";
+}
+
+int		main()
+{
+	// test_erase();
+	// mix_test();
+	test_swap();
 	return 0;
 }

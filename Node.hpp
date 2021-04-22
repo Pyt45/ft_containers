@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:27 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/17 15:06:26 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/22 14:43:24 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,16 @@ namespace ft
 				delete this;
 				return node;
 			}
-			void	erase(Node<T>* node) {
-				
+			void	erase(Node<T> **root, Node<T>* del) {
+				// this->_next = node->_next;
+				// this->_next->_prev = node->_prev;
+				if ((*root) == del)
+					*root = del->_next;
+				if (del->_next)
+					del->_next->_prev = del->_prev;
+				if (del->_prev)
+					del->_prev->_next = del->_next;
+				delete del;
 			}
 			// void	swap(Node<T>& node);
 	};

@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/17 15:00:26 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/22 16:22:02 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,10 +201,16 @@ namespace ft {
 			}
 			iterator erase (iterator position) {
 				Node<T>* node = position.getPtr();
-				std::cout << node->_data << std::endl;
+				_head->erase(&_head, node);
+				if (_size-- == 1)
+					_head = _tail;
 				return position;
 			}
-			iterator erase (iterator first, iterator last);
+			iterator erase (iterator first, iterator last) {
+				for (static_cast<void>(first); first != last; first++)
+					erase(first);
+				return last;
+			}
 			void 	swap (List<T>& x);
 			void 	resize (size_type n, value_type val = value_type());
 			void	clear() {
@@ -212,9 +218,42 @@ namespace ft {
 					pop_back();
 			}
 			// Operations
-			// Observers
+			void splice (iterator position, List& x);
+			void splice (iterator position, List& x, iterator i);
+			void splice (iterator position, List& x, iterator first, iterator last);
+			void remove (const value_type& val);
+			template <class Predicate>
+				void remove_if (Predicate pred);
+			void unique();
+			template <class BinaryPredicate>
+				void unique (BinaryPredicate binary_pred);
+			void merge (List& x);
+			template <class Compare>
+				void merge (List& x, Compare comp);
+			void sort();
+			template <class Compare>
+				void sort (Compare comp);
+			void reverse();
 	};
 	// Non-member function overloads
+	template <class T>
+		bool operator== (const List<T>& lhs, const List<T>& rhs) {
+			if (lhs.size() != rhs.size())
+				return false;
+			return true;	
+		}
+	template <class T>
+		bool operator!= (const List<T>& lhs, const List<T>& rhs);
+	template <class T>
+		bool operator<  (const List<T>& lhs, const List<T>& rhs);
+	template <class T>
+		bool operator<= (const List<T>& lhs, const List<T>& rhs);
+	template <class T>
+		bool operator>  (const List<T>& lhs, const List<T>& rhs);
+	template <class T>
+		bool operator>= (const List<T>& lhs, const List<T>& rhs);
+	template<class T>
+		void swap(List<T>& x, List<T>& y);
 }
 
 #endif

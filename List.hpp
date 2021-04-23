@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/22 16:22:02 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/23 14:59:13 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,9 +202,12 @@ namespace ft {
 			iterator erase (iterator position) {
 				Node<T>* node = position.getPtr();
 				_head->erase(&_head, node);
-				if (_size-- == 1)
+				if (_size-- == 0)
+				{
 					_head = _tail;
-				return position;
+					return iterator(_tail);
+				}
+				return iterator(node->_next);
 			}
 			iterator erase (iterator first, iterator last) {
 				for (static_cast<void>(first); first != last; first++)
@@ -212,7 +215,18 @@ namespace ft {
 				return last;
 			}
 			void 	swap (List<T>& x);
-			void 	resize (size_type n, value_type val = value_type());
+			void 	resize (size_type n, value_type val = value_type()) {
+				if (n < _size) {
+					for (size_type i = _size - n; i > 0; i--)
+						pop_back();
+				}
+				if (n > _size) {
+					Node<T>* node = new Node<T>(val);
+					iterator pos = iterator(node);
+					for (size_type i = _size + 1; i <= n; i++)
+						push_back(*pos);
+				}
+			}
 			void	clear() {
 				while (!empty())
 					pop_back();

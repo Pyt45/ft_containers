@@ -73,11 +73,12 @@ void	test_erase()
 	std::cout << "\n=================\n\n";
 	// l
 	ft::List<int> l;
-	l.push_front(6);
-	l.push_front(7);
-	l.push_front(9);
-	l.push_front(12);
-	l.push_front(19);
+	l.push_back(10);
+	l.push_back(13);
+	l.push_back(15);
+	l.push_back(19);
+	l.push_back(20);
+	l.push_back(1005);
 	ft::List<int>::iterator it;
 	for (it = l.begin(); it != l.end(); ++it) {
 		std::cout << *it << std::endl;
@@ -218,6 +219,42 @@ int		main()
 {
 	// test_erase();
 	// mix_test();
-	test_swap();
+	// test_swap();
+	// ft::List<int> l;
+	// l.push_back(100);
+	// l.push_back(10);
+	// l.push_back(32);
+	// ft::List<int>::iterator t = l.begin();
+	// l.erase(t);
+	// t++;
+	// ft::List<int>::iterator r = l.erase(t);
+	// std::cout << *r << std::endl;
+	// t++;
+	// std::cout << *t << std::endl;
+	// ft::List<int>::iterator e = l.erase(t);
+	// std::cout << *e << std::endl;
+	// xz 
+	// node->insert_front(node2);
+	// node->insert_front(node3);
+	// node->erase(node1);
+	// while (node)
+	// {
+	// 	std::cout << node->_data << std::endl;
+	// 	node = node->_prev;
+	// }
+	ft::List<int> l;
+	l.push_back(1);
+	l.push_back(2);
+	l.push_back(3);
+	l.push_back(4);
+	l.push_back(5);
+
+	for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
+		std::cout << *t << std::endl;
+	std::cout << "============================\n";
+	l.resize(7, 12);
+	for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
+		std::cout << *t << std::endl;
+	std::cout << "size = " << l.size() << std::endl;
 	return 0;
 }

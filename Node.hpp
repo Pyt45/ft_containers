@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:27 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/22 14:43:24 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/23 14:10:44 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,12 @@ namespace ft
 				return ;
 			}
 			void	insert_front(Node<T>* node) {
-				this->_prev = node;
 				node->_next = this;
+				if (this->_prev)
+					node->_prev = this->_prev;
+				if (this->_prev)
+					this->_prev->_next = node;
+				this->_prev = node;
 			}
 			Node<T>* erase() {
 				Node<T>* node = this->_next;
@@ -84,6 +88,15 @@ namespace ft
 				if (del->_prev)
 					del->_prev->_next = del->_next;
 				delete del;
+			}
+			void	erase(Node<T>* del) {
+				// this->_prev = NULL;
+				if (this->_prev == del)
+				{
+					this->_prev = NULL;
+					del->_next = NULL;
+					delete del;
+				}
 			}
 			// void	swap(Node<T>& node);
 	};

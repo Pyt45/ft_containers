@@ -1,6 +1,7 @@
 #include "Node.hpp"
 #include "BTree.hpp"
 #include "List.hpp"
+#include "Stack.hpp"
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -242,7 +243,7 @@ int		main()
 	// 	std::cout << node->_data << std::endl;
 	// 	node = node->_prev;
 	// }
-	ft::List<int> l;
+	/*ft::List<int> l;
 	l.push_back(1);
 	l.push_back(2);
 	l.push_back(3);
@@ -255,6 +256,16 @@ int		main()
 	l.resize(7, 12);
 	for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
 		std::cout << *t << std::endl;
-	std::cout << "size = " << l.size() << std::endl;
+	std::cout << "size = " << l.size() << std::endl;*/
+	ft::stack<int> s;
+	for (int i = 0; i < 5; i++)
+		s.push(i);
+	
+	while (!s.empty())
+	{
+		std::cout << ' ' << s.top();
+		s.pop();
+	}
+	std::cout << std::endl;
 	return 0;
 }

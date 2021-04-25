@@ -1,3 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Stack.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
+/*   Updated: 2021/04/25 01:15:37 by ayoub            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef STACK_HPP
+# define STACK_HPP
+
 #include "Allocator.hpp"
 #include "List.hpp"
 #include "ReverseIterator.hpp"
@@ -49,3 +64,5 @@ namespace ft {
 			}
 	};
 }
+
+#endif

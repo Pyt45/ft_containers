@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Queue.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/25 01:24:08 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/04/26 13:01:36 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,18 @@ namespace ft {
 				this->c.pop_front();
 			}
 	};
+	template <class T, class Container>
+		bool operator== (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	template <class T, class Container>
+		bool operator!= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	template <class T, class Container>
+		bool operator<  (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	template <class T, class Container>
+		bool operator<= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	template <class T, class Container>
+		bool operator>  (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+	template <class T, class Container>
+		bool operator>= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
 }
 
 #endif

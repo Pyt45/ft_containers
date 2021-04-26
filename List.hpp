@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/23 14:59:13 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/26 16:09:16 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ namespace ft {
 				_head = _tail = new Node<T>(data);
 			}
 			List( List<T> const & rhs ) {
-				/*_size = 0;
+				_size = 0;
 				_head = _tail = new Node<T>();
 				for (iterator it = rhs.begin(); it != rhs.end(); ++it)
-					push_back(*it);*/
+					push_back(*it);
 			};
 			List & operator=( List<T> const & src );
 			~List( void ) {
@@ -214,7 +214,18 @@ namespace ft {
 					erase(first);
 				return last;
 			}
-			void 	swap (List<T>& x);
+			void 	swap (List<T>& x) {
+				List<T> tmp(*this);
+
+				clear();
+				iterator tx = x.begin();
+				for (static_cast<void>(tx); tx != x.end(); tx++)
+					push_back(*tx);
+				x.clear();
+				iterator tobj = tmp.begin();
+				for (static_cast<void>(tobj); tobj != tmp.end(); tobj++)
+					x.push_back(*tobj);
+			}
 			void 	resize (size_type n, value_type val = value_type()) {
 				if (n < _size) {
 					for (size_type i = _size - n; i > 0; i--)
@@ -254,18 +265,47 @@ namespace ft {
 		bool operator== (const List<T>& lhs, const List<T>& rhs) {
 			if (lhs.size() != rhs.size())
 				return false;
-			return true;	
+			typename List<T>::iterator tlhs = lhs.begin();
+			typename List<T>::iterator trhs = rhs.begin();
+			while (tlhs != lhs.end()) {
+				if (*tlhs != *trhs)
+					return false;
+				tlhs++;
+				trhs++;
+			}
+			return true;
 		}
 	template <class T>
-		bool operator!= (const List<T>& lhs, const List<T>& rhs);
+		bool operator!= (const List<T>& lhs, const List<T>& rhs) {
+			return !(lhs == rhs);
+		}
 	template <class T>
-		bool operator<  (const List<T>& lhs, const List<T>& rhs);
+		bool operator<  (const List<T>& lhs, const List<T>& rhs) {
+			typename List<T>::iterator tlhs = lhs.begin();
+			typename List<T>::iterator trhs = rhs.begin();
+
+			while (tlhs != lhs.end()) {
+				if (trhs == rhs.end() || *trhs < *tlhs)
+					return false;
+				else if (*tlhs < *trhs)
+					return true;
+				tlhs++;
+				trhs++;
+			}
+			return (trhs != rhs.end());
+		}
 	template <class T>
-		bool operator<= (const List<T>& lhs, const List<T>& rhs);
+		bool operator<= (const List<T>& lhs, const List<T>& rhs) {
+			return !(lhs > rhs);
+		}
 	template <class T>
-		bool operator>  (const List<T>& lhs, const List<T>& rhs);
+		bool operator>  (const List<T>& lhs, const List<T>& rhs) {
+			return (rhs < lhs);
+		}
 	template <class T>
-		bool operator>= (const List<T>& lhs, const List<T>& rhs);
+		bool operator>= (const List<T>& lhs, const List<T>& rhs) {
+			return !(lhs < rhs);
+		}
 	template<class T>
 		void swap(List<T>& x, List<T>& y);
 }

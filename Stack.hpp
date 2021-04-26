@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Stack.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/25 01:15:37 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/04/26 13:00:26 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ namespace ft {
 			typedef Container container_type;
 			typedef typename Container::value_type value_type;
 			typedef typename Container::size_type size_type;
-			typedef typename Container::reference reference;
-			typedef typename Container::const_reference const_reference;
 			container_type c;
 		public:
 			stack() {}
@@ -63,6 +61,18 @@ namespace ft {
 				this->c.pop_back();
 			}
 	};
+	template <class T, class Container>
+  		bool operator== (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+	template <class T, class Container>
+		bool operator!= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+	template <class T, class Container>
+		bool operator<  (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+	template <class T, class Container>
+		bool operator<= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+	template <class T, class Container>
+		bool operator>  (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+	template <class T, class Container>
+		bool operator>= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
 }
 
 #endif

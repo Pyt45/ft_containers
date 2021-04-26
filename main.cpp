@@ -191,36 +191,41 @@ void	mix_test(void)
 
 void	test_swap(void)
 {
-	std::list<int> first(3, 100);
-	std::list<int> second(5, 200);
+	// std::list<int> first(3, 100);
+	// std::list<int> second(5, 200);
 
-	first.swap(second);
-	for (std::list<int>::iterator it = first.begin(); it != first.end(); it++)
-		std::cout << ' ' << *it;
-	std::cout << std::endl;
-	std::cout << "=====================\n";
-	for (std::list<int>::iterator t = second.begin(); t != second.end(); t++)
-		std::cout << ' ' << *t;
-	std::cout << std::endl;
+	// first.swap(second);
+	// for (std::list<int>::iterator it = first.begin(); it != first.end(); it++)
+	// 	std::cout << ' ' << *it;
+	// std::cout << std::endl;
+	// std::cout << "=====================\n";
+	// for (std::list<int>::iterator t = second.begin(); t != second.end(); t++)
+	// 	std::cout << ' ' << *t;
+	// std::cout << std::endl;
 	ft::List<int> l;
 	ft::List<int> l1;
 
 	l.push_back(1);
 	l.push_back(2);
 
-	l1.push_back(1);
-	l1.push_back(2);
 	l1.push_back(3);
-
-	if (l == l1)
-		std::cout << "Yep\n";
+	l1.push_back(4);
+	// l1.push_back(3);
+	l1.swap(l);
+	for (ft::List<int>::iterator it = l1.begin(); it != l1.end(); it++)
+		std::cout << *it << std::endl;
+	std::cout << "=================\n";
+	for (ft::List<int>::iterator it = l.begin(); it != l.end(); it++)
+			std::cout << *it << std::endl;
+	// if (l < l1)
+	// 	std::cout << "Yep\n";
 }
 
 int		main()
 {
 	// test_erase();
 	// mix_test();
-	// test_swap();
+	test_swap();
 	// ft::List<int> l;
 	// l.push_back(100);
 	// l.push_back(10);
@@ -257,15 +262,15 @@ int		main()
 	for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
 		std::cout << *t << std::endl;
 	std::cout << "size = " << l.size() << std::endl;*/
-	ft::stack<int> s;
-	for (int i = 0; i < 5; i++)
-		s.push(i);
+	// ft::stack<int> s;
+	// for (int i = 0; i < 5; i++)
+	// 	s.push(i);
 	
-	while (!s.empty())
-	{
-		std::cout << ' ' << s.top();
-		s.pop();
-	}
-	std::cout << std::endl;
+	// while (!s.empty())
+	// {
+	// 	std::cout << ' ' << s.top();
+	// 	s.pop();
+	// }
+	// std::cout << std::endl;
 	return 0;
 }

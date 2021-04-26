@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Node.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:27 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/23 14:10:44 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/26 20:23:37 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ namespace ft
 					delete del;
 				}
 			}
-			// void	swap(Node<T>& node);
+			void	swap(Node<T>& node) {
+				// 0 -> 4 -> 3 -> 2 -> 1
+			}
 	};
 }
 

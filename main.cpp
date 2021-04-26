@@ -207,11 +207,16 @@ void	test_swap(void)
 
 	l.push_back(1);
 	l.push_back(2);
+	std::cout << "size of l = " << l.size() << std::endl;
 
 	l1.push_back(3);
 	l1.push_back(4);
-	// l1.push_back(3);
+	l1.push_back(5);
+	std::cout << "size of l1 = " << l1.size() << std::endl;
 	l1.swap(l);
+	std::cout << "after swap" << std::endl;
+	std::cout << "l = " << l.size() << " l1 = " << l1.size()
+	<< std::endl;
 	for (ft::List<int>::iterator it = l1.begin(); it != l1.end(); it++)
 		std::cout << *it << std::endl;
 	std::cout << "=================\n";
@@ -221,11 +226,93 @@ void	test_swap(void)
 	// 	std::cout << "Yep\n";
 }
 
+bool is_small_than_2(int i) {
+	if (i <= 2)
+		return true;
+	return false;
+}
+
+bool equal_test(double i, double j)
+{
+	return ((int)i < (int)j);
+}
+
+void	Operations_test()
+{
+	ft::List<int> l;
+	ft::List<int> l1;
+
+	l.push_back(1);
+	l.push_back(2);
+	l.push_back(3);
+	l.push_back(-1);
+	l.push_back(9);
+	ft::List<int>::iterator it = l.begin();
+	l1.push_back(8);
+	l1.push_back(9);
+	/*ft::List<int>::iterator e = l1.end();
+	e--;
+	l.splice(it, l1, l1.begin(), e);*/
+	l.remove_if(is_small_than_2);
+	for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
+		std::cout << *t << std::endl;
+	std::cout << "size of l1 = " << l1.size() << std::endl;
+
+	std::cout << "===================\n";
+
+	ft::List<int> sl;
+	ft::List<int> s;
+
+	sl.push_back(1);
+	//l.push_back(1);
+	sl.push_back(9);
+	sl.push_back(2);
+	// sl.push_back(1);
+	sl.push_back(5);
+	//sl.push_back(5);
+	sl.push_back(6);
+
+	s.push_back(3);
+	s.push_back(8);
+	s.push_back(-1);
+
+	// sl.unique(equal_test);
+	// sl.reverse();
+	// sl.merge(s, equal_test);
+	sl.sort();
+	std::cout << "size s = " << s.size() << std::endl;
+	for (ft::List<int>::iterator it = sl.begin(); it != sl.end(); it++)
+		std::cout << *it << std::endl;
+}
+
+void	test_node()
+{
+	ft::Node<int> *node = new ft::Node<int>();
+	ft::Node<int> *n1 = new ft::Node<int>(1);
+	ft::Node<int> *n2 = new ft::Node<int>(2);
+	ft::Node<int> *n3 = new ft::Node<int>(3);
+	ft::Node<int> *n4 = new ft::Node<int>(4);
+	node->insert(n1);
+	node->insert(n2);
+	node->insert(n3);
+	node->insert(n4);
+	node->swap(*n2);
+
+	while (node)
+	{
+		std::cout << node->_data << std::endl;
+		node = node->_prev;
+	}
+	
+}
+
 int		main()
 {
+	// test_node();
+	Operations_test();
 	// test_erase();
 	// mix_test();
-	test_swap();
+	// test_swap();
 	// ft::List<int> l;
 	// l.push_back(100);
 	// l.push_back(10);

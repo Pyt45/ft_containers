@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Queue.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/26 13:01:36 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/26 20:32:24 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,29 @@ namespace ft {
 			}
 	};
 	template <class T, class Container>
-		bool operator== (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+		bool operator== (const queue<T,Container>& lhs, const queue<T,Container>& rhs) {
+			return (lhs.c == rhs.c);
+		}
 	template <class T, class Container>
-		bool operator!= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+		bool operator!= (const queue<T,Container>& lhs, const queue<T,Container>& rhs) {
+			return (lhs.c != rhs.c);
+		}
 	template <class T, class Container>
-		bool operator<  (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+		bool operator<  (const queue<T,Container>& lhs, const queue<T,Container>& rhs) {
+			return (lhs.c < rhs.c);
+		}
 	template <class T, class Container>
-		bool operator<= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+		bool operator<= (const queue<T,Container>& lhs, const queue<T,Container>& rhs) {
+			return (lhs.c <= rhs.c);
+		}
 	template <class T, class Container>
-		bool operator>  (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+		bool operator>  (const queue<T,Container>& lhs, const queue<T,Container>& rhs) {
+			return (lhs.c > rhs.c);
+		}
 	template <class T, class Container>
-		bool operator>= (const queue<T,Container>& lhs, const queue<T,Container>& rhs);
+		bool operator>= (const queue<T,Container>& lhs, const queue<T,Container>& rhs) {
+			return (lhs.c >= rhs.c);
+		}
 }
 
 #endif

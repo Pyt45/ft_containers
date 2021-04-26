@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/26 16:09:16 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/26 20:25:00 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "Node.hpp"
 # include "Allocator.hpp"
 # include "ReverseIterator.hpp"
+# include <algorithm>
 
 namespace ft {
 	template <typename List>
@@ -25,6 +26,7 @@ namespace ft {
 			typedef typename List::node_type*	pointer_type;
 			typedef typename List::value_type&	reference_type;
 			typedef typename List::const_reference	const_reference_type;
+			typedef ptrdiff_t difference_type;
 			ListIterator( void ) : _ptr(nullptr) {}
 			ListIterator(pointer_type ptr) : _ptr(ptr) {}
 			ListIterator( ListIterator const & rhs ) : _ptr(rhs._ptr) {}
@@ -60,6 +62,22 @@ namespace ft {
 				_ptr = rhs._ptr;
 				return *this;
 			}
+			ListIterator operator+(difference_type v) {
+				pointer_type tmp;
+
+				tmp = _ptr;
+				while (v--)
+					tmp = tmp->_next;
+				return tmp;
+			}
+			ListIterator operator-(difference_type v) {
+				pointer_type tmp;
+
+				tmp = _ptr;
+				while (v--)
+					tmp = tmp->_prev;
+				return *tmp;
+			}
 			pointer_type getPtr() const {
 				return _ptr;
 			}
@@ -80,6 +98,8 @@ namespace ft {
 			typedef Node<value_type> node_type;
 			typedef ListIterator< List<T> > iterator;
 			typedef ListIterator< List<T> > const const_iterator;
+			// typedef ListReverseIterator< List<T> > reverse_iterator;
+			// typedef ListReverseIterator< List<T> > const const_reverse_iterator;
 		private:
 			node_type*	_head;
 			node_type*	_tail;
@@ -243,22 +263,104 @@ namespace ft {
 					pop_back();
 			}
 			// Operations
-			void splice (iterator position, List& x);
-			void splice (iterator position, List& x, iterator i);
-			void splice (iterator position, List& x, iterator first, iterator last);
-			void remove (const value_type& val);
+			void splice (iterator position, List& x) {
+				iterator it = x.begin();
+				for (static_cast<void>(it); it != x.end(); it++)
+					insert(position, *it);
+				x.clear();
+			}
+			void splice (iterator position, List& x, iterator i) {
+				insert(position, *i);
+				x.erase(i);
+			}
+			void splice (iterator position, List& x, iterator first, iterator last) {
+				insert(position, first, last);
+				x.erase(first, last);
+			}
+			void remove (const value_type& val) {
+				for (iterator it = begin(); it != end(); it++) {
+					if (*it == val)
+						erase(it);
+				}
+			}
 			template <class Predicate>
-				void remove_if (Predicate pred);
-			void unique();
+				void remove_if (Predicate pred) {
+					for (iterator it = begin(); it != end(); it++) {
+						if (pred(*it))
+							erase(it);
+					}
+				}
+			void unique() {
+				for (iterator it = begin(); it != end(); it++) {
+					if (*(it + 1) == *it)
+						erase(it);
+				}
+			}
 			template <class BinaryPredicate>
-				void unique (BinaryPredicate binary_pred);
-			void merge (List& x);
+				void unique (BinaryPredicate binary_pred) {
+					for (iterator it = begin(); it != end(); it++) {
+						if (binary_pred(*(it + 1), *it))
+							erase(it);
+					}
+				}
+			void merge (List& x) {
+				iterator it = begin();
+				iterator eit = end();
+
+				iterator itx = x.begin();
+				iterator eitx = x.end();
+
+				while (it != eit && itx != eitx) {
+					if (*itx < *it) {
+						insert(it, *itx);
+						x.pop_front();
+						itx++;
+					}
+					else
+						it++;
+				}
+				splice(it, x);
+			}
 			template <class Compare>
-				void merge (List& x, Compare comp);
-			void sort();
+				void merge (List& x, Compare comp) {
+					iterator it = begin();
+					iterator eit = end();
+
+					iterator itx = x.begin();
+					iterator eitx = x.end();
+
+					while (it != eit && itx != eitx) {
+						if (comp(*itx, *it)) {
+							insert(it, *itx);
+							x.pop_front();
+							itx++;
+						}
+						else
+							it++;
+					}
+					splice(it, x);
+				}
+			void sort() {
+				iterator tmp;
+				for (iterator it = begin(); it != end(); it++) {
+					for (iterator its = it + 1; its != end(); its++) {
+						if (*it < *its) {
+							tmp = it;
+							it = its;
+							its = tmp;
+						}
+					}
+				}
+			}
 			template <class Compare>
 				void sort (Compare comp);
-			void reverse();
+			void reverse() {
+				List<T> tmp(*this);
+
+				clear();
+				for (iterator it = tmp.begin(); it != tmp.end(); it++)
+					push_front(*it);
+			}
 	};
 	// Non-member function overloads
 	template <class T>

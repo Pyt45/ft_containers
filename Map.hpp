@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:21:20 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/17 11:21:51 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/26 20:57:51 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ namespace ft {
 			map( map const & rhs );
 			map & operator=( map const & rhs );
 			~map();
-	}
+	};
 }
 
 #endif

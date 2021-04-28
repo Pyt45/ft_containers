@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/26 20:25:00 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/04/28 13:39:48 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,6 +345,7 @@ namespace ft {
 				for (iterator it = begin(); it != end(); it++) {
 					for (iterator its = it + 1; its != end(); its++) {
 						if (*it < *its) {
+							// it.getPtr()->swap(its.getPtr());
 							tmp = it;
 							it = its;
 							its = tmp;

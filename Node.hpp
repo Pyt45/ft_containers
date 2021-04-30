@@ -6,7 +6,7 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:27 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/26 20:23:37 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/04/30 00:46:15 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ namespace ft
 			}
 			~Node<T>(void) {
 			}
-
+			void	push_back(Node<T>* node) {
+				
+			}
 			void	insert(Node<T>* node) {
 				node->_next = this;
 				node->_prev = this->_prev;
@@ -98,9 +100,78 @@ namespace ft
 					delete del;
 				}
 			}
-			void	swap(Node<T>& node) {
+			void	swap(Node<T> *node) {
 				// 0 -> 4 -> 3 -> 2 -> 1
+				if (this->_next == node) {
+					std::cout << "next\n";
+				}
+				else if (this->_prev == node) {
+					std::cout << "prev\n";
+				}
+				else {
+					// 1 2 3 this, 6 1
+					// 4 5 6 node, 6 3
+					Node<T>* tmpprev = this->_prev;
+					Node<T>* tmpnext = this->_next;
+					if (this->_prev)
+						this->_prev->_next = node;
+					if (this->_next)
+						this->_next->_prev = node;
+					this->_prev = node->_prev;
+					this->_next = node->_next;
+					if (node->_prev)
+						node->_prev->_next = this;
+					if (node->_next)
+						node->_next->_prev = this;
+					node->_prev = tmpprev;
+					node->_next = tmpnext;
+				}
 			}
+			/*void swap(Node<T> *toswap)
+			{
+				if (this->_next == toswap)
+				{
+					std::cout << "next\n";
+					if (this->_prev)
+						this->_prev->_next = toswap;
+					toswap->_prev = this->_prev;
+					this->_prev = toswap;
+					if (toswap->_next)
+						toswap->_next->_prev = this;
+					this->_next = toswap->_next;
+					toswap->_next = this;
+				}
+				else if (this->_prev == toswap)
+				{
+					std::cout << "prev\n";
+					if (toswap->_prev)
+						toswap->_prev->_next = this;
+					this->_prev = toswap->_prev;
+					toswap->_prev = this;
+					if (this->_next)
+						this->_next->_prev = toswap;
+					toswap->_next = this->_next;
+					this->_next = toswap;
+				}
+				else
+				{
+					Node<T> *tprevious = this->_prev;
+					Node<T> *tnext = this->_next;
+					if (this->_prev)
+						this->_prev->_next = toswap;
+					if (this->_next)
+						this->_next->_prev = toswap;
+					this->_prev = toswap->_prev;
+					this->_next = toswap->_next;
+
+					if (toswap->_prev)
+						toswap->_prev->_next = this;
+					if (toswap->_next)
+						toswap->_next->_prev = this;
+					toswap->_prev = tprevious;
+					toswap->_next = tnext;
+				}
+			}*/
 	};
 }
 

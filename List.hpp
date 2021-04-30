@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/28 13:39:48 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/04/29 22:49:45 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,17 +344,29 @@ namespace ft {
 				iterator tmp;
 				for (iterator it = begin(); it != end(); it++) {
 					for (iterator its = it + 1; its != end(); its++) {
-						if (*it < *its) {
-							// it.getPtr()->swap(its.getPtr());
-							tmp = it;
-							it = its;
-							its = tmp;
+						if (*its < *it) {
+							its.getPtr()->swap(it.getPtr());
+							tmp = its;
+							its = it;
+							it = tmp;
 						}
 					}
 				}
 			}
 			template <class Compare>
-				void sort (Compare comp);
+				void sort (Compare comp) {
+					iterator tmp;
+					for (iterator it = begin(); it != end(); it++) {
+						for (iterator its = it + 1; its != end(); its++) {
+							if (comp(*its, *it)) {
+								its.getPtr()->swap(it.getPtr());
+								tmp = its;
+								its = it;
+								it = tmp;
+							}
+						}
+					}
+				}
 			void reverse() {
 				List<T> tmp(*this);
 
@@ -410,7 +422,9 @@ namespace ft {
 			return !(lhs < rhs);
 		}
 	template<class T>
-		void swap(List<T>& x, List<T>& y);
+		void swap(List<T>& x, List<T>& y) {
+			x.swap(y);
+		}
 }
 
 #endif

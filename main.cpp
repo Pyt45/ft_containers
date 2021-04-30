@@ -280,28 +280,46 @@ void	Operations_test()
 	// sl.reverse();
 	// sl.merge(s, equal_test);
 	sl.sort();
-	std::cout << "size s = " << s.size() << std::endl;
+	std::cout << "size s = " << sl.size() << std::endl;
 	for (ft::List<int>::iterator it = sl.begin(); it != sl.end(); it++)
 		std::cout << *it << std::endl;
 }
 
 void	test_node()
 {
-	ft::Node<int> *node = new ft::Node<int>();
+	ft::Node<int> *node = new ft::Node<int>(0);
 	ft::Node<int> *n1 = new ft::Node<int>(1);
 	ft::Node<int> *n2 = new ft::Node<int>(2);
 	ft::Node<int> *n3 = new ft::Node<int>(3);
 	ft::Node<int> *n4 = new ft::Node<int>(4);
+
+	ft::Node<int> *nd = new ft::Node<int>(9);
+	ft::Node<int> *n = new ft::Node<int>(6);
+	ft::Node<int> *n5 = new ft::Node<int>(3);
+	ft::Node<int> *n6 = new ft::Node<int>(10);
+	ft::Node<int> *n7 = new ft::Node<int>(7);
+	nd->insert(n);
+	nd->insert(n5);
+	nd->insert(n6);
+	nd->insert(n7);
+
 	node->insert(n1);
 	node->insert(n2);
 	node->insert(n3);
 	node->insert(n4);
-	node->swap(*n2);
+	std::cout << "node->_prev->data : " << node->_prev->_data << std::endl;
+	node->swap(node->_prev);
 
 	while (node)
 	{
 		std::cout << node->_data << std::endl;
 		node = node->_prev;
+	}
+	std::cout << "=============\n";
+	while (nd)
+	{
+		std::cout << nd->_data << std::endl;
+		nd = nd->_prev;
 	}
 	
 }

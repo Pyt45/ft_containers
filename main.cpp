@@ -326,8 +326,36 @@ void	test_node()
 
 int		main()
 {
+	// std::list<int> l;
+	// l.push_back(1);
+	// l.push_back(2);
+	// l.push_back(3);
+	// l.push_back(4);
+	// l.push_back(5);
+	// for (std::list<int>::iterator t = l.begin(); t != l.end(); t++)
+	// 	std::cout << *t << ' ';
+	// std::cout << "\n========\n";
+	// std::list<int>::reverse_iterator it = l.rbegin();
+	// std::cout << *it << std::endl;
+	// it++;
+	// std::cout << *it << std::endl;
+
+	ft::List<int> l;
+	l.push_back(1);
+	l.push_back(2);
+	l.push_back(3);
+	l.push_back(4);
+	l.push_back(5);
+	for (ft::List<int>::reverse_iterator t = l.rbegin(); t != l.rend(); t++)
+		std::cout << *t << ' ';
+	std::cout << "\n========\n";
+	// ft::List<int>::reverse_iterator it = l.rend();
+	// ft::List<int>::reverse_iterator t = l.rbegin();
+	// std::cout << *it << std::endl;
+	// --it;
+	// std::cout << *it << std::endl;
 	// test_node();
-	Operations_test();
+	// Operations_test();
 	// test_erase();
 	// mix_test();
 	// test_swap();

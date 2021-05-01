@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/04/29 22:49:45 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/05/01 16:06:03 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ namespace ft {
 			pointer_type getPtr() const {
 				return _ptr;
 			}
-		private:
+		protected:
 			pointer_type	_ptr;
 	};
 
@@ -98,8 +98,8 @@ namespace ft {
 			typedef Node<value_type> node_type;
 			typedef ListIterator< List<T> > iterator;
 			typedef ListIterator< List<T> > const const_iterator;
-			// typedef ListReverseIterator< List<T> > reverse_iterator;
-			// typedef ListReverseIterator< List<T> > const const_reverse_iterator;
+			// typedef reverse_iterator< List<T> > const const_reverse_iterator;
+			typedef reverse_iterator< iterator > reverse_iterator;
 		private:
 			node_type*	_head;
 			node_type*	_tail;
@@ -136,6 +136,20 @@ namespace ft {
 			const_iterator end() const {
 				return iterator(_tail);
 			}
+			reverse_iterator rbegin() {
+				// std::cout << _tail->_prev->_data << std::endl;
+				return reverse_iterator(_tail->_prev);
+			}
+			// const_reverse_iterator rbegin() const {
+			// 	return iterator(_tail);
+			// }
+			reverse_iterator rend() {
+				// std::cout << "h = " << _head->_prev->_data << std::endl;
+				return reverse_iterator(_head);
+			}
+			// const_reverse_iterator rend() const {
+			// 	return iterator(_head);
+			// }
 			// Capacity
 			bool	empty() const {
 				return _size == 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ReverseIterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:22:33 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/02 00:14:19 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/05/02 15:43:26 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ class reverse_iterator : public Iterator {
 		// 	return tmp;
 		// }
 		reverse_iterator& operator++() {
-			return Iterator::operator--();
+			this->_ptr = this->_ptr->_prev;
+			return (*this);
 		}
 		reverse_iterator  operator++(int) {
 			reverse_iterator temp = *this;
@@ -62,7 +63,8 @@ class reverse_iterator : public Iterator {
 		// 	return tmp;
 		// }
 		reverse_iterator& operator--() {
-			return Iterator::operator++();
+			this->_ptr = this->_next;
+			return (*this);
 		}
 		reverse_iterator  operator--(int) {
 			reverse_iterator temp = *this;

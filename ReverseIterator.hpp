@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ReverseIterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:22:33 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/01 16:06:43 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/02 00:14:19 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REVERSE_ITERATOR_HPP
 # define REVERSE_ITERATOR_HPP
-
-# include <iostream>
 
 template<class Iterator>
 class reverse_iterator : public Iterator {
@@ -28,9 +26,9 @@ class reverse_iterator : public Iterator {
 		reverse_iterator() : Iterator() {}
 		reverse_iterator(pointer ptr) : Iterator(ptr) {}
 		reverse_iterator(iterator_type it) {}
-		reverse_iterator& operator==( reverse_iterator const & rhs ) {
+		reverse_iterator& operator=( reverse_iterator const & rhs ) {
 			if (this != &rhs)
-				Iterator::operator==(rhs);
+				Iterator::operator=(rhs);
 			return (*this);
 		}
 		template <class Iter>
@@ -38,7 +36,8 @@ class reverse_iterator : public Iterator {
 		~reverse_iterator() {}
 
 		refrence operator*() const {
-			return Iterator::_ptr->_data;
+			Iterator it(*this);
+			return *--it;
 		}
 		// reverse_iterator operator+ (difference_type n) const {
 		// 	pointer tmp = Iterator::_ptr;
@@ -48,9 +47,7 @@ class reverse_iterator : public Iterator {
 		// 	return tmp;
 		// }
 		reverse_iterator& operator++() {
-			if (this->_ptr)
-				this->_ptr = this->_ptr->_prev;
-			return *this;
+			return Iterator::operator--();
 		}
 		reverse_iterator  operator++(int) {
 			reverse_iterator temp = *this;
@@ -65,9 +62,7 @@ class reverse_iterator : public Iterator {
 		// 	return tmp;
 		// }
 		reverse_iterator& operator--() {
-			if (this->_ptr->_next->_next)
-				this->_ptr = this->_ptr->_next;
-			return (*this);
+			return Iterator::operator++();
 		}
 		reverse_iterator  operator--(int) {
 			reverse_iterator temp = *this;
@@ -76,10 +71,6 @@ class reverse_iterator : public Iterator {
 		}
 		pointer operator->() const {
 			return &(operator*());
-		}
-		reverse_iterator& operator=( reverse_iterator const & rhs ) {
-			Iterator::_ptr = rhs._ptr;
-			return (*this);
 		}
 };
 

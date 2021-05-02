@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/01 16:06:03 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/02 00:15:00 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,14 +138,14 @@ namespace ft {
 			}
 			reverse_iterator rbegin() {
 				// std::cout << _tail->_prev->_data << std::endl;
-				return reverse_iterator(_tail->_prev);
+				return reverse_iterator<iterator>(_tail);
 			}
 			// const_reverse_iterator rbegin() const {
 			// 	return iterator(_tail);
 			// }
 			reverse_iterator rend() {
 				// std::cout << "h = " << _head->_prev->_data << std::endl;
-				return reverse_iterator(_head);
+				return reverse_iterator<iterator>(_head);
 			}
 			// const_reverse_iterator rend() const {
 			// 	return iterator(_head);

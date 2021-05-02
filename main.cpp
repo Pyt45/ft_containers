@@ -346,12 +346,12 @@ int		main()
 	l.push_back(3);
 	l.push_back(4);
 	l.push_back(5);
-	for (ft::List<int>::reverse_iterator t = l.rbegin(); t != l.rend(); t++)
-		std::cout << *t << ' ';
+	// for (ft::List<int>::reverse_iterator t = l.rbegin(); t != l.rend(); t++)
+	//	std::cout << *t << ' ';
 	std::cout << "\n========\n";
-	// ft::List<int>::reverse_iterator it = l.rend();
+	ft::List<int>::reverse_iterator it = l.rend();
 	// ft::List<int>::reverse_iterator t = l.rbegin();
-	// std::cout << *it << std::endl;
+	std::cout << *it << std::endl;
 	// --it;
 	// std::cout << *it << std::endl;
 	// test_node();

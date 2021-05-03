@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/02 15:43:54 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/02 18:38:26 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ namespace ft {
 			typedef Node<value_type> node_type;
 			typedef ListIterator< List<T> > iterator;
 			typedef ListIterator< List<T> > const const_iterator;
-			// typedef reverse_iterator< List<T> > const const_reverse_iterator;
-			typedef reverse_iterator< iterator > reverse_iterator;
+			typedef ReverseIterator< iterator > const const_reverse_iterator;
+			typedef ReverseIterator< iterator > reverse_iterator;
 		private:
 			node_type*	_head;
 			node_type*	_tail;

@@ -8,6 +8,7 @@
 #include <list>
 #include <memory>
 #include "Allocator.hpp"
+#include "Vector.hpp"
 // #include <gtest/gtest.h>
 
 // template<typename type>
@@ -340,7 +341,13 @@ int		main()
 	// it++;
 	// std::cout << *it << std::endl;
 
-	ft::List<int> l;
+	std::vector<int> v(1);
+	std::cout << "s = " << v.capacity() << std::endl;
+	v.push_back(2);
+	//v.push_back(4);
+
+	std::cout << "s = " << v.capacity() << std::endl;
+	/*ft::List<int> l;
 	l.push_back(1);
 	l.push_back(2);
 	l.push_back(3);
@@ -349,9 +356,9 @@ int		main()
 	for (ft::List<int>::reverse_iterator t = l.rbegin(); t != l.rend(); t++)
 		std::cout << *t << ' ';
 	std::cout << "\n========\n";
-	ft::List<int>::reverse_iterator it = l.rend();
-	// ft::List<int>::reverse_iterator t = l.rbegin();
-	std::cout << *it << std::endl;
+	ft::List<int>::reverse_iterator it = l.rbegin();
+	ft::List<int>::const_reverse_iterator t = l.rbegin();
+	std::cout << "t = " << *t << std::endl;*/
 	// --it;
 	// std::cout << *it << std::endl;
 	// test_node();

@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/05 10:39:54 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/05 13:48:29 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ namespace ft {
 			typedef std::ptrdiff_t difference_type;
 		public:
 			VectorIterator( void ) : _ptr(nullptr), _index(0) {}
-			VectorIterator( pointer_type ptr ) : _ptr(ptr), _index(0) {}
+			VectorIterator( pointer_type ptr ) : _ptr(ptr), _index(1) {}
 			VectorIterator(pointer_type ptr, unsigned int index) : _ptr(ptr), _index(index) {}
 			VectorIterator( VectorIterator const& rhs ) : _ptr(rhs._ptr), _index(rhs._index) {}
 			VectorIterator& operator=( VectorIterator const& rhs ) {
@@ -37,7 +37,7 @@ namespace ft {
 			}
 			~VectorIterator() {}
 			reference_type operator*() {
-				return _ptr[_index];
+				return _ptr[_index - 1];
 			}
 			bool operator!=( VectorIterator const& rhs ) const {
 				return _ptr != rhs._ptr;
@@ -126,22 +126,22 @@ namespace ft {
 			vector(vector const& x);
 			vector& operator=( vector const& rhs );
 			~vector() {
-				_size = _cap = 0;
+				// clear();
 				delete [] _items;
 			}
 			
 			// Iterators
 			iterator begin() {
-				return iterator(_items, 0);
+				return iterator(_items, 1);
 			}
 			const_iterator begin() const {
-				return iterator(_items, 0);
+				return iterator(_items, 1);
 			}
 			iterator end() {
-				return iterator(_items, _size - 1);
+				return iterator(_items, _size);
 			}
 			const_iterator end() const {
-				return iterator(_items, _size - 1);
+				return iterator(_items, _size);
 			}
 			// reverse_iterator rbegin() {
 			// 	return reverse_iterator(_items);

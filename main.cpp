@@ -341,17 +341,21 @@ int		main()
 	// it++;
 	// std::cout << *it << std::endl;
 
-	// std::vector<int> v;
+	std::vector<int> v;
 	// std::cout << "cap = " << v.capacity() << std::endl;
-	// v.push_back(2);
+	v.push_back(2);
 	// std::cout << "cap = " << v.capacity() << std::endl;
 	// std::cout << "size = " << v.size() << std::endl;
-	// v.push_back(4);
-	// std::vector<int>::reverse_iterator it = v.rend();
+	v.push_back(4);
 	// std::cout << "*it = " << *it << std::endl;
 
 	// std::cout << "cap = " << v.capacity() << std::endl;
-	// v.push_back(5);
+	v.push_back(5);
+	std::vector<int>::iterator i = v.begin();
+	std::vector<int>::iterator ie = v.end();
+	if (i != ie)
+		std::cout << "row\n";
+	std::cout << "max_size = " << v.max_size() << std::endl;
 	// std::cout << "cap = " << v.capacity() << std::endl;
 	std::cout << "========\n";
 	ft::vector<int> _v;
@@ -363,11 +367,14 @@ int		main()
 	// std::cout << "cap = " << _v.capacity() << std::endl;
 	_v.push_back(5);
 	ft::vector<int>::iterator t = _v.begin();
+	ft::vector<int>::iterator e = _v.end();
 	// for (t = _v.begin(); t != _v.end(); t++)
 	// 	std::cout << "*t = " << *t << std::endl;
-	if (t != _v.end())
+	if (t != e)
 		std::cout << "hhh\n";
 	std::cout << "*t = " << *t << std::endl;
+	std::cout << "*e = " << *e << std::endl;
+	std::cout << "max_size = " << _v.max_size() << std::endl;
 	// std::cout << "cap = " << _v.capacity() << std::endl;
 	/*ft::List<int> l;
 	l.push_back(1);

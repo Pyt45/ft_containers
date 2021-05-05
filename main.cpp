@@ -341,12 +341,34 @@ int		main()
 	// it++;
 	// std::cout << *it << std::endl;
 
-	std::vector<int> v(1);
-	std::cout << "s = " << v.capacity() << std::endl;
-	v.push_back(2);
-	//v.push_back(4);
+	// std::vector<int> v;
+	// std::cout << "cap = " << v.capacity() << std::endl;
+	// v.push_back(2);
+	// std::cout << "cap = " << v.capacity() << std::endl;
+	// std::cout << "size = " << v.size() << std::endl;
+	// v.push_back(4);
+	// std::vector<int>::reverse_iterator it = v.rend();
+	// std::cout << "*it = " << *it << std::endl;
 
-	std::cout << "s = " << v.capacity() << std::endl;
+	// std::cout << "cap = " << v.capacity() << std::endl;
+	// v.push_back(5);
+	// std::cout << "cap = " << v.capacity() << std::endl;
+	std::cout << "========\n";
+	ft::vector<int> _v;
+	// std::cout << "cap = " << _v.capacity() << std::endl;
+	_v.push_back(2);
+	// std::cout << "cap = " << _v.capacity() << std::endl;
+	// std::cout << "_v.size = " << _v.size() << std::endl;
+	_v.push_back(4);
+	// std::cout << "cap = " << _v.capacity() << std::endl;
+	_v.push_back(5);
+	ft::vector<int>::iterator t = _v.begin();
+	// for (t = _v.begin(); t != _v.end(); t++)
+	// 	std::cout << "*t = " << *t << std::endl;
+	if (t != _v.end())
+		std::cout << "hhh\n";
+	std::cout << "*t = " << *t << std::endl;
+	// std::cout << "cap = " << _v.capacity() << std::endl;
 	/*ft::List<int> l;
 	l.push_back(1);
 	l.push_back(2);

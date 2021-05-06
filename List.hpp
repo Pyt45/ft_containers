@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/05 13:18:19 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/06 16:20:46 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,8 +356,11 @@ namespace ft {
 				}
 			void sort() {
 				iterator tmp;
+				iterator its;
 				for (iterator it = begin(); it != end(); it++) {
-					for (iterator its = it + 1; its != end(); its++) {
+					its = it;
+					its++;
+					for (; its != end(); its++) {
 						if (*its < *it) {
 							its.getPtr()->swap(it.getPtr());
 							tmp = its;

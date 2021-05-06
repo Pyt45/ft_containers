@@ -240,42 +240,39 @@ bool equal_test(double i, double j)
 
 void	Operations_test()
 {
-	ft::List<int> l;
-	ft::List<int> l1;
+	// ft::List<int> l;
+	// ft::List<int> l1;
 
-	l.push_back(1);
-	l.push_back(2);
-	l.push_back(3);
-	l.push_back(-1);
-	l.push_back(9);
-	ft::List<int>::iterator it = l.begin();
-	l1.push_back(8);
-	l1.push_back(9);
+	// l.push_back(1);
+	// l.push_back(2);
+	// l.push_back(3);
+	// l.push_back(-1);
+	// l.push_back(9);
+	// ft::List<int>::iterator it = l.begin();
+	// l1.push_back(8);
+	// l1.push_back(9);
 	/*ft::List<int>::iterator e = l1.end();
 	e--;
 	l.splice(it, l1, l1.begin(), e);*/
-	l.remove_if(is_small_than_2);
-	for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
-		std::cout << *t << std::endl;
-	std::cout << "size of l1 = " << l1.size() << std::endl;
+	// l.remove_if(is_small_than_2);
+	// for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
+	// 	std::cout << *t << std::endl;
+	// std::cout << "size of l1 = " << l1.size() << std::endl;
 
-	std::cout << "===================\n";
+	// std::cout << "===================\n";
 
 	ft::List<int> sl;
 	ft::List<int> s;
 
 	sl.push_back(1);
-	//l.push_back(1);
 	sl.push_back(9);
 	sl.push_back(2);
-	// sl.push_back(1);
 	sl.push_back(5);
-	//sl.push_back(5);
 	sl.push_back(6);
 
-	s.push_back(3);
-	s.push_back(8);
-	s.push_back(-1);
+	// s.push_back(3);
+	// s.push_back(8);
+	// s.push_back(-1);
 
 	// sl.unique(equal_test);
 	// sl.reverse();
@@ -288,7 +285,7 @@ void	Operations_test()
 
 void	test_node()
 {
-	ft::Node<int> *node = new ft::Node<int>(0);
+	ft::Node<int> *node = new ft::Node<int>(3);
 	ft::Node<int> *n1 = new ft::Node<int>(1);
 	ft::Node<int> *n2 = new ft::Node<int>(2);
 	ft::Node<int> *n3 = new ft::Node<int>(3);
@@ -306,27 +303,66 @@ void	test_node()
 
 	node->insert(n1);
 	node->insert(n2);
-	node->insert(n3);
-	node->insert(n4);
-	std::cout << "node->_prev->data : " << node->_prev->_data << std::endl;
-	node->swap(node->_prev);
-
+	// node->insert(n3);
+	// node->insert(n4);
+	ft::Node<int>* tmp = node->_prev;
+	node->swap(tmp);
 	while (node)
 	{
 		std::cout << node->_data << std::endl;
 		node = node->_prev;
 	}
 	std::cout << "=============\n";
-	while (nd)
+	while (tmp)
 	{
-		std::cout << nd->_data << std::endl;
-		nd = nd->_prev;
+		std::cout << tmp->_data << std::endl;
+		tmp = tmp->_prev;
 	}
 	
 }
 
+void test_vector()
+{
+	// std::vector<int> v;
+	// std::cout << "cap = " << v.capacity() << std::endl;
+	// v.push_back(2);
+	// std::cout << "cap = " << v.capacity() << std::endl;
+	// std::cout << "size = " << v.size() << std::endl;
+	// v.push_back(4);
+	// std::cout << "*it = " << *it << std::endl;
+
+	// std::cout << "cap = " << v.capacity() << std::endl;
+	// v.push_back(5);
+	// std::vector<int>::iterator i = v.begin();
+	// std::vector<int>::iterator ie = v.end();
+	// if (i != ie)
+		// std::cout << "row\n";
+	// std::cout << "max_size = " << v.max_size() << std::endl;
+	// std::cout << "cap = " << v.capacity() << std::endl;
+	// std::cout << "========\n";
+	// ft::vector<int> _v;
+	// std::cout << "cap = " << _v.capacity() << std::endl;
+	// _v.push_back(2);
+	// std::cout << "cap = " << _v.capacity() << std::endl;
+	// std::cout << "_v.size = " << _v.size() << std::endl;
+	// _v.push_back(4);
+	// std::cout << "cap = " << _v.capacity() << std::endl;
+	// _v.push_back(5);
+	// ft::vector<int>::iterator t = _v.begin();
+	// ft::vector<int>::iterator e = _v.end();
+	// for (t = _v.begin(); t != _v.end(); t++)
+	// 	std::cout << "*t = " << *t << std::endl;
+	// if (t != e)
+	// 	std::cout << "hhh\n";
+	// std::cout << "*t = " << *t << std::endl;
+	// std::cout << "*e = " << *e << std::endl;
+	// std::cout << "max_size = " << _v.max_size() << std::endl;
+	// std::cout << "cap = " << _v.capacity() << std::endl;
+}
+
 int		main()
 {
+	// test_node();
 	// std::list<int> l;
 	// l.push_back(1);
 	// l.push_back(2);
@@ -341,41 +377,6 @@ int		main()
 	// it++;
 	// std::cout << *it << std::endl;
 
-	std::vector<int> v;
-	// std::cout << "cap = " << v.capacity() << std::endl;
-	v.push_back(2);
-	// std::cout << "cap = " << v.capacity() << std::endl;
-	// std::cout << "size = " << v.size() << std::endl;
-	v.push_back(4);
-	// std::cout << "*it = " << *it << std::endl;
-
-	// std::cout << "cap = " << v.capacity() << std::endl;
-	v.push_back(5);
-	std::vector<int>::iterator i = v.begin();
-	std::vector<int>::iterator ie = v.end();
-	if (i != ie)
-		std::cout << "row\n";
-	std::cout << "max_size = " << v.max_size() << std::endl;
-	// std::cout << "cap = " << v.capacity() << std::endl;
-	std::cout << "========\n";
-	ft::vector<int> _v;
-	// std::cout << "cap = " << _v.capacity() << std::endl;
-	_v.push_back(2);
-	// std::cout << "cap = " << _v.capacity() << std::endl;
-	// std::cout << "_v.size = " << _v.size() << std::endl;
-	_v.push_back(4);
-	// std::cout << "cap = " << _v.capacity() << std::endl;
-	_v.push_back(5);
-	ft::vector<int>::iterator t = _v.begin();
-	ft::vector<int>::iterator e = _v.end();
-	// for (t = _v.begin(); t != _v.end(); t++)
-	// 	std::cout << "*t = " << *t << std::endl;
-	if (t != e)
-		std::cout << "hhh\n";
-	std::cout << "*t = " << *t << std::endl;
-	std::cout << "*e = " << *e << std::endl;
-	std::cout << "max_size = " << _v.max_size() << std::endl;
-	// std::cout << "cap = " << _v.capacity() << std::endl;
 	/*ft::List<int> l;
 	l.push_back(1);
 	l.push_back(2);
@@ -391,7 +392,7 @@ int		main()
 	// --it;
 	// std::cout << *it << std::endl;
 	// test_node();
-	// Operations_test();
+	Operations_test();
 	// test_erase();
 	// mix_test();
 	// test_swap();

@@ -326,22 +326,65 @@ void	test_node()
 
 void test_vector()
 {
-	ft::vector<int> v(10);
+	std::vector<int> v(5);
 	try {
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 5; i++)
 			v.at(i) = i;
 	} catch(std::exception & e) {
 		std::cout << e.what() << std::endl;
 	}
-	// v.insert(++v.begin(), 10);
+	// v.clear();
+	std::vector<int>::iterator t = v.end();
+	v.insert(t, 5, 15);
+	// std::vector<int>::iterator v1 = v.insert(t, 5, 15);
+	// std::cout << "v = " << *v1 << std::endl;
 	try {
-		ft::vector<int>::iterator it;
+		std::vector<int>::iterator it;
+		// std::vector<int>::reverse_iterator r;
+		// std::cout << *v.rbegin() << std::endl;
+		// std::cout << *v.rend() << std::endl;
 		for (it = v.begin(); it != v.end(); it++)
 			std::cout << *it << " " ;
+		// for (int i = 0; i < 10; i++)
+		// 	std::cout << v.at(i) << " ";
+		// std::cout << "\n";
 	} catch(std::exception & e) {
 		std::cout << e.what() << std::endl;
 	}
 	std::cout << "\n";
+	std::cout << "====================\n";
+	// test ft::vector
+	ft::vector<int> v1(5);
+	try {
+		for (int i = 0; i < 5; i++)
+			v1.at(i) = i;
+	} catch(std::exception & e) {
+		std::cout << e.what() << std::endl;
+	}
+	// v.clear();
+	ft::vector<int>::iterator tx = v1.end();
+	v1.insert(tx, 15);
+	// ft::vector<int>::iterator v1 = v.insert(t, 5, 15);
+	// std::cout << "v = " << *v1 << std::endl;
+	try {
+		ft::vector<int>::iterator x;
+		ft::vector<int>::reverse_iterator rx;
+		ft::vector<int>::reverse_iterator r;
+		// std::cout << "rt = " << *v1.rbegin() << std::endl;
+		// std::cout << "rte = " << *v1.rend() << std::endl;
+		// for (rx = v1.rbegin(); rx != v1.rend(); rx++)
+		// 	std::cout << *rx << " " ;
+		// std::cout << "\n";
+		for (x = v1.begin(); x != v1.end(); x++)
+			std::cout << *x << " " ;
+		// for (int i = 0; i < 10; i++)
+		// 	std::cout << v.at(i) << " ";
+		// std::cout << "\n";
+	} catch(std::exception & e) {
+		std::cout << e.what() << std::endl;
+	}
+	std::cout << "\n";
+	std::cout << "====================\n";
 	// std::cout << "cap = " << v.capacity() << std::endl;
 	// v.push_back(2);
 	// std::cout << "cap = " << v.capacity() << std::endl;

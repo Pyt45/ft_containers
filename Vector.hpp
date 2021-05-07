@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/07 04:56:16 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/05/07 16:32:40 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ namespace ft {
 				return _ptr == rhs._ptr;
 			}
 			VectorIterator& operator++() {
+				_index++;
 				++_ptr;
 				return (*this);
 			}
@@ -60,6 +61,7 @@ namespace ft {
 			}
 			VectorIterator& operator--() {
 				--_ptr;
+				_index--;
 				return (*this);
 			}
 			VectorIterator operator--(int) {
@@ -73,22 +75,22 @@ namespace ft {
 			unsigned int _get_index() {
 				return _index;
 			}
-			// VectorIterator& operator+(difference_type v) {
-			// 	pointer temp;
+			VectorIterator operator+(difference_type v) {
+				_index++;
+				_ptr++;
+				return (_ptr);
+			}
+			VectorIterator operator-(difference_type v) {
+				pointer_type temp;
 
-			// 	temp = _ptr;
-			// 	while (v--)
-			// 		_index++;
-			// 	return (temp);
-			// }
-			// VectorIterator& operator-(difference_type v) {
-			// 	pointer temp;
-
-			// 	temp = _ptr;
-			// 	while (v--)
-			// 		_index--;
-			// 	return (temp);
-			// }
+				temp = _ptr;
+				// while (v--)
+				// {
+					_index--;
+					_ptr--;
+				// }
+				return (_ptr);
+			}
 		protected:
 			pointer_type 	_ptr;
 			unsigned int 	_index;
@@ -142,29 +144,29 @@ namespace ft {
 			
 			// Iterators
 			iterator begin() {
-				return iterator(_items);
+				return iterator(_items, 0);
 			}
 			const_iterator begin() const {
-				return iterator(_items);
+				return const_iterator(_items, 0);
 			}
 			iterator end() {
-				return iterator(&_items[_size]);
+				return iterator(&_items[_size], _size - 1);
 			}
 			const_iterator end() const {
-				return iterator(&_items[_size]);
+				return const_iterator(&_items[_size], _size - 1);
 			}
-			// reverse_iterator rbegin() {
-			// 	return reverse_iterator(_items);
-			// }
-			// const_reverse_iterator rbegin() const {
-			// 	return reverse_iterator(_items);
-			// }
-			// reverse_iterator rend() {
-			// 	return reverse_iterator(_items);
-			// }
-			// const_reverse_iterator rend() const {
-			// 	return reverse_iterator(_items);
-			// }
+			reverse_iterator rbegin() {
+				return reverse_iterator(&_items[_size]);
+			}
+			const_reverse_iterator rbegin() const {
+				return const_reverse_iterator(&_items[_size]);
+			}
+			reverse_iterator rend() {
+				return reverse_iterator(&_items[0]);
+			}
+			const_reverse_iterator rend() const {
+				return const_reverse_iterator(&_items[0]);
+			}
 			size_type size() const {
 				return _size;
 			}
@@ -236,24 +238,65 @@ namespace ft {
 				_items[_size++] = val;
 			}
 			void pop_back() {
-				_items[--_size].value_type::~value_type();
+				if (_size)
+					--_size;
+				// _items[--_size].value_type::~value_type();
 				// realloc_container(_size - 1);
 			}
 			iterator insert (iterator position, const value_type& val) {
+				value_type tmp = val;
+				value_type tmp1;
 				if (_size >= _cap)
 					realloc_container();
-				for (iterator it = begin(); it != position; it++)
-					;
-				
 				_size++;
+				// iterator t = position;
+				// t++;
+				// if (t._get_index() == end()._get_index())
+				// {
+				// 	_items[end()._get_index()] = val;
+				// 	*position = val;
+				// 	return (iterator(position));
+				// }
+				for (iterator x = begin(); x != end(); x++)
+					std::cout << *x << " ";
+				std::cout << "\n";
+				for (size_type i = position._get_index(); i < _cap; i++) {
+					tmp1 = _items[i];
+					_items[i] = tmp;
+					tmp = tmp1;
+				}
+				*position = val;
 				return iterator(position);
 			}
-			    void insert (iterator position, size_type n, const value_type& val);
+			void insert (iterator position, size_type n, const value_type& val) {
+				for (size_type i = 0; i < n; i++)
+					insert(position, val);
+			}
 			template <class InputIterator>
-			    void insert (iterator position, InputIterator first, InputIterator last);
-			iterator erase (iterator position);
-			iterator erase (iterator first, iterator last);
-			void swap (vector& x);
+				void insert (iterator position, InputIterator first, InputIterator last) {
+					for (static_cast<void>(first); first != last; first++)
+						insert(position, *first);
+				}
+			iterator erase (iterator position) {
+				_items[position._get_index()].value_type::~value_type();
+				_size--;
+			}
+			iterator erase (iterator first, iterator last) {
+				for (static_cast<void>(first); first != last; first++)
+					erase(first);
+			}
+			void swap (vector& x) {
+				vector<T> tmp(*this);
+
+				clear();
+				iterator tx = x.begin();
+				for (static_cast<void>(tx); tx != end(); tx++)
+					push_back(*tx);
+				x.clear();
+				iterator tobj = tmp.begin();
+				for (static_cast<void>(tobj); tobj != end(); tobj)
+					x.push_back(*tobj);
+			}
 			void clear() {
 				while (!empty())
 					pop_back();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Node.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:27 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/06 16:34:30 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/06 22:57:50 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,23 @@ namespace ft
 					del->_prev->_next = del->_next;
 				delete del;
 			}
-			void	erase(Node<T>* del) {
-				// this->_prev = NULL;
-				if (this->_prev == del)
-				{
-					this->_prev = NULL;
-					del->_next = NULL;
-					delete del;
-				}
+			void	linkNode(Node<T>* node)
+			{
+				if (this->_prev)
+					this->_prev->_next = node;
+				node->_next = this;
+				node->_prev = this->_prev;
+				this->_prev = node;
 			}
-			void	swap(Node<T> *node) {
+			Node<T>* unlinkNode(void) {
+				Node<T>* tmp = this;
+				if (this->_prev)
+					this->_prev->_next = this->_next;
+				if (this->_next)
+					this->_next->_prev = this->_prev;
+				return (tmp);
+			}
+			/* void	swap(Node<T> *node) {
 				// 0 -> 4 -> 3 -> 2 -> 1
 				if (this->_next == node) {
 					std::cout << "next\n";
@@ -116,9 +123,10 @@ namespace ft
 						node->_prev->_next = this;
 					this->_prev = node->_prev;
 					node->_prev = this;
-					// if ()
-					this->_next = node;
+					if (this->_next)
+						this->_next->_prev = node;
 					node->_next = this->_next;
+					this->_next = node;
 				}
 				else {
 					// 1 2 3 this, 6 1
@@ -139,52 +147,52 @@ namespace ft
 					node->_prev = tmpprev;
 					node->_next = tmpnext;
 				}
-			}
-			// void swap(Node<T> *toswap)
-			// {
-			// 	if (this->_next == toswap)
-			// 	{
-			// 		std::cout << "next\n";
-			// 		if (this->_prev)
-			// 			this->_prev->_next = toswap;
-			// 		toswap->_prev = this->_prev;
-			// 		this->_prev = toswap;
-			// 		if (toswap->_next)
-			// 			toswap->_next->_prev = this;
-			// 		this->_next = toswap->_next;
-			// 		toswap->_next = this;
-			// 	}
-			// 	else if (this->_prev == toswap)
-			// 	{
-			// 		std::cout << "prev\n";
-			// 		if (toswap->_prev)
-			// 			toswap->_prev->_next = this;
-			// 		this->_prev = toswap->_prev;
-			// 		toswap->_prev = this;
-			// 		if (this->_next)
-			// 			this->_next->_prev = toswap;
-			// 		toswap->_next = this->_next;
-			// 		this->_next = toswap;
-			// 	}
-			// 	else
-			// 	{
-			// 		Node<T> *tprevious = this->_prev;
-			// 		Node<T> *tnext = this->_next;
-			// 		if (this->_prev)
-			// 			this->_prev->_next = toswap;
-			// 		if (this->_next)
-			// 			this->_next->_prev = toswap;
-			// 		this->_prev = toswap->_prev;
-			// 		this->_next = toswap->_next;
+			}*/
+			void swap(Node<T> *toswap)
+			{
+				if (this->_next == toswap)
+				{
+					std::cout << "next\n";
+					if (this->_prev)
+						this->_prev->_next = toswap;
+					toswap->_prev = this->_prev;
+					this->_prev = toswap;
+					if (toswap->_next)
+						toswap->_next->_prev = this;
+					this->_next = toswap->_next;
+					toswap->_next = this;
+				}
+				else if (this->_prev == toswap)
+				{
+					std::cout << "prev\n";
+					if (toswap->_prev)
+						toswap->_prev->_next = this;
+					this->_prev = toswap->_prev;
+					toswap->_prev = this;
+					if (this->_next)
+						this->_next->_prev = toswap;
+					toswap->_next = this->_next;
+					this->_next = toswap;
+				}
+				else
+				{
+					Node<T> *tprevious = this->_prev;
+					Node<T> *tnext = this->_next;
+					if (this->_prev)
+						this->_prev->_next = toswap;
+					if (this->_next)
+						this->_next->_prev = toswap;
+					this->_prev = toswap->_prev;
+					this->_next = toswap->_next;
 
-			// 		if (toswap->_prev)
-			// 			toswap->_prev->_next = this;
-			// 		if (toswap->_next)
-			// 			toswap->_next->_prev = this;
-			// 		toswap->_prev = tprevious;
-			// 		toswap->_next = tnext;
-			// 	}
-			// }
+					if (toswap->_prev)
+						toswap->_prev->_next = this;
+					if (toswap->_next)
+						toswap->_next->_prev = this;
+					toswap->_prev = tprevious;
+					toswap->_next = tnext;
+				}
+			}
 	};
 }
 

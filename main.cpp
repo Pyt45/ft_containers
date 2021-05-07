@@ -9,6 +9,7 @@
 #include <memory>
 #include "Allocator.hpp"
 #include "Vector.hpp"
+#include <stack>
 // #include <gtest/gtest.h>
 
 // template<typename type>
@@ -262,13 +263,15 @@ void	Operations_test()
 	// std::cout << "===================\n";
 
 	ft::List<int> sl;
-	ft::List<int> s;
+	int myints[] = {16,2,77,29};
+	ft::List<int> s(myints, myints + sizeof(myints) / sizeof(int));
 
-	sl.push_back(1);
-	sl.push_back(9);
-	sl.push_back(2);
-	sl.push_back(5);
-	sl.push_back(6);
+
+	sl.push_front(1);
+	sl.push_front(2);
+	sl.push_front(5);
+	sl.push_front(6);
+	sl.push_front(9);
 
 	// s.push_back(3);
 	// s.push_back(8);
@@ -278,7 +281,7 @@ void	Operations_test()
 	// sl.reverse();
 	// sl.merge(s, equal_test);
 	sl.sort();
-	std::cout << "size s = " << sl.size() << std::endl;
+	std::cout << "size s = " << s.size() << std::endl;
 	for (ft::List<int>::iterator it = sl.begin(); it != sl.end(); it++)
 		std::cout << *it << std::endl;
 }
@@ -306,7 +309,7 @@ void	test_node()
 	// node->insert(n3);
 	// node->insert(n4);
 	ft::Node<int>* tmp = node->_prev;
-	node->swap(tmp);
+	// node->swap(tmp);
 	while (node)
 	{
 		std::cout << node->_data << std::endl;
@@ -323,7 +326,22 @@ void	test_node()
 
 void test_vector()
 {
-	// std::vector<int> v;
+	ft::vector<int> v(10);
+	try {
+		for (int i = 0; i < 10; i++)
+			v.at(i) = i;
+	} catch(std::exception & e) {
+		std::cout << e.what() << std::endl;
+	}
+	// v.insert(++v.begin(), 10);
+	try {
+		ft::vector<int>::iterator it;
+		for (it = v.begin(); it != v.end(); it++)
+			std::cout << *it << " " ;
+	} catch(std::exception & e) {
+		std::cout << e.what() << std::endl;
+	}
+	std::cout << "\n";
 	// std::cout << "cap = " << v.capacity() << std::endl;
 	// v.push_back(2);
 	// std::cout << "cap = " << v.capacity() << std::endl;
@@ -362,7 +380,7 @@ void test_vector()
 
 int		main()
 {
-	// test_node();
+	test_vector();
 	// std::list<int> l;
 	// l.push_back(1);
 	// l.push_back(2);
@@ -392,7 +410,7 @@ int		main()
 	// --it;
 	// std::cout << *it << std::endl;
 	// test_node();
-	Operations_test();
+	// Operations_test();
 	// test_erase();
 	// mix_test();
 	// test_swap();

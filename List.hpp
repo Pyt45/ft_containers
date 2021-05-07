@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/06 16:20:46 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/07 01:09:02 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,25 @@ namespace ft {
 				_size = 0;
 				_head = _tail = new Node<T>(data);
 			}
+			List (size_type n, const value_type& val = value_type()) {
+				_head = _tail = new Node<T>();
+				_size = 0;
+				for (size_type i = 0; i < n; i++)
+					push_back(val);
+			}
+			template <class InputIterator>
+				List (InputIterator first, InputIterator last) {
+					_size = 0;
+					_head = _tail = new Node<T>();
+					for (static_cast<void>(first); first != last; first++)
+						push_back(*first);
+				}
 			List( List<T> const & rhs ) {
 				_size = 0;
 				_head = _tail = new Node<T>();
 				for (iterator it = rhs.begin(); it != rhs.end(); ++it)
 					push_back(*it);
-			};
+			}
 			List & operator=( List<T> const & src );
 			~List( void ) {
 				return ;
@@ -191,7 +204,7 @@ namespace ft {
 				_head->insert(new_node);
 				// _head->insert_front(new_node);
 				// _head->_prev = new_node;
-				// new_node->_next = _head;
+				//  new_node->_next = _head;
 				_head = new_node;
 				_size++;
 			}
@@ -354,15 +367,30 @@ namespace ft {
 					}
 					splice(it, x);
 				}
+			template<typename v_type>
+				bool less_than(v_type const & a, v_type const & b) {
+					return (a < b);
+				}
 			void sort() {
+				if (size() < 2)
+					return ;
+				//sort(&less_than<value_type>);
 				iterator tmp;
 				iterator its;
+				Node<T>* node;
 				for (iterator it = begin(); it != end(); it++) {
 					its = it;
 					its++;
 					for (; its != end(); its++) {
 						if (*its < *it) {
-							its.getPtr()->swap(it.getPtr());
+							// its.getPtr()->swap(it.getPtr());
+							if (it.getPtr() == _head)
+							{
+								std::cout << "_head\n";
+								_head = its.getPtr();
+							}
+							node = its.getPtr()->unlinkNode();
+							it.getPtr()->linkNode(node);
 							tmp = its;
 							its = it;
 							it = tmp;
@@ -373,10 +401,17 @@ namespace ft {
 			template <class Compare>
 				void sort (Compare comp) {
 					iterator tmp;
+					iterator its;
+					Node<T>* node;
 					for (iterator it = begin(); it != end(); it++) {
-						for (iterator its = it + 1; its != end(); its++) {
+						its = it;
+						its++;
+						for (; its != end(); its++) {
 							if (comp(*its, *it)) {
-								its.getPtr()->swap(it.getPtr());
+								if (it.getPtr() == _head)
+									_head = its.getPtr();
+								node = its.getPtr()->unlinkNode();
+								it.getPtr()->linkNode(tmp);
 								tmp = its;
 								its = it;
 								it = tmp;

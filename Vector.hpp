@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/05 13:48:29 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/07 04:56:16 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@ namespace ft {
 	template <class Vector>
 	class VectorIterator {
 		public:
-			typedef typename Vector::value_type value_type;
+			/*typedef typename Vector::value_type value_type;
 			typedef typename Vector::reference reference_type;
 			typedef typename Vector::const_reference const_reference;
-			typedef typename Vector::pointer pointer_type;
+			typedef typename Vector::pointer pointer_type;*/
 			typedef std::ptrdiff_t difference_type;
+			typedef Vector value_type;
+			typedef value_type& reference_type;
+			typedef const value_type& const_reference;
+			typedef value_type* pointer_type;
 		public:
 			VectorIterator( void ) : _ptr(nullptr), _index(0) {}
 			VectorIterator( pointer_type ptr ) : _ptr(ptr), _index(1) {}
@@ -37,7 +41,7 @@ namespace ft {
 			}
 			~VectorIterator() {}
 			reference_type operator*() {
-				return _ptr[_index - 1];
+				return (*_ptr);
 			}
 			bool operator!=( VectorIterator const& rhs ) const {
 				return _ptr != rhs._ptr;
@@ -46,7 +50,7 @@ namespace ft {
 				return _ptr == rhs._ptr;
 			}
 			VectorIterator& operator++() {
-				++_index;
+				++_ptr;
 				return (*this);
 			}
 			VectorIterator operator++(int) {
@@ -55,7 +59,7 @@ namespace ft {
 				return (temp);
 			}
 			VectorIterator& operator--() {
-				--_index;
+				--_ptr;
 				return (*this);
 			}
 			VectorIterator operator--(int) {
@@ -65,6 +69,9 @@ namespace ft {
 			}
 			pointer_type operator->() const {
 				return &(operator*());
+			}
+			unsigned int _get_index() {
+				return _index;
 			}
 			// VectorIterator& operator+(difference_type v) {
 			// 	pointer temp;
@@ -94,8 +101,8 @@ namespace ft {
 			typedef const value_type& const_reference;
 			typedef value_type* pointer;
 			typedef const value_type* const_pointer;
-			typedef VectorIterator< vector<T> > iterator;
-			typedef const VectorIterator< vector<T> > const_iterator;
+			typedef VectorIterator< value_type > iterator;
+			typedef const VectorIterator< value_type > const_iterator;
 			typedef ReverseIterator< iterator > reverse_iterator;
 			typedef const ReverseIterator< iterator > const_reverse_iterator;
 			typedef std::ptrdiff_t difference_type;
@@ -120,28 +127,31 @@ namespace ft {
 			vector() : _cap(1), _size(0) {
 				_items = new T[1];
 			}
-			vector(size_type n, const value_type& val = value_type());
+			vector(size_type n, const value_type& val = value_type()) {
+				_items = new T[n];
+				_size = _cap = n;
+			}
 			template<class InputIterator>
 				vector(InputIterator first, InputIterator last);
 			vector(vector const& x);
 			vector& operator=( vector const& rhs );
 			~vector() {
-				// clear();
+				clear();
 				delete [] _items;
 			}
 			
 			// Iterators
 			iterator begin() {
-				return iterator(_items, 1);
+				return iterator(_items);
 			}
 			const_iterator begin() const {
-				return iterator(_items, 1);
+				return iterator(_items);
 			}
 			iterator end() {
-				return iterator(_items, _size);
+				return iterator(&_items[_size]);
 			}
 			const_iterator end() const {
-				return iterator(_items, _size);
+				return iterator(&_items[_size]);
 			}
 			// reverse_iterator rbegin() {
 			// 	return reverse_iterator(_items);
@@ -177,25 +187,67 @@ namespace ft {
 			bool empty() const {
 				return (_size == 0);
 			}
-			void reserve (size_type n);
-			reference operator[] (size_type n);
-			const_reference operator[] (size_type n) const;
-			reference at (size_type n);
-			const_reference at (size_type n) const;
-			reference front();
-			const_reference front() const;
-			reference back();
-			const_reference back() const;
+			void reserve (size_type n) {
+				if (n > _cap)
+					realloc_container(n);
+			}
+			reference operator[] (size_type n) {
+				return _items[n];
+			}
+			const_reference operator[] (size_type n) const {
+				return _items[n];
+			}
+			reference at (size_type n) {
+				if (n >= _cap)
+					throw std::out_of_range("Index out of range");
+				return _items[n];
+			}
+			const_reference at (size_type n) const {
+				if (n >= _cap)
+					throw std::out_of_range("Index out of range");
+				return _items[n];
+			}
+			reference front() {
+				return _items[0];
+			}
+			const_reference front() const {
+				return _items[0];
+			}
+			reference back() {
+				return _items[_size - 1];
+			}
+			const_reference back() const {
+				return _items[_size - 1];
+			}
 			template <class InputIterator>
-				void assign (InputIterator first, InputIterator last);
-			void assign (size_type n, const value_type& val);
+				void assign (InputIterator first, InputIterator last) {
+					clear();
+					for (static_cast<void>(first); first != end(); first++)
+						push_back(*first);
+				}
+			void assign (size_type n, const value_type& val) {
+				clear();
+				for (size_type i = 0; i < n; i++)
+					push_back(val);
+			}
 			void push_back (const value_type& val) {
 				if (_size == _cap)
 					realloc_container();
 				_items[_size++] = val;
 			}
-			void pop_back();
-			iterator insert (iterator position, const value_type& val);
+			void pop_back() {
+				_items[--_size].value_type::~value_type();
+				// realloc_container(_size - 1);
+			}
+			iterator insert (iterator position, const value_type& val) {
+				if (_size >= _cap)
+					realloc_container();
+				for (iterator it = begin(); it != position; it++)
+					;
+				
+				_size++;
+				return iterator(position);
+			}
 			    void insert (iterator position, size_type n, const value_type& val);
 			template <class InputIterator>
 			    void insert (iterator position, InputIterator first, InputIterator last);
@@ -220,5 +272,7 @@ namespace ft {
 	template <class T>
 		bool operator>= (const vector<T>& lhs, const vector<T>& rhs);
 	template <class T>
-		void swap (vector<T>& x, vector<T>& y);
+		void swap (vector<T>& x, vector<T>& y) {
+			x.swap(y);
+		}
 }

@@ -241,37 +241,40 @@ bool equal_test(double i, double j)
 
 void	Operations_test()
 {
-	// ft::List<int> l;
-	// ft::List<int> l1;
+	ft::List<int> l;
+	ft::List<int> l1;
 
-	// l.push_back(1);
-	// l.push_back(2);
-	// l.push_back(3);
-	// l.push_back(-1);
-	// l.push_back(9);
+	l.push_back(1);
+	l.push_back(2);
+	l.push_back(3);
+	l.push_back(-1);
+	l.push_back(9);
 	// ft::List<int>::iterator it = l.begin();
-	// l1.push_back(8);
-	// l1.push_back(9);
-	/*ft::List<int>::iterator e = l1.end();
-	e--;
-	l.splice(it, l1, l1.begin(), e);*/
+	l1.push_back(8);
+	l1.push_back(9);
+	l1.push_back(19);
+	// ft::List<int>::iterator e = l1.end();
+	// e--;
+	// l.splice(it, l1, l1.begin(), e);
 	// l.remove_if(is_small_than_2);
-	// for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
-	// 	std::cout << *t << std::endl;
-	// std::cout << "size of l1 = " << l1.size() << std::endl;
-
+	l.splice(l.begin(), l1, l1.begin(), --l1.end());
+	for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
+		std::cout << *t << std::endl;
+	std::cout << "size of l1 = " << l1.size() << std::endl;
+	for (ft::List<int>::iterator t = l1.begin(); t != l1.end(); t++)
+		std::cout << *t << std::endl;
 	// std::cout << "===================\n";
 
-	ft::List<int> sl;
-	int myints[] = {16,2,77,29};
-	ft::List<int> s(myints, myints + sizeof(myints) / sizeof(int));
+	// ft::List<int> sl;
+	// int myints[] = {16,2,77,29};
+	// ft::List<int> s(myints, myints + sizeof(myints) / sizeof(int));
 
 
-	sl.push_front(1);
-	sl.push_front(2);
-	sl.push_front(5);
-	sl.push_front(6);
-	sl.push_front(9);
+	// sl.push_front(1);
+	// sl.push_front(2);
+	// sl.push_front(5);
+	// sl.push_front(6);
+	// sl.push_front(9);
 
 	// s.push_back(3);
 	// s.push_back(8);
@@ -280,10 +283,10 @@ void	Operations_test()
 	// sl.unique(equal_test);
 	// sl.reverse();
 	// sl.merge(s, equal_test);
-	sl.sort();
-	std::cout << "size s = " << s.size() << std::endl;
-	for (ft::List<int>::iterator it = sl.begin(); it != sl.end(); it++)
-		std::cout << *it << std::endl;
+	// sl.sort();
+	// std::cout << "size s = " << s.size() << std::endl;
+	// for (ft::List<int>::iterator it = sl.begin(); it != sl.end(); it++)
+	// 	std::cout << *it << std::endl;
 }
 
 void	test_node()
@@ -423,7 +426,7 @@ void test_vector()
 
 int		main()
 {
-	test_vector();
+	// test_vector();
 	// std::list<int> l;
 	// l.push_back(1);
 	// l.push_back(2);
@@ -453,7 +456,7 @@ int		main()
 	// --it;
 	// std::cout << *it << std::endl;
 	// test_node();
-	// Operations_test();
+	Operations_test();
 	// test_erase();
 	// mix_test();
 	// test_swap();

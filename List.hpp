@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/07 01:09:02 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/05/08 13:23:57 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,9 @@ namespace ft {
 			node_type*	_head;
 			node_type*	_tail;
 			size_type	_size;
+			void	unlink(Node<T>* node) {
+				_head->unlinkNode(node);
+			}
 		public:
 			List( void ) {
 				_size = 0;
@@ -249,7 +252,7 @@ namespace ft {
 			iterator erase (iterator position) {
 				Node<T>* node = position.getPtr();
 				_head->erase(&_head, node);
-				if (_size-- == 0)
+				if (--_size == 0)
 				{
 					_head = _tail;
 					return iterator(_tail);
@@ -291,18 +294,19 @@ namespace ft {
 			}
 			// Operations
 			void splice (iterator position, List& x) {
-				iterator it = x.begin();
-				for (static_cast<void>(it); it != x.end(); it++)
-					insert(position, *it);
-				x.clear();
+				splice(position, x, x.begin(), x.end());
 			}
 			void splice (iterator position, List& x, iterator i) {
-				insert(position, *i);
-				x.erase(i);
+				iterator it = i;
+				splice(position, x, i, ++it);
 			}
 			void splice (iterator position, List& x, iterator first, iterator last) {
-				insert(position, first, last);
-				x.erase(first, last);
+				node_type* iter;
+				node_type* pos = position.getPtr();
+				
+				while (first != last) {
+					
+				}
 			}
 			void remove (const value_type& val) {
 				for (iterator it = begin(); it != end(); it++) {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/07 16:32:40 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/10 04:12:22 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,11 +260,13 @@ namespace ft {
 				for (iterator x = begin(); x != end(); x++)
 					std::cout << *x << " ";
 				std::cout << "\n";
-				for (size_type i = position._get_index(); i < _cap; i++) {
+				for (reverse_iterator x = rbegin(); x != position, x--)
+					_items[x._get_index()] = _items[x._get_index() - 1];
+				/*for (size_type i = position._get_index(); i < _cap; i++) {
 					tmp1 = _items[i];
 					_items[i] = tmp;
 					tmp = tmp1;
-				}
+				}*/
 				*position = val;
 				return iterator(position);
 			}

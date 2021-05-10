@@ -426,7 +426,7 @@ void test_vector()
 
 int		main()
 {
-	// test_vector();
+	test_vector();
 	// std::list<int> l;
 	// l.push_back(1);
 	// l.push_back(2);
@@ -456,7 +456,7 @@ int		main()
 	// --it;
 	// std::cout << *it << std::endl;
 	// test_node();
-	Operations_test();
+	// Operations_test();
 	// test_erase();
 	// mix_test();
 	// test_swap();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/10 04:12:22 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/05/10 14:33:38 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,6 @@ namespace ft {
 				value_type tmp1;
 				if (_size >= _cap)
 					realloc_container();
-				_size++;
 				// iterator t = position;
 				// t++;
 				// if (t._get_index() == end()._get_index())
@@ -257,11 +256,17 @@ namespace ft {
 				// 	*position = val;
 				// 	return (iterator(position));
 				// }
+				_size++;
 				for (iterator x = begin(); x != end(); x++)
 					std::cout << *x << " ";
 				std::cout << "\n";
-				for (reverse_iterator x = rbegin(); x != position, x--)
-					_items[x._get_index()] = _items[x._get_index() - 1];
+				// for (iterator x = rbegin(); x != position; x--)
+				// 	*x = *(x - 1);
+				for (int i = _size; i >= position._get_index(); i--)
+					_items[i] = _items[i - 1];
+				_items[position._get_index() - 1] = val;
+				// _size++;
+					// _items[x._get_index()] = _items[x._get_index() - 1];
 				/*for (size_type i = position._get_index(); i < _cap; i++) {
 					tmp1 = _items[i];
 					_items[i] = tmp;

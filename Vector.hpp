@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/10 14:33:38 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/14 21:45:53 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,16 +238,16 @@ namespace ft {
 				_items[_size++] = val;
 			}
 			void pop_back() {
-				if (_size)
-					--_size;
-				// _items[--_size].value_type::~value_type();
+				// if (_size)
+				//	--_size;
+				_items[--_size].value_type::~value_type();
 				// realloc_container(_size - 1);
 			}
 			iterator insert (iterator position, const value_type& val) {
-				value_type tmp = val;
+				/*value_type tmp = val;
 				value_type tmp1;
 				if (_size >= _cap)
-					realloc_container();
+					realloc_container();*/
 				// iterator t = position;
 				// t++;
 				// if (t._get_index() == end()._get_index())
@@ -256,7 +256,7 @@ namespace ft {
 				// 	*position = val;
 				// 	return (iterator(position));
 				// }
-				_size++;
+				/*_size++;
 				for (iterator x = begin(); x != end(); x++)
 					std::cout << *x << " ";
 				std::cout << "\n";
@@ -264,7 +264,7 @@ namespace ft {
 				// 	*x = *(x - 1);
 				for (int i = _size; i >= position._get_index(); i--)
 					_items[i] = _items[i - 1];
-				_items[position._get_index() - 1] = val;
+				_items[position._get_index() - 1] = val;*/
 				// _size++;
 					// _items[x._get_index()] = _items[x._get_index() - 1];
 				/*for (size_type i = position._get_index(); i < _cap; i++) {
@@ -272,25 +272,23 @@ namespace ft {
 					_items[i] = tmp;
 					tmp = tmp1;
 				}*/
-				*position = val;
-				return iterator(position);
+				// *position = val;
+				insert(position, 1, val);
+				return (++position);
 			}
 			void insert (iterator position, size_type n, const value_type& val) {
-				for (size_type i = 0; i < n; i++)
-					insert(position, val);
+				if (_size + n >= _cap)
+					realloc_container(_size + n);
 			}
 			template <class InputIterator>
 				void insert (iterator position, InputIterator first, InputIterator last) {
-					for (static_cast<void>(first); first != last; first++)
-						insert(position, *first);
 				}
 			iterator erase (iterator position) {
-				_items[position._get_index()].value_type::~value_type();
-				_size--;
+				iterator it = position;
+				return (erase(position, ++it));
 			}
 			iterator erase (iterator first, iterator last) {
-				for (static_cast<void>(first); first != last; first++)
-					erase(first);
+				return (first);
 			}
 			void swap (vector& x) {
 				vector<T> tmp(*this);

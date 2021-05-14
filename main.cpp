@@ -339,7 +339,7 @@ void test_vector()
 	}
 	// v.clear();
 	std::vector<int>::iterator t = v.end();
-	v.insert(t, 5, 15);
+	// v.insert(t, 5, 15);
 	// std::vector<int>::iterator v1 = v.insert(t, 5, 15);
 	// std::cout << "v = " << *v1 << std::endl;
 	try {
@@ -347,6 +347,7 @@ void test_vector()
 		// std::vector<int>::reverse_iterator r;
 		// std::cout << *v.rbegin() << std::endl;
 		// std::cout << *v.rend() << std::endl;
+		v.erase(++v.begin());
 		for (it = v.begin(); it != v.end(); it++)
 			std::cout << *it << " " ;
 		// for (int i = 0; i < 10; i++)
@@ -367,7 +368,7 @@ void test_vector()
 	}
 	// v.clear();
 	ft::vector<int>::iterator tx = v1.end();
-	v1.insert(tx, 15);
+	// v1.insert(tx, 15);
 	// ft::vector<int>::iterator v1 = v.insert(t, 5, 15);
 	// std::cout << "v = " << *v1 << std::endl;
 	try {
@@ -379,6 +380,7 @@ void test_vector()
 		// for (rx = v1.rbegin(); rx != v1.rend(); rx++)
 		// 	std::cout << *rx << " " ;
 		// std::cout << "\n";
+		// v1.erase(++v1.begin());
 		for (x = v1.begin(); x != v1.end(); x++)
 			std::cout << *x << " " ;
 		// for (int i = 0; i < 10; i++)
@@ -427,7 +429,7 @@ void test_vector()
 
 int		main()
 {
-	// test_vector();
+	test_vector();
 	// std::list<int> l;
 	// l.push_back(1);
 	// l.push_back(2);
@@ -457,7 +459,7 @@ int		main()
 	// --it;
 	// std::cout << *it << std::endl;
 	// test_node();
-	Operations_test();
+	// Operations_test();
 	// test_erase();
 	// mix_test();
 	// test_swap();

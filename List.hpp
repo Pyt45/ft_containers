@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/08 13:23:57 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/14 17:08:26 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ namespace ft {
 				return iter;
 			}
 			ListIterator& operator=( ListIterator const & rhs ) {
-				_ptr = rhs._ptr;
+				if (this != &rhs)
+					_ptr = rhs._ptr;
 				return *this;
 			}
 			ListIterator operator+(difference_type v) {
@@ -302,10 +303,21 @@ namespace ft {
 			}
 			void splice (iterator position, List& x, iterator first, iterator last) {
 				node_type* iter;
-				node_type* pos = position.getPtr();
+				iterator tmp1;
 				
+				node_type* pos = position.getPtr();
 				while (first != last) {
-					
+					if (_head == pos)
+						_head = first.getPtr();
+					if (x._head == first.getPtr())
+						x._head = first.getPtr()->_next;
+					tmp1 = first;
+					tmp1++;
+					iter = first.getPtr()->unlinkNode();
+					pos->linkNode(iter);
+					first = tmp1;
+					x._size--;
+					_size++;
 				}
 			}
 			void remove (const value_type& val) {
@@ -387,12 +399,8 @@ namespace ft {
 					its++;
 					for (; its != end(); its++) {
 						if (*its < *it) {
-							// its.getPtr()->swap(it.getPtr());
 							if (it.getPtr() == _head)
-							{
-								std::cout << "_head\n";
 								_head = its.getPtr();
-							}
 							node = its.getPtr()->unlinkNode();
 							it.getPtr()->linkNode(node);
 							tmp = its;

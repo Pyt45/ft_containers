@@ -257,13 +257,14 @@ void	Operations_test()
 	// e--;
 	// l.splice(it, l1, l1.begin(), e);
 	// l.remove_if(is_small_than_2);
-	l.splice(l.begin(), l1, l1.begin(), --l1.end());
+	l.splice(++l.begin(), l1,  ++l1.begin());
 	for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
 		std::cout << *t << std::endl;
 	std::cout << "size of l1 = " << l1.size() << std::endl;
+	std::cout << "size of l = " << l.size() << std::endl;
+	std::cout << "===================\n";
 	for (ft::List<int>::iterator t = l1.begin(); t != l1.end(); t++)
 		std::cout << *t << std::endl;
-	// std::cout << "===================\n";
 
 	// ft::List<int> sl;
 	// int myints[] = {16,2,77,29};
@@ -426,7 +427,7 @@ void test_vector()
 
 int		main()
 {
-	test_vector();
+	// test_vector();
 	// std::list<int> l;
 	// l.push_back(1);
 	// l.push_back(2);
@@ -456,7 +457,7 @@ int		main()
 	// --it;
 	// std::cout << *it << std::endl;
 	// test_node();
-	// Operations_test();
+	Operations_test();
 	// test_erase();
 	// mix_test();
 	// test_swap();

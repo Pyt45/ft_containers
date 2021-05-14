@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 12:34:27 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/08 12:54:44 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/14 16:50:22 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,9 @@ namespace ft
 					this->_next->_prev = this->_prev;
 				return (tmp);
 			}
-			void	unlinkNode(Node<T>* node) {
+			// void	unlinkNode(Node<T>* node) {
 				
-			}
+			// }
 			/* void	swap(Node<T> *node) {
 				// 0 -> 4 -> 3 -> 2 -> 1
 				if (this->_next == node) {
@@ -151,51 +151,51 @@ namespace ft
 					node->_next = tmpnext;
 				}
 			}*/
-			void swap(Node<T> *toswap)
-			{
-				if (this->_next == toswap)
-				{
-					std::cout << "next\n";
-					if (this->_prev)
-						this->_prev->_next = toswap;
-					toswap->_prev = this->_prev;
-					this->_prev = toswap;
-					if (toswap->_next)
-						toswap->_next->_prev = this;
-					this->_next = toswap->_next;
-					toswap->_next = this;
-				}
-				else if (this->_prev == toswap)
-				{
-					std::cout << "prev\n";
-					if (toswap->_prev)
-						toswap->_prev->_next = this;
-					this->_prev = toswap->_prev;
-					toswap->_prev = this;
-					if (this->_next)
-						this->_next->_prev = toswap;
-					toswap->_next = this->_next;
-					this->_next = toswap;
-				}
-				else
-				{
-					Node<T> *tprevious = this->_prev;
-					Node<T> *tnext = this->_next;
-					if (this->_prev)
-						this->_prev->_next = toswap;
-					if (this->_next)
-						this->_next->_prev = toswap;
-					this->_prev = toswap->_prev;
-					this->_next = toswap->_next;
+			// void swap(Node<T> *toswap)
+			// {
+			// 	if (this->_next == toswap)
+			// 	{
+			// 		std::cout << "next\n";
+			// 		if (this->_prev)
+			// 			this->_prev->_next = toswap;
+			// 		toswap->_prev = this->_prev;
+			// 		this->_prev = toswap;
+			// 		if (toswap->_next)
+			// 			toswap->_next->_prev = this;
+			// 		this->_next = toswap->_next;
+			// 		toswap->_next = this;
+			// 	}
+			// 	else if (this->_prev == toswap)
+			// 	{
+			// 		std::cout << "prev\n";
+			// 		if (toswap->_prev)
+			// 			toswap->_prev->_next = this;
+			// 		this->_prev = toswap->_prev;
+			// 		toswap->_prev = this;
+			// 		if (this->_next)
+			// 			this->_next->_prev = toswap;
+			// 		toswap->_next = this->_next;
+			// 		this->_next = toswap;
+			// 	}
+			// 	else
+			// 	{
+			// 		Node<T> *tprevious = this->_prev;
+			// 		Node<T> *tnext = this->_next;
+			// 		if (this->_prev)
+			// 			this->_prev->_next = toswap;
+			// 		if (this->_next)
+			// 			this->_next->_prev = toswap;
+			// 		this->_prev = toswap->_prev;
+			// 		this->_next = toswap->_next;
 
-					if (toswap->_prev)
-						toswap->_prev->_next = this;
-					if (toswap->_next)
-						toswap->_next->_prev = this;
-					toswap->_prev = tprevious;
-					toswap->_next = tnext;
-				}
-			}
+			// 		if (toswap->_prev)
+			// 			toswap->_prev->_next = this;
+			// 		if (toswap->_next)
+			// 			toswap->_next->_prev = this;
+			// 		toswap->_prev = tprevious;
+			// 		toswap->_next = tnext;
+			// 	}
+			// }
 	};
 }
 

@@ -87,7 +87,7 @@ void	test_erase()
 		std::cout << *it << std::endl;
 	}
 	std::cout << "\n=================\n\n";
-	std::cout << l.size() << std::endl;
+	std::cout << l.size() << std::endl; 
 	it = l.begin();
 	ft::List<int>::iterator er = it;
 	er++;

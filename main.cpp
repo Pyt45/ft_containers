@@ -330,7 +330,7 @@ void	test_node()
 
 void test_vector()
 {
-	std::vector<int> v(5);
+	std::vector<int> v(6);
 	try {
 		for (int i = 0; i < 5; i++)
 			v.at(i) = i;
@@ -342,12 +342,19 @@ void test_vector()
 	// v.insert(t, 5, 15);
 	// std::vector<int>::iterator v1 = v.insert(t, 5, 15);
 	// std::cout << "v = " << *v1 << std::endl;
+	std::vector<int>::iterator it;
+	for (it = v.begin(); it != v.end(); it++)
+		std::cout << *it << " " ;
+	std::cout << "\n";
 	try {
-		std::vector<int>::iterator it;
+		std::vector<int>:: iterator it;
 		// std::vector<int>::reverse_iterator r;
 		// std::cout << *v.rbegin() << std::endl;
 		// std::cout << *v.rend() << std::endl;
-		v.erase(++v.begin());
+		it = ++v.begin();
+		// std::vector<int>::iterator p = v.erase(it, --v.end());
+		v.insert(it, 1, 15);
+		std::cout << "s = " << v.capacity() << std::endl;
 		for (it = v.begin(); it != v.end(); it++)
 			std::cout << *it << " " ;
 		// for (int i = 0; i < 10; i++)
@@ -359,7 +366,7 @@ void test_vector()
 	std::cout << "\n";
 	std::cout << "====================\n";
 	// test ft::vector
-	ft::vector<int> v1(5);
+	ft::vector<int> v1(6);
 	try {
 		for (int i = 0; i < 5; i++)
 			v1.at(i) = i;
@@ -374,13 +381,17 @@ void test_vector()
 	try {
 		ft::vector<int>::iterator x;
 		ft::vector<int>::reverse_iterator rx;
-		ft::vector<int>::reverse_iterator r;
+		ft::vector<int>::iterator r;
 		// std::cout << "rt = " << *v1.rbegin() << std::endl;
 		// std::cout << "rte = " << *v1.rend() << std::endl;
 		// for (rx = v1.rbegin(); rx != v1.rend(); rx++)
 		// 	std::cout << *rx << " " ;
 		// std::cout << "\n";
-		// v1.erase(++v1.begin());
+		x = ++v1.begin();
+		v1.insert(x, 1, 15);
+		// r = v1.erase(x, --v1.end());
+		// std::cout << "r = " << *r << std::endl;
+		std::cout << "s = " << v1.capacity() << std::endl;
 		for (x = v1.begin(); x != v1.end(); x++)
 			std::cout << *x << " " ;
 		// for (int i = 0; i < 10; i++)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/15 01:19:18 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/05/15 16:17:14 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ namespace ft {
 				return _index;
 			}
 			VectorIterator operator+(difference_type v) {
-				_index++;
-				_ptr++;
+				++_index;
+				++_ptr;
 				return (_ptr);
 			}
 			VectorIterator operator-(difference_type v) {
@@ -86,8 +86,8 @@ namespace ft {
 				temp = _ptr;
 				// while (v--)
 				// {
-					_index--;
-					_ptr--;
+					--_index;
+					--_ptr;
 				// }
 				return (_ptr);
 			}
@@ -277,18 +277,41 @@ namespace ft {
 				return (++position);
 			}
 			void insert (iterator position, size_type n, const value_type& val) {
+				std::cout << _size + n << std::endl;
 				if (_size + n >= _cap)
 					realloc_container(_size + n);
+				
 			}
-			template <class InputIterator>
-				void insert (iterator position, InputIterator first, InputIterator last) {
-				}
+			// template <class InputIterator>
+			void insert (iterator position, iterator first, iterator last) {
+			}
 			iterator erase (iterator position) {
-				iterator it = position;
-				return (erase(position, ++it));
+				iterator it(position);
+				++it;
+				return (erase(position, it));
 			}
 			iterator erase (iterator first, iterator last) {
-				return (first);
+				iterator _retpos = begin();
+				size_type i = 0;
+				while (_retpos != first)
+				{
+					_retpos++;
+					i++;
+				}
+				if (_retpos == end())
+					return (end());
+				size_type _stoppos = i;
+				size_type _delete = 0;
+				while (first != last)
+				{
+					(*first++).value_type::~value_type();
+					_stoppos++;
+					_delete++;
+				}
+				for (; _stoppos < _size; _stoppos++)
+					_items[i++] = _items[_stoppos];
+				_size -= _delete;
+				return (_retpos);
 			}
 			void swap (vector& x) {
 				vector<T> tmp(*this);

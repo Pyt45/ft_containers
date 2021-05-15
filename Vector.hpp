@@ -6,7 +6,7 @@
 /*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/14 21:48:46 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/05/15 01:19:18 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,9 +308,7 @@ namespace ft {
 			}
 	};
 	template <class T>
-		bool operator== (const vector<T>& lhs, const vector<T>& rhs) {
-			return (true);
-		}
+		bool operator== (const vector<T>& lhs, const vector<T>& rhs);
 	template <class T>
 		bool operator!= (const vector<T>& lhs, const vector<T>& rhs);
 	template <class T>

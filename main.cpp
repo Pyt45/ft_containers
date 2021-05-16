@@ -388,7 +388,7 @@ void test_vector()
 		// 	std::cout << *rx << " " ;
 		// std::cout << "\n";
 		x = ++v1.begin();
-		v1.insert(x, 1, 15);
+		// v1.insert(x, 1, 15);
 		// r = v1.erase(x, --v1.end());
 		// std::cout << "r = " << *r << std::endl;
 		std::cout << "s = " << v1.capacity() << std::endl;

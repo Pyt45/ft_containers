@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/15 16:17:14 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/16 15:10:06 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,12 @@ namespace ft {
 			}
 			template<class InputIterator>
 				vector(InputIterator first, InputIterator last);
-			vector(vector const& x);
+			vector(vector const& x) {
+				for (size_type i = 0; i < x._cap; i++)
+					_items[i] = x[i];
+				_cap = x._cap;
+				_size = x._size;
+			}
 			vector& operator=( vector const& rhs );
 			~vector() {
 				clear();
@@ -277,10 +282,9 @@ namespace ft {
 				return (++position);
 			}
 			void insert (iterator position, size_type n, const value_type& val) {
-				std::cout << _size + n << std::endl;
-				if (_size + n >= _cap)
-					realloc_container(_size + n);
-				
+				T* _arr(_items);
+				// if (_size + n >= _cap)
+				// 	realloc_container(_size + n);
 			}
 			// template <class InputIterator>
 			void insert (iterator position, iterator first, iterator last) {

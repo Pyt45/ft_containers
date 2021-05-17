@@ -331,10 +331,7 @@ namespace ft {
 					// std::cout << "idx = " << idx << "\n";
 					_items[idx + n] = _items[idx];
 					if (idx == i)
-					{
-						_items[idx + n] = _items[idx];
 						break ;
-					}
 				}
 				for (size_type k = 0; k < n; k++)
 					copy_construct(k + i, val);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/16 15:10:06 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/17 03:41:24 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,27 @@ namespace ft {
 				}
 				_cap = _new_size;
 			}
+			void _allocator(size_type size) {
+				if (_cap == 0) {
+					size = (size > 128) ? size : 128;
+					_items = static_cast<value_type*>(::operator new(sizeof(value_type) * size));
+					_cap = size;
+				} else if (size > _cap) {
+					size = (size > _cap * 2) ? size : _cap * 2;
+					value_type *tmp = static_cast<value_type*>(::operator new(sizeof(value_type) * size));
+					if (_items) {
+						//std::memmove(static_cast<void*>(tmp), static_cast<void*>(this->container), this->m_size * sizeof(value_type));
+						for (size_t i = 0; i < _size; ++i)
+							new(&tmp[i]) value_type(_items[i]);
+						::operator delete(_items);
+					}
+					_items = tmp;
+					_cap = size;
+				}
+			}
+			void copy_construct(size_type idx, const_reference val) {
+				new(&this->_items[idx]) value_type(val);
+			}
         public:
 			vector() : _cap(1), _size(0) {
 				_items = new T[1];
@@ -136,10 +157,11 @@ namespace ft {
 			template<class InputIterator>
 				vector(InputIterator first, InputIterator last);
 			vector(vector const& x) {
-				for (size_type i = 0; i < x._cap; i++)
-					_items[i] = x[i];
-				_cap = x._cap;
-				_size = x._size;
+				_size = 0;
+				_cap = 1;
+				_items = new T[1];
+				for (iterator it = x.begin(); it != x.end(); it++)
+					push_back(*it);
 			}
 			vector& operator=( vector const& rhs );
 			~vector() {
@@ -281,10 +303,28 @@ namespace ft {
 				insert(position, 1, val);
 				return (++position);
 			}
+			
 			void insert (iterator position, size_type n, const value_type& val) {
-				T* _arr(_items);
-				// if (_size + n >= _cap)
-				// 	realloc_container(_size + n);
+				iterator it = begin();
+				vector<T> _arr(*this);
+				size_type i = 0;
+
+				if (_size + n >= _cap)
+					_allocator(_size + n);
+				while (it != position) {
+					it++;
+					i++;
+				}
+				for (size_type j = _size; j >= 1 && j >= i; j--)
+					copy_construct(i + j + n - 1, _items[j - 1]);
+				// new(&_items[i + j + n - 1]) value_type(_items[j - 1]);
+				for (size_type k = 0; k < n; k++)
+					copy_construct(k + i, val);
+				// _items[k + i] = val;
+				//for (size_type j = n + 1; j < _cap; j++, i++)
+				//	new(&_items[j]) value_type(_arr[i]);
+				_size += n;
+				// _cap++;
 			}
 			// template <class InputIterator>
 			void insert (iterator position, iterator first, iterator last) {
@@ -335,17 +375,47 @@ namespace ft {
 			}
 	};
 	template <class T>
-		bool operator== (const vector<T>& lhs, const vector<T>& rhs);
+		bool operator== (const vector<T>& lhs, const vector<T>& rhs) {
+			if (lhs.size() != rhs.size())
+				return (false);
+			for (size_t i = 0; i < lhs.size(); i++) {
+				if (lhs[i] != rhs[i])
+					return (false);
+				i++;
+			}
+			return (true);
+		}
 	template <class T>
-		bool operator!= (const vector<T>& lhs, const vector<T>& rhs);
+		bool operator!= (const vector<T>& lhs, const vector<T>& rhs) {
+			return !(lhs == rhs);
+		}
 	template <class T>
-		bool operator<  (const vector<T>& lhs, const vector<T>& rhs);
+		bool operator<  (const vector<T>& lhs, const vector<T>& rhs) {
+			typename vector<T>::iterator tlhs = lhs.begin();
+			typename vector<T>::iterator trhs = rhs.begin();
+			
+			while (thls != lhs.end()) {
+				if (trhs == rhs.end() || *trhs < *tlhs)
+					return (false);
+				else if (*tlhs < *trhs)
+					return (true);
+				tlhs++;
+				trhs++;
+			}
+			return (trhs != rhs.end());
+		}
 	template <class T>
-		bool operator<= (const vector<T>& lhs, const vector<T>& rhs);
+		bool operator<= (const vector<T>& lhs, const vector<T>& rhs) {
+			return !(lhs > rhs);
+		}
 	template <class T>
-		bool operator>  (const vector<T>& lhs, const vector<T>& rhs);
+		bool operator>  (const vector<T>& lhs, const vector<T>& rhs) {
+			return (rhs < lhs);
+		}
 	template <class T>
-		bool operator>= (const vector<T>& lhs, const vector<T>& rhs);
+		bool operator>= (const vector<T>& lhs, const vector<T>& rhs) {
+			return !(lhs < rhs);
+		}
 	template <class T>
 		void swap (vector<T>& x, vector<T>& y) {
 			x.swap(y);

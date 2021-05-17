@@ -352,8 +352,9 @@ void test_vector()
 		// std::cout << *v.rbegin() << std::endl;
 		// std::cout << *v.rend() << std::endl;
 		it = ++v.begin();
+		std::cout << "cap = " << v.capacity() << std::endl;
 		// std::vector<int>::iterator p = v.erase(it, --v.end());
-		v.insert(it, 1, 15);
+		v.insert(it, 2, 15);
 		std::cout << "s = " << v.capacity() << std::endl;
 		for (it = v.begin(); it != v.end(); it++)
 			std::cout << *it << " " ;
@@ -388,7 +389,7 @@ void test_vector()
 		// 	std::cout << *rx << " " ;
 		// std::cout << "\n";
 		x = ++v1.begin();
-		// v1.insert(x, 1, 15);
+		v1.insert(x, 2, 15);
 		// r = v1.erase(x, --v1.end());
 		// std::cout << "r = " << *r << std::endl;
 		std::cout << "s = " << v1.capacity() << std::endl;

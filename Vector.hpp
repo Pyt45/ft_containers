@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/17 03:41:24 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/05/17 17:45:53 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ namespace ft {
 				return _ptr != rhs._ptr;
 			}
 			bool operator==( VectorIterator const& rhs ) const {
-				return _ptr == rhs._ptr;
+				return (_ptr[_index] == rhs._ptr[rhs._index]);
 			}
 			VectorIterator& operator++() {
 				_index++;
@@ -144,7 +144,7 @@ namespace ft {
 				}
 			}
 			void copy_construct(size_type idx, const_reference val) {
-				new(&this->_items[idx]) value_type(val);
+				this->_items[idx] = val;
 			}
         public:
 			vector() : _cap(1), _size(0) {
@@ -306,7 +306,7 @@ namespace ft {
 			
 			void insert (iterator position, size_type n, const value_type& val) {
 				iterator it = begin();
-				vector<T> _arr(*this);
+				// vector<T> _arr(*this);
 				size_type i = 0;
 
 				if (_size + n >= _cap)
@@ -315,15 +315,34 @@ namespace ft {
 					it++;
 					i++;
 				}
-				for (size_type j = _size; j >= 1 && j >= i; j--)
-					copy_construct(i + j + n - 1, _items[j - 1]);
-				// new(&_items[i + j + n - 1]) value_type(_items[j - 1]);
+				// if (position == begin())
+					// std::cout << "items[_size] = " << i << "\n";
+				// for (size_type j = _size; j >= 1 && j >= i; j--) {
+				// 	if (position == begin())
+				// 		copy_construct(i + j + n - 1, _items[j - 1]);
+				// 	else
+				// 		copy_construct(i + j + n - 1, _items[j]);
+				// 	// std::memmove(_items + _size, _items + i, )
+				// }
+				// size_type j = _size + n;
+				
+				for (size_type idx = this->_size - 1;; idx--)
+				{
+					// std::cout << "idx = " << idx << "\n";
+					_items[idx + n] = _items[idx];
+					if (idx == i)
+					{
+						_items[idx + n] = _items[idx];
+						break ;
+					}
+				}
 				for (size_type k = 0; k < n; k++)
 					copy_construct(k + i, val);
+				_size += n;
+				// new(&_items[i + j + n - 1]) value_type(_items[j - 1]);
 				// _items[k + i] = val;
 				//for (size_type j = n + 1; j < _cap; j++, i++)
 				//	new(&_items[j]) value_type(_arr[i]);
-				_size += n;
 				// _cap++;
 			}
 			// template <class InputIterator>
@@ -394,7 +413,7 @@ namespace ft {
 			typename vector<T>::iterator tlhs = lhs.begin();
 			typename vector<T>::iterator trhs = rhs.begin();
 			
-			while (thls != lhs.end()) {
+			while (tlhs != lhs.end()) {
 				if (trhs == rhs.end() || *trhs < *tlhs)
 					return (false);
 				else if (*tlhs < *trhs)

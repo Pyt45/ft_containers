@@ -351,11 +351,11 @@ void test_vector()
 		// std::vector<int>::reverse_iterator r;
 		// std::cout << *v.rbegin() << std::endl;
 		// std::cout << *v.rend() << std::endl;
-		it = ++v.begin();
+		it = --v.end();
 		std::cout << "cap = " << v.capacity() << std::endl;
 		// std::vector<int>::iterator p = v.erase(it, --v.end());
 		v.insert(it, 2, 15);
-		std::cout << "s = " << v.capacity() << std::endl;
+		std::cout << "c = " << v.capacity() << std::endl;
 		for (it = v.begin(); it != v.end(); it++)
 			std::cout << *it << " " ;
 		// for (int i = 0; i < 10; i++)
@@ -388,11 +388,11 @@ void test_vector()
 		// for (rx = v1.rbegin(); rx != v1.rend(); rx++)
 		// 	std::cout << *rx << " " ;
 		// std::cout << "\n";
-		x = ++v1.begin();
-		v1.insert(x, 2, 15);
+		x = v1.end();
+		v1.insert(--x, 2, 15);
 		// r = v1.erase(x, --v1.end());
 		// std::cout << "r = " << *r << std::endl;
-		std::cout << "s = " << v1.capacity() << std::endl;
+		std::cout << "c = " << v1.capacity() << std::endl;
 		for (x = v1.begin(); x != v1.end(); x++)
 			std::cout << *x << " " ;
 		// for (int i = 0; i < 10; i++)
@@ -439,8 +439,31 @@ void test_vector()
 	// std::cout << "cap = " << _v.capacity() << std::endl;
 }
 
+class test
+{
+public:
+	test() {}
+	test(const test &src) {
+		i  = src.i;
+	}
+	~test() {
+		std::cout << "d\n";
+	}
+	test & operator=(test const& src)
+	{
+		i = src.i;
+		return (*this);
+	}
+	int i;
+private:
+	
+};
+
+
+
 int		main()
 {
+
 	test_vector();
 	// std::list<int> l;
 	// l.push_back(1);

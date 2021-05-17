@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/17 17:45:53 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/18 00:06:18 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,14 @@ namespace ft {
 				pointer_type temp;
 
 				temp = _ptr;
-				// while (v--)
-				// {
+				while (v--)
+				{
 					--_index;
 					--_ptr;
-				// }
+				}
 				return (_ptr);
 			}
+			
 		protected:
 			pointer_type 	_ptr;
 			unsigned int 	_index;
@@ -151,11 +152,16 @@ namespace ft {
 				_items = new T[1];
 			}
 			vector(size_type n, const value_type& val = value_type()) {
-				_items = new T[n];
 				_size = _cap = n;
+				_items = new T[n];
+				this->assign(n, val);
 			}
 			template<class InputIterator>
-				vector(InputIterator first, InputIterator last);
+				vector(InputIterator first, InputIterator last) {
+					_size = _cap = 0;
+					_items = nullptr;
+					this-assign(first, last);
+				}
 			vector(vector const& x) {
 				_size = 0;
 				_cap = 1;
@@ -271,42 +277,12 @@ namespace ft {
 				// realloc_container(_size - 1);
 			}
 			iterator insert (iterator position, const value_type& val) {
-				/*value_type tmp = val;
-				value_type tmp1;
-				if (_size >= _cap)
-					realloc_container();*/
-				// iterator t = position;
-				// t++;
-				// if (t._get_index() == end()._get_index())
-				// {
-				// 	_items[end()._get_index()] = val;
-				// 	*position = val;
-				// 	return (iterator(position));
-				// }
-				/*_size++;
-				for (iterator x = begin(); x != end(); x++)
-					std::cout << *x << " ";
-				std::cout << "\n";
-				// for (iterator x = rbegin(); x != position; x--)
-				// 	*x = *(x - 1);
-				for (int i = _size; i >= position._get_index(); i--)
-					_items[i] = _items[i - 1];
-				_items[position._get_index() - 1] = val;*/
-				// _size++;
-					// _items[x._get_index()] = _items[x._get_index() - 1];
-				/*for (size_type i = position._get_index(); i < _cap; i++) {
-					tmp1 = _items[i];
-					_items[i] = tmp;
-					tmp = tmp1;
-				}*/
-				// *position = val;
 				insert(position, 1, val);
 				return (++position);
 			}
 			
 			void insert (iterator position, size_type n, const value_type& val) {
 				iterator it = begin();
-				// vector<T> _arr(*this);
 				size_type i = 0;
 
 				if (_size + n >= _cap)
@@ -315,38 +291,38 @@ namespace ft {
 					it++;
 					i++;
 				}
-				// if (position == begin())
-					// std::cout << "items[_size] = " << i << "\n";
-				// for (size_type j = _size; j >= 1 && j >= i; j--) {
-				// 	if (position == begin())
-				// 		copy_construct(i + j + n - 1, _items[j - 1]);
-				// 	else
-				// 		copy_construct(i + j + n - 1, _items[j]);
-				// 	// std::memmove(_items + _size, _items + i, )
-				// }
-				// size_type j = _size + n;
 				
-				for (size_type idx = this->_size - 1;; idx--)
+				for (size_type idx = _size + n; ; idx--)
 				{
-					// std::cout << "idx = " << idx << "\n";
-					_items[idx + n] = _items[idx];
+					copy_construct(idx, _items[idx - n]);
+					// _items[idx] = _items[idx - n];
 					if (idx == i)
-					{
-						_items[idx + n] = _items[idx];
 						break ;
-					}
 				}
 				for (size_type k = 0; k < n; k++)
 					copy_construct(k + i, val);
-				_size += n;
-				// new(&_items[i + j + n - 1]) value_type(_items[j - 1]);
 				// _items[k + i] = val;
-				//for (size_type j = n + 1; j < _cap; j++, i++)
-				//	new(&_items[j]) value_type(_arr[i]);
-				// _cap++;
+				_size += n;
 			}
 			// template <class InputIterator>
 			void insert (iterator position, iterator first, iterator last) {
+				iterator it = begin();
+				size_type i = 0;
+				size_type len = 6;
+				if (len + _size >= _cap)
+					_allocator(len + _size);
+				while (it != position) {
+					it++;
+					i++;
+				}
+				for (size_type idx = _size + len; ; idx--) {
+					copy_construct(idx, _items[idx - len]);
+					if (idx == i)
+						break ;
+				}
+				for (size_type k = 0; k < len && first != last; k++, first++)
+					copy_construct(k + i, *first);
+				_size += len;
 			}
 			iterator erase (iterator position) {
 				iterator it(position);

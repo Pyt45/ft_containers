@@ -351,10 +351,10 @@ void test_vector()
 		// std::vector<int>::reverse_iterator r;
 		// std::cout << *v.rbegin() << std::endl;
 		// std::cout << *v.rend() << std::endl;
-		it = --v.end();
+		it = v.begin();
 		std::cout << "cap = " << v.capacity() << std::endl;
 		// std::vector<int>::iterator p = v.erase(it, --v.end());
-		v.insert(it, 2, 15);
+		v.insert(it, ++v.begin(), v.end());
 		std::cout << "c = " << v.capacity() << std::endl;
 		for (it = v.begin(); it != v.end(); it++)
 			std::cout << *it << " " ;
@@ -388,8 +388,8 @@ void test_vector()
 		// for (rx = v1.rbegin(); rx != v1.rend(); rx++)
 		// 	std::cout << *rx << " " ;
 		// std::cout << "\n";
-		x = v1.end();
-		v1.insert(--x, 2, 15);
+		x = v1.begin();
+		v1.insert(x, ++v1.begin(), v1.end());
 		// r = v1.erase(x, --v1.end());
 		// std::cout << "r = " << *r << std::endl;
 		std::cout << "c = " << v1.capacity() << std::endl;
@@ -438,26 +438,6 @@ void test_vector()
 	// std::cout << "max_size = " << _v.max_size() << std::endl;
 	// std::cout << "cap = " << _v.capacity() << std::endl;
 }
-
-class test
-{
-public:
-	test() {}
-	test(const test &src) {
-		i  = src.i;
-	}
-	~test() {
-		std::cout << "d\n";
-	}
-	test & operator=(test const& src)
-	{
-		i = src.i;
-		return (*this);
-	}
-	int i;
-private:
-	
-};
 
 
 

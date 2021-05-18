@@ -1,12 +1,15 @@
 #include <vector>
 #include <iostream>
-#include "Vector.hpp"
+#include <map>
 
 
 int main()
 {
-	std::vector<int> v;
+	std::map<int, int> m {
+		{1, 5},
+		{2, 9},
+		{3, 7}
+	};
 
-	std::cout << "size = " << v.size() << std::endl;
-	std::cout << "cap = " << v.capacity() << std::endl;
+	std::cout << m[12] << std::endl;
 }

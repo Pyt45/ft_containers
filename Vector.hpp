@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/18 00:06:18 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/05/18 17:04:59 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,22 +75,26 @@ namespace ft {
 			unsigned int _get_index() {
 				return _index;
 			}
-			VectorIterator operator+(difference_type v) {
-				++_index;
-				++_ptr;
-				return (_ptr);
+			// VectorIterator operator+(difference_type v) {
+			// 	++_index;
+			// 	++_ptr;
+			// 	return (_ptr);
+			// }
+			difference_type operator-(VectorIterator const &rhs)
+			{
+				return (_ptr - rhs._ptr);
 			}
-			VectorIterator operator-(difference_type v) {
-				pointer_type temp;
+			// VectorIterator operator-(difference_type v) {
+			// 	pointer_type temp;
 
-				temp = _ptr;
-				while (v--)
-				{
-					--_index;
-					--_ptr;
-				}
-				return (_ptr);
-			}
+			// 	temp = _ptr;
+			// 	while (v--)
+			// 	{
+			// 		--_index;
+			// 		--_ptr;
+			// 	}
+			// 	return (_ptr);
+			// }
 			
 		protected:
 			pointer_type 	_ptr;
@@ -145,7 +149,7 @@ namespace ft {
 				}
 			}
 			void copy_construct(size_type idx, const_reference val) {
-				this->_items[idx] = val;
+				new (&_items[idx]) value_type(val);
 			}
         public:
 			vector() : _cap(1), _size(0) {
@@ -271,10 +275,7 @@ namespace ft {
 				_items[_size++] = val;
 			}
 			void pop_back() {
-				// if (_size)
-				//	--_size;
 				_items[--_size].value_type::~value_type();
-				// realloc_container(_size - 1);
 			}
 			iterator insert (iterator position, const value_type& val) {
 				insert(position, 1, val);
@@ -295,20 +296,18 @@ namespace ft {
 				for (size_type idx = _size + n; ; idx--)
 				{
 					copy_construct(idx, _items[idx - n]);
-					// _items[idx] = _items[idx - n];
 					if (idx == i)
 						break ;
 				}
 				for (size_type k = 0; k < n; k++)
 					copy_construct(k + i, val);
-				// _items[k + i] = val;
 				_size += n;
 			}
 			// template <class InputIterator>
 			void insert (iterator position, iterator first, iterator last) {
 				iterator it = begin();
 				size_type i = 0;
-				size_type len = 6;
+				std::ptrdiff_t len = last - first;
 				if (len + _size >= _cap)
 					_allocator(len + _size);
 				while (it != position) {

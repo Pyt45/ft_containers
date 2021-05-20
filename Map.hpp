@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:21:20 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/18 17:47:06 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/19 15:00:53 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ namespace ft {
 			typedef Compare key_compare;
 			// typedef Compare value_compare;
 			typedef size_t size_type;
-		public:
 			class value_compare {
 				friend class map;
 				protected:

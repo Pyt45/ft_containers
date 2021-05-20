@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/18 17:32:54 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/05/20 17:47:00 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,19 @@ namespace ft {
 			Btree(T data = T()) : _data(data), _parent(nullptr), _left(nullptr), _right(nullptr) {}
 			Btree( Btree const& rhs ) {}
 			~Btree() {
-				
+			}
+
+			void insert(Btree *btr) {
+				if (this->_parent == nullptr) {
+					this->_parent->_data = btr->_data;
+					this->_parent->_left = btr->_left;
+					this->_parent->_right = btr->_right;
+				}
+				else {
+					if (btr->_data < this->_parent->_data) {
+						// Do something
+					}
+				}
 			}
 	};
 }

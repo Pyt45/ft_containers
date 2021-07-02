@@ -12,9 +12,9 @@
 #include <type_traits>
 
 template <class T>
-typename ft::enable_if<std::is_integral<T>::value, bool>::type is_odd(T i) { return bool(i % 2); }
+typename ft::enable_if<ft::is_integral<T>::value, bool>::type is_odd(T i) { return bool(i % 2); }
 
-template <class T, class = typename ft::enable_if<std::is_integral<T>::value>::type>
+template <class T, class = typename ft::enable_if<ft::is_integral<T>::value>::type>
 bool is_even(T i) {return !bool(i%2);}
 
 void test()
@@ -28,7 +28,7 @@ void test()
 
 int main()
 {
-	// test();
+	test();
 	// ft::vector<int> v(5, 100);
 	// ft::vector<int> f(3, 200);
 	// ft::vector<int> v(5, 100);

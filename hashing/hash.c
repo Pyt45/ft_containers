@@ -22,7 +22,7 @@ typedef struct	HashTable {
 	int			count;
 }				HashTable;
 
-Ht_item*	create_item(chra* key, char* value) {
+Ht_item*	create_item(char* key, char* value) {
 	Ht_item* item = (Ht_item*)malloc(sizeof(Ht_item));
 
 	item->key = (char*)malloc(strlen(key) + 1);
@@ -46,7 +46,7 @@ HashTable*	creat_table(int size) {
 
 void	free_item(Ht_item* item) {
 	free(item->key);
-	free(items->value);
+	free(item->value);
 	free(item);
 }
 

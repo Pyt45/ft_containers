@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/18 17:04:59 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/07/01 09:51:02 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ namespace ft {
 				vector(InputIterator first, InputIterator last) {
 					_size = _cap = 0;
 					_items = nullptr;
-					this-assign(first, last);
+					this->assign(first, last);
 				}
 			vector(vector const& x) {
 				_size = 0;

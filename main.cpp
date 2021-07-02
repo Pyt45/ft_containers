@@ -10,6 +10,7 @@
 #include "Allocator.hpp"
 #include "Vector.hpp"
 #include <stack>
+#include <set>
 // #include <gtest/gtest.h>
 
 // template<typename type>
@@ -257,15 +258,37 @@ void	Operations_test()
 	// e--;
 	// l.splice(it, l1, l1.begin(), e);
 	// l.remove_if(is_small_than_2);
-	l.splice(++l.begin(), l1,  ++l1.begin());
+	// l.splice(++l.begin(), l1,  ++l1.begin());
+	l.merge1(l1);
 	for (ft::List<int>::iterator t = l.begin(); t != l.end(); t++)
 		std::cout << *t << std::endl;
 	std::cout << "size of l1 = " << l1.size() << std::endl;
 	std::cout << "size of l = " << l.size() << std::endl;
-	std::cout << "===================\n";
+	std::cout << "===============================\n";
 	for (ft::List<int>::iterator t = l1.begin(); t != l1.end(); t++)
 		std::cout << *t << std::endl;
-
+	std::cout << "===============================\n";
+	std::list<int> v;
+	std::list<int> v1;
+	v.push_back(1);
+	v.push_back(2);
+	v.push_back(3);
+	v.push_back(-1);
+	v.push_back(9);
+	// ft::List<int>::iterator it = l.begin();
+	v1.push_back(8);
+	v1.push_back(9);
+	v1.push_back(19);
+	v.merge(v1);
+	for (std::list<int>::iterator it = v.begin(); it != v.end(); it++)
+		std::cout << *it << std::endl;
+	std::cout << "size of l1 = " << v1.size() << std::endl;
+	std::cout << "size of l = " << v.size() << std::endl;
+	std::cout << "===============================\n";
+	for (std::list<int>::iterator t = v1.begin(); t != v1.end(); t++)
+		std::cout << *t << std::endl;
+	
+	std::cout << "===============================\n";
 	// ft::List<int> sl;
 	// int myints[] = {16,2,77,29};
 	// ft::List<int> s(myints, myints + sizeof(myints) / sizeof(int));
@@ -440,11 +463,33 @@ void test_vector()
 }
 
 
+// int main (int argc, char *argv[])
+// {
+//   int *i, *j; 
+
+//   i = malloc (1);
+
+//   if (memcheck (i))
+//     printf ("i points to illegal memory\n");
+//   if (memcheck (j))
+//     printf ("j points to illegal memory\n");
+
+//   free (i);
+
+//   return (0);
+// }
 
 int		main()
 {
-
-	test_vector();
+	// std::set<int> s;
+	// s.insert(s.begin(), 1);
+	// std::set<int>::iterator it = s.begin();
+	// std::cout << &it << std::endl;
+	// uintptr_t p = reinterpret_cast<uintptr_t>(&it);
+	
+	// int *ptr = reinterpret_cast<int*>(p);
+	// std::cout << ptr << std::endl;
+	// test_vector();
 	// std::list<int> l;
 	// l.push_back(1);
 	// l.push_back(2);

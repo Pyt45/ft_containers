@@ -60,6 +60,12 @@
 		"unordered_map": "cpp",
 		"utility": "cpp",
 		"vector": "cpp",
-		"list": "cpp"
+		"list": "cpp",
+		"__tree": "cpp",
+		"deque": "cpp",
+		"iomanip": "cpp",
+		"map": "cpp",
+		"stack": "cpp",
+		"set": "cpp"
 	}
 }

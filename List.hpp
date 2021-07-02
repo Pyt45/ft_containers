@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 11:53:57 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/05/14 17:08:26 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/06/28 09:53:24 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,6 +363,39 @@ namespace ft {
 						it++;
 				}
 				splice(it, x);
+			}
+			void merge1 (List& x) {
+				if (this != &x)
+				{
+					node_type *node;
+					iterator it = begin();
+					iterator eit = end();
+
+					iterator itx = x.begin();
+					iterator eitx = x.end();
+
+					while (it != eit && itx != eitx) {
+						if (*itx < *it) {
+							if (it.getPtr() == _head)
+								_head = itx.getPtr();
+							node_type *node = itx.getPtr();
+							iterator tmp = itx;
+							tmp++;
+							node = itx.getPtr()->__unlink_node();
+							it.getPtr()->__link_node(node);
+							
+							// node->unlinkNode();
+							
+							// insert(it, *itx);
+							// x.pop_front();
+							x._size--;
+							itx = tmp;
+						}
+						else
+							it++;
+					}
+					splice(it, x);
+				}
 			}
 			template <class Compare>
 				void merge (List& x, Compare comp) {

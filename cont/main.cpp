@@ -10,25 +10,79 @@
 #include "Utility.hpp"
 #include "Type_traits.hpp"
 #include <type_traits>
+#include <iterator>
+#include <stack>
+#include "Stack_t.hpp"
 
-template <class T>
-typename ft::enable_if<ft::is_integral<T>::value, bool>::type is_odd(T i) { return bool(i % 2); }
+// template <class T>
+// typename ft::enable_if<ft::is_integral<T>::value, bool>::type is_odd(T i) { return bool(i % 2); }
 
-template <class T, class = typename ft::enable_if<ft::is_integral<T>::value>::type>
-bool is_even(T i) {return !bool(i%2);}
+// template <class T, class = typename ft::enable_if<ft::is_integral<T>::value>::type>
+// bool is_even(T i) {return !bool(i%2);}
 
-void test()
+// void test()
+// {
+// 	short int i = 1;
+// 	float b = 5;
+// 	std::cout << std::boolalpha;
+// 	std::cout << "is i odd: " << is_odd(i) << std::endl;
+// 	std::cout << "is i even: " << is_even(i) << std::endl;
+// }
+
+template <class BidirIt>
+void ft_reverse(BidirIt first, BidirIt last)
 {
-	short int i = 1;
-	float b = 5;
-	std::cout << std::boolalpha;
-	std::cout << "is i odd: " << is_odd(i) << std::endl;
-	std::cout << "is i even: " << is_even(i) << std::endl;
+	typename std::iterator_traits<BidirIt>::difference_type n = std::distance(first, last);
+	--n;
+	while (n > 0)
+	{
+		typename std::iterator_traits<BidirIt>::value_type tmp = *first;
+		*first++ = *--last;
+		*last = tmp;
+		n -= 2;
+	}
+}
+template <class Iter>
+void ft_swap(Iter first, Iter second)
+{
+	typename std::iterator_traits<Iter>::value_type tmp;
+
+	tmp = *first;
+	*first = *second;
+	*second = tmp;
+}
+
+void run_iter()
+{
+	std::vector<int> v;
+	v.push_back(1);
+	v.push_back(2);
+	v.push_back(3);
+	v.push_back(4);
+	v.push_back(5);
+
+	ft_reverse(v.begin(), v.end());
+	for (int i = 0; i < v.size(); i++)
+		std::cout << v[i] << std::endl;
+	
+	std::cout << "======================\n";
+	int a[] = {1, 2, 3, 4, 5};
+	ft_reverse(a, a + 5);
+	for (int i = 0; i < 5; i++)
+		std::cout << a[i] << std::endl;
 }
 
 int main()
 {
-	test();
+	// run_iter();
+	int t[] = {1, 2};
+	std::cout << t[0] << std::endl;
+	std::cout << t[1] << std::endl;
+	std::cout << "======================\n";
+	ft_swap(t, t + 1);
+	std::cout << t[0] << std::endl;
+	std::cout << t[1] << std::endl;
+	// test();
 	// ft::vector<int> v(5, 100);
 	// ft::vector<int> f(3, 200);
 	// ft::vector<int> v(5, 100);

@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 18:35:44 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/07/02 16:28:35 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/07/03 19:15:29 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,11 @@
 
 # include <iostream>
 # include <memory>
+# include "Type_traits.hpp"
+# include "iterator_traits.hpp"
 
 namespace ft
 {
-	template <class Iterator>
-	class iterator_traits {
-		public:
-			
-	};
 	template < class T, class Alloc = std::allocator<T> >
 	class vector
 	{
@@ -134,7 +131,7 @@ namespace ft
 				return _size;
 			}
 			size_type max_size() const {
-				return std::numeric_limits<size_type>::max() / sizeof(T);
+				return _alloc.max_size();
 			}
 			void resize (size_type n, value_type val = value_type())
 			{
@@ -195,12 +192,13 @@ namespace ft
 			const_reference back() const {
 				return _items[_size - 1];
 			}
-			// template <class InputIterator>
-			// 	void assign (InputIterator first, InputIterator last) {
-			// 		clear();
-			// 		for (; first != last; first++)
-			// 			push_back(*first);
-			// 	}
+			template <class InputIterator>
+				void assign (InputIterator first, InputIterator last,
+				typename enable_if<!is_integral<InputIterator>::value, bool>::type = true) {
+					clear();
+					for (; first != last; first++)
+						push_back(*first);
+				}
 			void assign (size_type n, const value_type& val) {
 				clear();
 				for (size_type i = 0; i < n; i++)

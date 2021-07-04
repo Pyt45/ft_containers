@@ -55,36 +55,48 @@ void ft_swap(Iter first, Iter second)
 
 void run_iter()
 {
-	std::vector<int> v;
+	std::vector<int> l;
+	ft::vector<int> v;
+	// int arr[] = {1,2,3,4,5};
+	// l.assign(arr, arr + 5);
+
+	// for (int i = 0; i < 5; i++)
+	// 	std::cout << l[i] << std::endl;
+	// std::cout << "=========================\n";
+	// v.assign(arr, arr + 5);
+	// for (int i = 0; i < 5; i++)
+	// 	std::cout << v[i] << std::endl;
 	v.push_back(1);
 	v.push_back(2);
 	v.push_back(3);
-	v.push_back(4);
-	v.push_back(5);
-	
-	std::vector<int>::iterator i = v.begin();
+	l.push_back(1);
+	l.push_back(2);
+	// v.erase(v.begin());
 
-	ft_reverse(v.begin(), v.end());
-	for (int i = 0; i < v.size(); i++)
-		std::cout << v[i] << std::endl;
-	
-	std::cout << "======================\n";
-	int a[] = {1, 2, 3, 4, 5};
-	ft_reverse(a, a + 5);
-	for (int i = 0; i < 5; i++)
-		std::cout << a[i] << std::endl;
+	// for (int i = 0; i < 2; i++)
+	// 	std::cout << v[i] << std::endl;
+	// ft::vector<int>::iterator it = v.begin();
+	ft::vector<int>::reverse_iterator rit = v.rbegin();
+	for (; rit != v.rend(); rit++)
+		std::cout << *rit << std::endl;
+	// it++;
+	// std::cout << *it << std::endl;
+	// std::cout << "l.size = " << l.size() << std::endl;
+	// std::cout << "l.cap = " << l.capacity() << std::endl;
+	// std::cout << "v.size = " << v.size() << std::endl;
+	// std::cout << "v.cap = " << v.capacity() << std::endl;
 }
 
 int main()
 {
-	// run_iter();
-	int t[] = {1, 2, 3, 4, 5};
-	for (int i = 0; i < 5; i++)
-		std::cout << t[i] << std::endl;
-	std::cout << "======================\n";
-	ft_reverse(t, t + 5);
-	for (int i = 0; i < 5; i++)
-		std::cout << t[i] << std::endl;
+	run_iter();
+	// int t[] = {1, 2, 3, 4, 5};
+	// for (int i = 0; i < 5; i++)
+	// 	std::cout << t[i] << std::endl;
+	// std::cout << "======================\n";
+	// ft_reverse(t, t + 5);
+	// for (int i = 0; i < 5; i++)
+	// 	std::cout << t[i] << std::endl;
 	// test();
 	// ft::vector<int> v(5, 100);
 	// ft::vector<int> f(3, 200);

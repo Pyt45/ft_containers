@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 18:35:44 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/07/04 13:13:08 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/07/04 19:01:17 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,14 @@ namespace ft
 			typedef std::allocator<value_type> allocator_type;
 			typedef typename allocator_type::reference reference;
 			typedef typename allocator_type::const_reference const_reference;
-			// typedef implementation-defined iterator;
-			// typedef implementation-defined const_iterator;
 			typedef typename allocator_type::size_type size_type;
 			typedef typename allocator_type::difference_type difference_type;
 			typedef typename allocator_type::pointer pointer;
 			typedef typename allocator_type::const_pointer const_pointer;
-			// Iterators
-			// typedef ft::reverse_iterator<iterator> reverse_iterator;
-			// typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
-			//
+			typedef ft::__wrap_iter<pointer> iterator;
+			typedef ft::__wrap_iter<const_pointer> const_iterator;
+			typedef ft::reverse_iterator<iterator> reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		private:
 			T* _items;
 			size_type _size;
@@ -68,7 +66,7 @@ namespace ft
 			vector(const allocator_type& alloc = allocator_type())
 			{
 				_alloc = alloc;
-				_items = nullptr;
+				_items = new T[1];
 				_size = _cap = 0;
 			}
 			vector(size_type n, const value_type& val = value_type())
@@ -78,19 +76,20 @@ namespace ft
 				for (int i = 0; i < n; i++)
 					copy_construct(i, val);
 			}
-			// template <class InputIterator>
-			// 	vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
-			// 	{
-			// 		_size = _cap = 0;
-			// 		_items = nullptr;
-			// 		this->assign(first, last);
-			// 	}
-			// vector(vector const& x)
-			// {
-			// 	_size = _cap = 0;
-			// 	_items = _alloc.allocate(1);
-			// 	*this = x;
-			// }
+			template <class InputIterator>
+				vector(InputIterator first, InputIterator last,
+						const allocator_type& alloc = allocator_type())
+				{
+					_size = _cap = 0;
+					_items = nullptr;
+					this->assign(first, last);
+				}
+			vector(vector const& x)
+			{
+				_size = _cap = 0;
+				_items = _alloc.allocate(1);
+				*this = x;
+			}
 			vector& operator=(vector const& x)
 			{
 				if (this != &x)
@@ -108,30 +107,30 @@ namespace ft
 				clear();
 				_alloc.deallocate(_items, _size);
 			}
-			// iterator begin() {
-			// 	return iterator(_items, 0);
-			// }
-			// const_iterator begin() const {
-			// 	return const_iterator(_items, 0);
-			// }
-			// iterator end() {
-			// 	return iterator(&_items[_size], _size - 1);
-			// }
-			// const_iterator end() const {
-			// 	return const_iterator(&_items[_size], _size - 1);
-			// }
-			// reverse_iterator rbegin() {
-			// 	return reverse_iterator(&_items[_size]);
-			// }
-			// const_reverse_iterator rbegin() const {
-			// 	return const_reverse_iterator(&_items[_size]);
-			// }
-			// reverse_iterator rend() {
-			// 	return reverse_iterator(&_items[0]);
-			// }
-			// const_reverse_iterator rend() const {
-			// 	return const_reverse_iterator(&_items[0]);
-			// }
+			iterator begin() {
+				return iterator(&_items[0]);
+			}
+			const_iterator begin() const {
+				return const_iterator(&_items[0]);
+			}
+			iterator end() {
+				return iterator(&_items[_size]);
+			}
+			const_iterator end() const {
+				return const_iterator(&_items[_size]);
+			}
+			reverse_iterator rbegin() {
+				return reverse_iterator(this->end());
+			}
+			const_reverse_iterator rbegin() const {
+				return const_reverse_iterator(this->end());
+			}
+			reverse_iterator rend() {
+				return reverse_iterator(this->begin());
+			}
+			const_reverse_iterator rend() const {
+				return const_reverse_iterator(this->begin());
+			}
 			size_type size() const {
 				return _size;
 			}
@@ -216,6 +215,8 @@ namespace ft
 				{
 					_allocate_container(_cap * 2);
 				}
+				if (_cap == 0)
+					_cap = 1;
 				copy_construct(_size++, val);
 			}
 			void pop_back() {
@@ -223,90 +224,91 @@ namespace ft
 				_size--;
 				// _items[--_size].value_type::~value_type();
 			}
-			// iterator insert (iterator position, const value_type& val) {
-			// 	insert(position, 1, val);
-			// 	retur (++position);
-			// }
-			// void insert (iterator position, size_type n, const value_type& val) {
-			// 	iterator it = begin();
-			// 	size_type i = 0;
-			// 	if (_size + n >= _cap)
-			// 		_allocate_container(_size + n);
-			// 	while (it != position) {
-			// 		it++;
-			// 		i++;
-			// 	}
+			iterator insert (iterator position, const value_type& val) {
+				insert(position, 1, val);
+				retur (++position);
+			}
+			void insert (iterator position, size_type n, const value_type& val) {
+				iterator it = begin();
+				size_type i = 0;
+				if (_size + n >= _cap)
+					_allocate_container(_size + n);
+				while (it != position) {
+					it++;
+					i++;
+				}
 				
-			// 	for (size_type idx = _size + n; ; idx--)
-			// 	{
-			// 		copy_construct(idx, _items[idx - n]);
-			// 		if (idx == i)
-			// 			break ;
-			// 	}
-			// 	for (size_type k = 0; k < n; k++)
-			// 		copy_construct(k + i, val);
-			// 	_size += n;
-			// }
-			// void insert (iterator position, iterator first, iterator last) {
-			// 	iterator it = begin();
-			// 	size_type i = 0;
-			// 	std::ptrdiff_t len = last - first;
-			// 	if (len + _size >= _cap)
-			// 		_allocate_container(len + _size);
-			// 	while (it != position) {
-			// 		it++;
-			// 		i++;
-			// 	}
-			// 	for (size_type idx = _size + len; ; idx--) {
-			// 		copy_construct(idx, _items[idx - len]);
-			// 		if (idx == i)
-			// 			break ;
-			// 	}
-			// 	for (size_type k = 0; k < len && first != last; k++, first++)
-			// 		copy_construct(k + i, *first);
-			// 	_size += len;
-			// }
-			// iterator erase (iterator position) {
-			// 	iterator it(position);
-			// 	++it;
-			// 	return (erase(position, it));
-			// }
-			// iterator erase (iterator first, iterator last) {
-			// 	iterator _retpos = begin();
-			// 	size_type i = 0;
-			// 	while (_retpos != first)
-			// 	{
-			// 		_retpos++;
-			// 		i++;
-			// 	}
-			// 	if (_retpos == end())
-			// 		return (end());
-			// 	size_type _stoppos = i;
-			// 	size_type _delete = 0;
-			// 	while (first != last)
-			// 	{
-			// 		// (*first++).value_type::~value_type();
-			// 		_alloc.destroy((*first++));
-			// 		_stoppos++;
-			// 		_delete++;
-			// 	}
-			// 	for (; _stoppos < _size; _stoppos++)
-			// 		_items[i++] = _items[_stoppos];
-			// 	_size -= _delete;
-			// 	return (_retpos);
-			// }
-			// void swap (vector& x) {
-			// 	vector<T> tmp(*this);
+				for (size_type idx = _size + n; ; idx--)
+				{
+					copy_construct(idx, _items[idx - n]);
+					if (idx == i)
+						break ;
+				}
+				for (size_type k = 0; k < n; k++)
+					copy_construct(k + i, val);
+				_size += n;
+			}
+			void insert (iterator position, iterator first, iterator last) {
+				iterator it = begin();
+				size_type i = 0;
+				std::ptrdiff_t len = last - first;
+				if (len + _size >= _cap)
+					_allocate_container(len + _size);
+				while (it != position) {
+					it++;
+					i++;
+				}
+				for (size_type idx = _size + len; ; idx--) {
+					copy_construct(idx, _items[idx - len]);
+					if (idx == i)
+						break ;
+				}
+				for (size_type k = 0; k < len && first != last; k++, first++)
+					copy_construct(k + i, *first);
+				_size += len;
+			}
+			iterator erase (iterator position) {
+				iterator it(position);
+				++it;
+				return (erase(position, it));
+			}
+			iterator erase (iterator first, iterator last) {
+				iterator _retpos = begin();
+				size_type i = 0;
+				while (_retpos != first)
+				{
+					_retpos++;
+					i++;
+				}
+				if (_retpos == end())
+					return (end());
+				size_type _stoppos = i;
+				size_type _delete = 0;
+				while (first != last)
+				{
+					// (*first++).value_type::~value_type();
+					_alloc.destroy((*first++));
+					_stoppos++;
+					_delete++;
+				}
+				for (; _stoppos < _size; _stoppos++)
+					copy_construct(i++, _items[_stoppos]);
+					// _items[i++] = _items[_stoppos];
+				_size -= _delete;
+				return (_retpos);
+			}
+			void swap (vector& x) {
+				vector<T> tmp(*this);
 
-			// 	clear();
-			// 	iterator tx = x.begin();
-			// 	for (static_cast<void>(tx); tx != end(); tx++)
-			// 		push_back(*tx);
-			// 	x.clear();
-			// 	iterator tobj = tmp.begin();
-			// 	for (static_cast<void>(tobj); tobj != end(); tobj)
-			// 		x.push_back(*tobj);
-			// }
+				clear();
+				iterator tx = x.begin();
+				for (static_cast<void>(tx); tx != end(); tx++)
+					push_back(*tx);
+				x.clear();
+				iterator tobj = tmp.begin();
+				for (static_cast<void>(tobj); tobj != end(); tobj)
+					x.push_back(*tobj);
+			}
 			void clear()
 			{
 				while (!empty())

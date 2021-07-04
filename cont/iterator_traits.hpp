@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 10:56:38 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/07/04 17:44:32 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/07/04 18:56:53 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ namespace ft {
 					__t = current = rev_it.base();
 					return (*this);
 				}
-			iterator_type base() {
+			iterator_type base() const{
 				return current;
 			}
 			reference operator*() const {
@@ -232,7 +232,7 @@ namespace ft {
 					__i = __u.__i;
 				return (*this);
 			}
-			~__wrap_iter();
+			~__wrap_iter() {}
 
 			reference operator*() const {
 				return *__i;

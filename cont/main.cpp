@@ -5,6 +5,7 @@
 #include <set>
 #include <memory>
 #include <string>
+#include <typeinfo>
 
 #include "Vector_t.hpp"
 #include "Utility.hpp"
@@ -32,11 +33,11 @@
 template <class BidirIt>
 void ft_reverse(BidirIt first, BidirIt last)
 {
-	typename std::iterator_traits<BidirIt>::difference_type n = std::distance(first, last);
+	typename ft::iterator_traits<BidirIt>::difference_type n = ft::distance(first, last);
 	--n;
 	while (n > 0)
 	{
-		typename std::iterator_traits<BidirIt>::value_type tmp = *first;
+		typename ft::iterator_traits<BidirIt>::value_type tmp = *first;
 		*first++ = *--last;
 		*last = tmp;
 		n -= 2;
@@ -45,7 +46,7 @@ void ft_reverse(BidirIt first, BidirIt last)
 template <class Iter>
 void ft_swap(Iter first, Iter second)
 {
-	typename std::iterator_traits<Iter>::value_type tmp;
+	typename ft::iterator_traits<Iter>::value_type tmp;
 
 	tmp = *first;
 	*first = *second;
@@ -60,6 +61,8 @@ void run_iter()
 	v.push_back(3);
 	v.push_back(4);
 	v.push_back(5);
+	
+	std::vector<int>::iterator i = v.begin();
 
 	ft_reverse(v.begin(), v.end());
 	for (int i = 0; i < v.size(); i++)
@@ -75,13 +78,13 @@ void run_iter()
 int main()
 {
 	// run_iter();
-	int t[] = {1, 2};
-	std::cout << t[0] << std::endl;
-	std::cout << t[1] << std::endl;
+	int t[] = {1, 2, 3, 4, 5};
+	for (int i = 0; i < 5; i++)
+		std::cout << t[i] << std::endl;
 	std::cout << "======================\n";
-	ft_swap(t, t + 1);
-	std::cout << t[0] << std::endl;
-	std::cout << t[1] << std::endl;
+	ft_reverse(t, t + 5);
+	for (int i = 0; i < 5; i++)
+		std::cout << t[i] << std::endl;
 	// test();
 	// ft::vector<int> v(5, 100);
 	// ft::vector<int> f(3, 200);

@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 14:03:28 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/07/02 19:37:27 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/07/05 10:38:33 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ namespace ft {
 			typedef T2 second_type;
 			first_type 	first;
 			second_type second;
-			pair() {
+			pair<T1, T2>() {
 				first = T1();
 				second = T2();
 			}
@@ -31,11 +31,11 @@ namespace ft {
 					second = (T2)pr.second;
 					*this = pr;
 				}
-			pair (const first_type& a, const second_type& b) {
+			pair<T1, T2> (const first_type& a, const second_type& b) {
 				first = a;
 				second = b;
 			}
-			pair& operator=(const pair& pr) {
+			pair<T1, T2>& operator=(const pair<T1, T2>& pr) {
 				if (this != &pr) {
 					this->first =(T1)pr.first;
 					this->second = (T2)pr.second;

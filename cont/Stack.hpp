@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Stack_t.hpp                                        :+:      :+:    :+:   */
+/*   Stack.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 18:35:53 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/07/03 10:11:05 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/07/05 10:39:07 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STACK_HPP
 # define STACK_HPP
 
-# include "Vector_t.hpp"
+# include "Vector.hpp"
 
 namespace ft {
 	template < class T, class Container = ft::vector<T> >

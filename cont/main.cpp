@@ -7,13 +7,14 @@
 #include <string>
 #include <typeinfo>
 
-#include "Vector_t.hpp"
+#include "Vector.hpp"
 #include "Utility.hpp"
 #include "Type_traits.hpp"
 #include <type_traits>
 #include <iterator>
 #include <stack>
-#include "Stack_t.hpp"
+#include "Stack.hpp"
+#include "RBtree.hpp"
 
 // template <class T>
 // typename ft::enable_if<ft::is_integral<T>::value, bool>::type is_odd(T i) { return bool(i % 2); }
@@ -89,7 +90,20 @@ void run_iter()
 
 int main()
 {
-	run_iter();
+	Tree<int> *tree = nullptr;
+	Tree<int> b;
+
+	tree = b.__insert(tree, 8);
+	b.__insert(tree, 3);
+	b.__insert(tree, 1);
+	b.__insert(tree, 6);
+	b.__insert(tree, 4);
+	b.__insert(tree, 7);
+	b.__insert(tree, 14);
+	b.__insert(tree, 13);
+
+	b.__inorder(tree);
+	// run_iter();
 	// int t[] = {1, 2, 3, 4, 5};
 	// for (int i = 0; i < 5; i++)
 	// 	std::cout << t[i] << std::endl;

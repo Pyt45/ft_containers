@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector_t.hpp                                       :+:      :+:    :+:   */
+/*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 18:35:44 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/07/04 19:01:17 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/07/05 10:41:10 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ namespace ft
 			size_type _size;
 			size_type _cap;
 			allocator_type _alloc;
-			void	_allocate_container(size_type size) {
+			void	__allocate_container(size_type size) {
 				// size_type size = size ? size : _cap * 2;
 				if (_items) {
 					T* tmp = _items;
 					// _items = new T[size];
 					_items = _alloc.allocate(size);
 					for (size_t i = 0; i < _size; i++)
-						copy_construct(i, tmp[i]);
+						__copy_construct(i, tmp[i]);
 					// _items[i] = tmp[i];
 					for (size_type i = 0; i < _size; i++)
 						_alloc.destroy(tmp + i);
@@ -57,7 +57,7 @@ namespace ft
 				}
 				_cap = size;
 			}
-			void copy_construct(size_type idx, const_reference val)
+			void __copy_construct(size_type idx, const_reference val)
 			{
 				_alloc.construct(&_items[idx], val);
 				// new (&_items[idx]) value_type(val);
@@ -74,7 +74,7 @@ namespace ft
 				_size = _cap = n;
 				_items = _alloc.allocate(n);
 				for (int i = 0; i < n; i++)
-					copy_construct(i, val);
+					__copy_construct(i, val);
 			}
 			template <class InputIterator>
 				vector(InputIterator first, InputIterator last,
@@ -99,7 +99,7 @@ namespace ft
 					this->_alloc = x._alloc;
 					this->_items = _alloc.allocate(_size);
 					for (int i = 0; i < x._size; i++)
-						copy_construct(i, x._items[i]);
+						__copy_construct(i, x._items[i]);
 				}
 				return *this;
 			}
@@ -149,10 +149,10 @@ namespace ft
 					if (_size + 1 > _cap)
 						reserve(n);
 					else if (n > _cap)
-						_allocate_container(_cap * 2);
+						__allocate_container(_cap * 2);
 					for (size_type i = _size; i < n; i++)
 					{
-						copy_construct(i, val);
+						__copy_construct(i, val);
 						_size++;
 						// push_back(val);
 					}
@@ -166,7 +166,7 @@ namespace ft
 			}
 			void reserve (size_type n) {
 				if (n > _cap)
-					_allocate_container(n);
+					__allocate_container(n);
 			}
 			reference operator[](size_type n) {
 				return _items[n];
@@ -213,11 +213,11 @@ namespace ft
 				// std::cout << "_size = " << _size << std::endl;
 				if (_size  ==  _cap)
 				{
-					_allocate_container(_cap * 2);
+					__allocate_container(_cap * 2);
 				}
 				if (_cap == 0)
 					_cap = 1;
-				copy_construct(_size++, val);
+				__copy_construct(_size++, val);
 			}
 			void pop_back() {
 				_alloc.destroy(_items + _size);
@@ -232,7 +232,7 @@ namespace ft
 				iterator it = begin();
 				size_type i = 0;
 				if (_size + n >= _cap)
-					_allocate_container(_size + n);
+					__allocate_container(_size + n);
 				while (it != position) {
 					it++;
 					i++;
@@ -240,12 +240,12 @@ namespace ft
 				
 				for (size_type idx = _size + n; ; idx--)
 				{
-					copy_construct(idx, _items[idx - n]);
+					__copy_construct(idx, _items[idx - n]);
 					if (idx == i)
 						break ;
 				}
 				for (size_type k = 0; k < n; k++)
-					copy_construct(k + i, val);
+					__copy_construct(k + i, val);
 				_size += n;
 			}
 			void insert (iterator position, iterator first, iterator last) {
@@ -253,18 +253,18 @@ namespace ft
 				size_type i = 0;
 				std::ptrdiff_t len = last - first;
 				if (len + _size >= _cap)
-					_allocate_container(len + _size);
+					__allocate_container(len + _size);
 				while (it != position) {
 					it++;
 					i++;
 				}
 				for (size_type idx = _size + len; ; idx--) {
-					copy_construct(idx, _items[idx - len]);
+					__copy_construct(idx, _items[idx - len]);
 					if (idx == i)
 						break ;
 				}
 				for (size_type k = 0; k < len && first != last; k++, first++)
-					copy_construct(k + i, *first);
+					__copy_construct(k + i, *first);
 				_size += len;
 			}
 			iterator erase (iterator position) {
@@ -292,7 +292,7 @@ namespace ft
 					_delete++;
 				}
 				for (; _stoppos < _size; _stoppos++)
-					copy_construct(i++, _items[_stoppos]);
+					__copy_construct(i++, _items[_stoppos]);
 					// _items[i++] = _items[_stoppos];
 				_size -= _delete;
 				return (_retpos);

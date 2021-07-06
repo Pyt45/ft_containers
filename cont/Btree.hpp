@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Btree.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 18:41:10 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/07/04 23:28:43 by ayoub            ###   ########.fr       */
+/*   Updated: 2021/07/06 16:39:56 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ struct _redBlack_tree_node_base {
 	_Base_ptr _M_parent;
 	_Base_ptr _M_left;
 	_Base_ptr _M_right;
+};
+
+template <class Key, class T>
+class Node {
+	public:
+		typedef Key key_type;
+		typedef T mapped_type;
+	private:
+		// Declare data type here Okey
+	public:
 };
 
 #endif

@@ -18,26 +18,27 @@
 # include <memory>
 
 namespace ft {
-	template <class Key, class T>
+	template <class D>
 	class Node {
 		public:
-			Node<Key, T> *__root;
-			Node<Key, T> *__left;
-			Node<Key, T> *__right;
+			typedef D data_type;
+			Node<D> *__root;
+			Node<D> *__left;
+			Node<D> *__right;
 			bool		_isLeftChild;
 			bool		_black;
-			ft::pair<Key, T> _data;
+			data_type _data;
 		public:
 			Node() {
 				__root = __left = __right = nullptr;
 				_black = true;
-				_data = ft::make_pair<Key, T>(Key(), T());
 			}
-			Node(ft::pair<Key, T> data) {
+			Node(data_type data) {
 				__root = __left = __right = nullptr;
+				_black = false;
 				_data = data;
 			}
-			Node<Key, T>& operator=(const Node<Key, T>& rhs) {
+			Node<D>& operator=(const Node<D>& rhs) {
 				if (this != &rhs) {
 					__root = rhs.__root;
 					__left = rhs.__left;
@@ -66,8 +67,8 @@ namespace ft {
 			typedef typename allocater_type::const_pointer const_pointer;
 			typedef typename allocater_type::difference_type difference_type;
 			typedef typename allocater_type::size_type size_type;
-			typedef Node<key_type, mapped_type>* __pointer;
-			typedef typename Alloc::template rebind< Node<Key, T> >::other __node_allocator;
+			typedef Node< ft::pair<Key, T> >* __pointer;
+			typedef typename Alloc::template rebind< Node< ft::pair<Key, T> > >::other __node_allocator;
 		public:
 			__node_allocator __alloc;
 			size_type __size;
@@ -75,14 +76,20 @@ namespace ft {
 			__pointer __start;
 			__pointer __end;
 		public:
-			__red_black_tree(value_type data) {
-				// value_type p = __alloc.allocate(1);
+			__red_black_tree() {
 				__parent = __alloc.allocate(1);
-				__size = 0;
+				__alloc.construct(__parent);
+				__size = 1;
+				__start = nullptr;
+				__end == nullptr;
 			}
-			// __red_black_tree(value_type data) {
-			// 	__parent = __alloc.allocate();
-			// }
+			__red_black_tree(value_type data) {
+				__parent = __alloc.allocate(1);
+				__alloc.construct(__parent, data);
+				__size = 1;
+				__start = nullptr;
+				__end = nullptr;
+			}
 	};
 }
 

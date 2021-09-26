@@ -1,34 +1,28 @@
-#include <vector>
 #include <iostream>
-#include <map>
+#include <vector>
+#include <string>
 
-template <class k, class T>
-class m {
-	public:
-		typedef std::pair<k, T> value_type;
+bool binary_search_recursive(std::vector<int> v, int t, int low, int high)
+{
+    if (low > high)
+        return false;
+    else {
+        int mid = (low + high) / 2;
+        if (t == v[mid])
+            return true;
+        else if (t < v[mid])
+            return binary_search_recursive(v, t, low, mid - 1);
+        else
+            return binary_search_recursive(v, t, mid + 1, high);
+    }
+}
 
-		m(value_type data) {
-			_data = data;
-		}
-		~m() {}
-		// int getFirst() {
-		// 	return _data.first
-		// }
-	public:
-		value_type _data;
-};
 
 int main()
 {
-	std::pair<int ,int> c;
-	c.first = 4;
-	c.second = 5;
-	m<int, int> p(c);
+    int arr[] = {3, 1, 5, 9, 0, 34, 12, 45, 60, 88};
+    std::vector<int> v(arr, arr + 10);
 
-	std::cout << p._data.first << std::endl;
-	// std::map<int, int> m;
-
-	// m.insert(std::pair<int, int>(1, 40));
-
-	// std::cout << m[1] << std::endl;
+    std::cout << binary_search_recursive(v, 3, 0, v.size()) << std::endl;
+    std::cout << binary_search_recursive(v, 100, 0, v.size()) << std::endl;
 }

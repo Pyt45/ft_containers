@@ -6,15 +6,16 @@
 #include <memory>
 #include <string>
 #include <typeinfo>
+#include <type_traits>
+#include <iterator>
+#include <stack>
 
 #include "Vector.hpp"
 #include "Utility.hpp"
 #include "Type_traits.hpp"
-#include <type_traits>
-#include <iterator>
-#include <stack>
-#include "Stack.hpp"
-#include "RBtree.hpp"
+// #include "Stack.hpp"
+#include "Tree.hpp"
+// #include "Btree.hpp"
 
 // template <class T>
 // typename ft::enable_if<ft::is_integral<T>::value, bool>::type is_odd(T i) { return bool(i % 2); }
@@ -90,19 +91,27 @@ void run_iter()
 
 int main()
 {
-	Tree<int> *tree = nullptr;
-	Tree<int> b;
+	ft::pair<int, int> p = ft::make_pair<int, int>(2, 1);
+	ft::__red_black_tree<int, int> r(p);
 
-	tree = b.__insert(tree, 8);
-	b.__insert(tree, 3);
-	b.__insert(tree, 1);
-	b.__insert(tree, 6);
-	b.__insert(tree, 4);
-	b.__insert(tree, 7);
-	b.__insert(tree, 14);
-	b.__insert(tree, 13);
+	std::cout << "r = " << r.__parent->_data.first << std::endl;
+	std::cout << "r = " << r.__parent->_data.second << std::endl;
+	// std::cout << v.__tree_height(&v) << std::endl;
+	/*std::map<int, int> m;
+	std::pair<int, int> p1(5, 6);
+	m.insert(p1);
+	p1 = std::make_pair<int, int>(10, 5);
+	m.insert(p1);
+	p1 = std::make_pair<int, int>(3, 2);
+	m.insert(p1);
+	p1 = std::make_pair<int, int>(11, 9);
+	m.insert(p1);
 
-	b.__inorder(tree);
+	std::map<int, int>::iterator it = m.begin();
+	for (; it != m.end(); it++)
+		std::cout << "f = " << it->first << " | s = " <<
+		it->second << std::endl;
+	*/
 	// run_iter();
 	// int t[] = {1, 2, 3, 4, 5};
 	// for (int i = 0; i < 5; i++)
@@ -180,3 +189,20 @@ int main()
 	// std::cout << p.first << std::endl;
 	// std::cout << p.second << std::endl;
 }
+/*
+		5b
+	/		\
+   3b		  7b
+			   \
+			     8r
+				  \
+				    12r
+*/
+/*
+	8r
+7b		12b
+
+	5b
+3r		8r
+	7b		12b
+*/

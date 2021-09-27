@@ -92,10 +92,26 @@ void run_iter()
 int main()
 {
 	ft::pair<int, int> p = ft::make_pair<int, int>(2, 1);
-	ft::__red_black_tree<int, int> r(p);
+	ft::pair<int, int> p1 = ft::make_pair<int, int>(-3, 6);
+	ft::pair<int, int> p2 = ft::make_pair<int, int>(-4, 7);
+	ft::pair<int, int> p3 = ft::make_pair<int, int>(-6, 8);
 
-	std::cout << "r = " << r.__parent->_data.first << std::endl;
-	std::cout << "r = " << r.__parent->_data.second << std::endl;
+	ft::Node< ft::pair<int, int> > n(p);
+	ft::Node< ft::pair<int, int> > n1(p1);
+	ft::Node< ft::pair<int, int> > n2(p2);
+	ft::Node< ft::pair<int, int> > n3(p3);
+
+	ft::__red_black_tree<int, int> r;
+
+	r.__insert(&n);
+	r.__insert(&n1);
+	r.__insert(&n2);
+	r.__insert(&n3);
+	r.__print_tree();
+	// std::cout << "======== RIGHT SUBTREES ========\n";
+	// r.__print_tree_right();
+	// std::cout << "======== LEFT SUBTREES ========\n";
+	// r.__print_tree_left();
 	// std::cout << v.__tree_height(&v) << std::endl;
 	/*std::map<int, int> m;
 	std::pair<int, int> p1(5, 6);

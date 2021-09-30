@@ -54,38 +54,15 @@ namespace ft {
 			~Node() {
 			}
 	};
-	template <class D>
-	bool operator<=(const Node<D>& rhs, const Node<D>& lhs) {
-		return (rhs._data.first <= lhs._data.first);
-	}
-	template <class D>
-	bool operator<(const Node<D>& rhs, const Node<D>& lhs) {
-		return (rhs._data.first < lhs._data.first);
-	}
-	template <class D>
-	bool operator>=(const Node<D>& rhs, const Node<D>& lhs) {
-		return (rhs._data.first >= lhs._data.first);
-	}
-	template <class D>
-	bool operator>(const Node<D>& rhs, const Node<D>& lhs) {
-		return (rhs._data.first > lhs._data.first);
-	}
-	template <class D>
-	bool operator==(const Node<D>& rhs, const Node<D>& lhs) {
-		return (rhs._data.first == lhs._data.first);
-	}
-	template <class D>
-	bool operator!=(const Node<D>& rhs, const Node<D>& lhs) {
-		return (rhs._data.first != lhs._data.first);
-	}
 
-	template < class Key, class T, class Alloc = std::allocator< ft::pair<const Key, T> > >
+	template < class Key, class T, class Compare = std::less< ft::pair<Key, T> >, class Alloc = std::allocator< ft::pair<const Key, T> > >
 	class __red_black_tree {
 		public:
 			typedef Key key_type;
 			typedef T mapped_type;
 			typedef Alloc allocater_type;
 			typedef ft::pair<key_type, mapped_type> value_type;
+			typedef Compare key_compare;
 			typedef typename allocater_type::reference reference;
 			typedef typename allocater_type::const_reference const_reference;
 			typedef typename allocater_type::pointer pointer;
@@ -100,7 +77,9 @@ namespace ft {
 			__pointer __root;
 			__pointer __start;
 			__pointer __end;
+			key_compare cmp;
 			// Debug mode
+
 			# if DEBUG >= 1
 			void __print_tree(__pointer node, int indent) {
 				if (node) {
@@ -128,25 +107,8 @@ namespace ft {
 				__end = tmp;
 			}
 			void __insert(__pointer root, __pointer node) {
-				// if (node->_data.first > root->_data.first) {
-				// 	if (root->__right == nullptr) {
-				// 		root->__right = node;
-				// 		node->__parent = root;
-				// 		node->_isLeftChild = false;
-				// 	}
-				// 	else
-				// 		__insert(root->__right, node);
-				// }
-				// else if (node->_data.first <= root->_data.first) {
-				// 	if (root->__left == nullptr) {
-				// 		root->__left = node;
-				// 		node->__parent = root;
-				// 		node->_isLeftChild = true;
-				// 	}
-				// 	else
-				// 		__insert(root->__left, node);
-				// }
-				if (node->_data.first > root->_data.first) {
+				// if (node->_data.first > root->_data.first) 
+				if (cmp(root->_data, node->_data)) {
 					if (root->__right == nullptr) {
 						root->__right = node;
 						node->__parent = root;
@@ -155,7 +117,8 @@ namespace ft {
 					else
 						__insert(root->__right, node);
 				}
-				else if (node->_data.first <= root->_data.first) {
+				// if (node->_data.first <= root->_data.first)
+				else {
 					if (root->__left == nullptr) {
 						root->__left = node;
 						node->__parent = root;
@@ -170,6 +133,7 @@ namespace ft {
 			}
 		public:
 			__red_black_tree() {
+				cmp = key_compare();
 				__root = __alloc.allocate(1);
 				// __alloc.construct(__root);
 				__root = nullptr;
@@ -178,6 +142,7 @@ namespace ft {
 				__end = nullptr;
 			}
 			__red_black_tree(value_type data) {
+				cmp = key_compare();
 				__root = __alloc.allocate(1);
 				__alloc.construct(__root, data);
 				__size = 1;

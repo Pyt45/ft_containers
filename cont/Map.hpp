@@ -34,7 +34,7 @@ namespace ft {
 			typedef typename allocater_type::const_pointer const_pointer;
 			// Iterators
 			// typedef implementation-defined iterator;
-			// typedef implementation-defined iterator;
+			// typedef implementation-defined const_iterator;
 			// typedef ft::reverse_iterator<iterator> reverse_iterator;
 			// typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 			typedef typename allocater_type::difference_type difference_type;

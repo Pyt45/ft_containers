@@ -55,6 +55,25 @@ void ft_swap(Iter first, Iter second)
 	*second = tmp;
 }
 
+template < class Key, class T, class Compare = std::less< ft::pair<Key, T> > >
+class Test {
+	public:
+		typedef Compare key_compare;
+	public:
+		Test() {
+			ft::pair<int, int> p = ft::make_pair<int, int>(1, 2);
+			ft::pair<int, int> p1 = ft::make_pair<int, int>(2, 3);
+
+			// if (compare(p.first, p1.second))
+			key_compare C = Compare();
+			if (C(p, p1))
+				std::cout << "* yeay *\n";
+			else if (!C(p, p1))
+				std::cout << "* NoNo *\n";
+		}
+};
+
+
 void run_iter()
 {
 	std::vector<int> l;
@@ -95,11 +114,13 @@ int main()
 	ft::pair<int, int> p1 = ft::make_pair<int, int>(-3, 6);
 	ft::pair<int, int> p2 = ft::make_pair<int, int>(-4, 7);
 	ft::pair<int, int> p3 = ft::make_pair<int, int>(-6, 8);
+	ft::pair<int, int> p4 = ft::make_pair<int, int>(6, -8);
 
 	ft::Node< ft::pair<int, int> > n(p);
 	ft::Node< ft::pair<int, int> > n1(p1);
 	ft::Node< ft::pair<int, int> > n2(p2);
 	ft::Node< ft::pair<int, int> > n3(p3);
+	ft::Node< ft::pair<int, int> > n4(p4);
 
 	ft::__red_black_tree<int, int> r;
 
@@ -107,8 +128,20 @@ int main()
 	r.__insert(&n1);
 	r.__insert(&n2);
 	r.__insert(&n3);
+	r.__insert(&n4);
 	r.__print_tree();
-	// std::cout << "======== RIGHT SUBTREES ========\n";
+	std::cout << "========================\n";
+	std::map<int, int> m;
+	m[1] = 1;
+	m[2] = 2;
+	m[3] = 3;
+	m[4] = 4;
+	m[5] = 5;
+	m[6] = 6;
+	for (std::map<int, int>::iterator it = m.begin(); it != m.end(); it++)
+		std::cout << (it->first) << std::endl;
+	std::cout << "========================\n";
+	Test<int, int> t;
 	// r.__print_tree_right();
 	// std::cout << "======== LEFT SUBTREES ========\n";
 	// r.__print_tree_left();

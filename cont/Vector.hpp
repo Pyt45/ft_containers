@@ -66,7 +66,7 @@ namespace ft
 			vector(const allocator_type& alloc = allocator_type())
 			{
 				_alloc = alloc;
-				_items = new T[1];
+				_items = _alloc.allocate(1);
 				_size = _cap = 0;
 			}
 			vector(size_type n, const value_type& val = value_type())

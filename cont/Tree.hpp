@@ -71,7 +71,7 @@ namespace ft {
 			typedef typename allocater_type::size_type size_type;
 			typedef Node< ft::pair<Key, T> >* __pointer;
 			typedef typename Alloc::template rebind< Node< ft::pair<Key, T> > >::other __node_allocator;
-		public:
+		private:
 			__node_allocator __alloc;
 			size_type __size;
 			__pointer __root;
@@ -127,9 +127,22 @@ namespace ft {
 					else
 						__insert(root->__left, node);
 				}
-				// __check_color(node);
+				__check_color(node);
 				// __fix_tree_after_insertion();
 				// __fix_tree_after_deletion();
+				// __reset_start_end();
+			}
+			__pointer __search(__pointer root, __pointer node) {
+				if (cmp(root->_data, node->_data)) {
+					if (root->__right == nullptr || root->__right->_data.first == node->_data.first)
+						return (root->__right);
+					return __search(root->__right, node);
+				}
+				else {
+					if (root->__left == nullptr || root->__left->_data.first == node->_data.first)
+						return (root->__left);
+					return __search(root->__left, node);
+				}
 			}
 		public:
 			__red_black_tree() {
@@ -157,6 +170,51 @@ namespace ft {
 					return ;
 				}
 				__insert(__root, node);
+				__size++;
+			}
+			__pointer __search(__pointer node) {
+				if (__root == nullptr || __root->_data.first == node->_data.first)
+					return (__root);
+				return __search(__root, node);
+			}
+			size_type size() const {
+				return __size;
+			}
+			void __rotate_tree(__pointer node) {
+				return ;
+			}
+			void __correct_tree(__pointer node) {
+				if (node->__parent->_isLeftChild) {
+					// aunt is node->_parent->_parent->_right
+					if (!node->__parent->__parent->__right ||
+						node->__parent->__parent->__right->_black)
+					{
+						std::cout << "right rotate\n";
+						return __rotate_tree(node);
+					}
+					else if (node->__parent->__parent->__right)
+						node->__parent->__parent->__right->_black = true;
+					if (node->__parent->__parent != __root)
+						node->__parent->__parent->_black = false;
+					node->__parent->_black = true;
+				}
+				else {
+					if (!node->__parent->__parent->__left ||
+						node->__parent->__parent->__left->_black)
+						__rotate_tree(node);
+					else if (node->__parent->__parent->__left)
+						node->__parent->__parent->__left->_black = true;
+					if (node->__parent->__parent != __root)
+						node->__parent->__parent->_black = false;
+					node->__parent->_black = true;
+				}
+			}
+			void __check_color(__pointer node) {
+				if (node == __root)
+					return ;
+				else if (!node->_black && !node->__parent->_black)
+					__correct_tree(node);
+				__check_color(node->__parent);
 			}
 			// Debug mode
 			# if DEBUG >= 1

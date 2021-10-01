@@ -127,25 +127,10 @@ int main()
 	r.__insert(&n);
 	r.__insert(&n1);
 	r.__insert(&n2);
-	r.__insert(&n3);
-	r.__insert(&n4);
+	// r.__insert(&n3);
+	// r.__insert(&n4);
 	r.__print_tree();
-	std::cout << "========================\n";
-	std::map<int, int> m;
-	m[1] = 1;
-	m[2] = 2;
-	m[3] = 3;
-	m[4] = 4;
-	m[5] = 5;
-	m[6] = 6;
-	for (std::map<int, int>::iterator it = m.begin(); it != m.end(); it++)
-		std::cout << (it->first) << std::endl;
-	std::cout << "========================\n";
-	Test<int, int> t;
-	// r.__print_tree_right();
-	// std::cout << "======== LEFT SUBTREES ========\n";
-	// r.__print_tree_left();
-	// std::cout << v.__tree_height(&v) << std::endl;
+	std::cout << "========================\n";  
 	/*std::map<int, int> m;
 	std::pair<int, int> p1(5, 6);
 	m.insert(p1);
@@ -246,6 +231,11 @@ int main()
 			     8r
 				  \
 				    12r
+	    	8b
+		3b
+	
+	2b      null || red
+1b
 */
 /*
 	8r

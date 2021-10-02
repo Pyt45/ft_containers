@@ -111,8 +111,8 @@ void run_iter()
 int main()
 {
 	ft::pair<int, int> p = ft::make_pair<int, int>(2, 1);
-	ft::pair<int, int> p1 = ft::make_pair<int, int>(-3, 6);
-	ft::pair<int, int> p2 = ft::make_pair<int, int>(-4, 7);
+	ft::pair<int, int> p1 = ft::make_pair<int, int>(3, 6);
+	ft::pair<int, int> p2 = ft::make_pair<int, int>(4, 7);
 	ft::pair<int, int> p3 = ft::make_pair<int, int>(-6, 8);
 	ft::pair<int, int> p4 = ft::make_pair<int, int>(6, -8);
 

@@ -107,8 +107,9 @@ namespace ft {
 				__end = tmp;
 			}
 			void __insert(__pointer root, __pointer node) {
-				// if (node->_data.first > root->_data.first) 
-				if (cmp(root->_data, node->_data)) {
+				// std::cout << "node -> " << node->_data.first << " | root -> " << __root->_data.first << std::endl;
+				if (node->_data.first > root->_data.first) {
+				// if (cmp(root->_data, node->_data)) {
 					if (root->__right == nullptr) {
 						root->__right = node;
 						node->__parent = root;
@@ -247,7 +248,6 @@ namespace ft {
 						node->__parent->_black = false;
 					node->__parent->_black = true;
 					node->__parent->__left->_black = false;
-						// exit(1);
 				}
 			}
 			void __check_color(__pointer node) {

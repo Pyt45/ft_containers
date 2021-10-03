@@ -70,7 +70,8 @@ namespace ft {
 			typedef typename allocater_type::difference_type difference_type;
 			typedef typename allocater_type::size_type size_type;
 			typedef Node< ft::pair<Key, T> >* __pointer;
-			typedef typename Alloc::template rebind< Node< ft::pair<Key, T> > >::other __node_allocator;
+			typedef Node< ft::pair<Key, T> > __node;
+			typedef typename Alloc::template rebind< __node >::other __node_allocator;
 		private:
 			__node_allocator __alloc;
 			size_type __size;
@@ -107,7 +108,6 @@ namespace ft {
 				__end = tmp;
 			}
 			void __insert(__pointer root, __pointer node) {
-				// std::cout << "node -> " << node->_data.first << " | root -> " << __root->_data.first << std::endl;
 				if (node->_data.first > root->_data.first) {
 				// if (cmp(root->_data, node->_data)) {
 					if (root->__right == nullptr) {
@@ -184,40 +184,88 @@ namespace ft {
 			void __left_rotate(__pointer node) {
 				__pointer tmp = node->__right;
 				node->__right = tmp->__left;
-				// if (node->__right) {
-				// 	node->__right->__parent = node;
-				// 	node->__right->_isLeftChild = false;
-				// }
+				if (node->__right) {
+				 	node->__right->__parent = node;
+				 	node->__right->_isLeftChild = false;
+				}
 				if (!node->__parent) {
 					__root = tmp;
 					tmp->__parent = nullptr;
 				}
-				// else {
-				// 	tmp->__parent = node->__parent;
-				// 	if (node->_isLeftChild) {
-				// 		tmp->_isLeftChild = true;
-				// 		tmp->__parent->__left = tmp;
-				// 	}
-				// 	else {
-				// 		tmp->_isLeftChild = false;
-				// 		tmp->__parent->__right = tmp;
-				// 	}
-				// }
+				else {
+				 	tmp->__parent = node->__parent;
+				 	if (node->_isLeftChild) {
+				 		tmp->_isLeftChild = true;
+				 		tmp->__parent->__left = tmp;
+				 	}
+				 	else {
+				 		tmp->_isLeftChild = false;
+				 		tmp->__parent->__right = tmp;
+				 	}
+				}
 				tmp->__left = node;
 				node->_isLeftChild = true;
 				node->__parent = tmp;
-				std::cout << "tmp-left-data = " << tmp->__right->_data.first << std::endl;
-				std::cout << "tmp-right-data = " << tmp->__left->_data.first << std::endl;
-				std::cout << "p-data = " << node->__parent->_data.first << std::endl;
 				return ;
+			}
+			void __right_rotate(__pointer node) {
+				__pointer tmp = node->__left;
+				node->__left = tmp->__right;
+				if (node->__left) {
+					node->__left->__parent = node;
+					node->__left->_isLeftChild = true;
+				}
+				if (!node->__parent) {
+					__root = tmp;
+					tmp->__parent = nullptr;
+				}
+				else {
+					tmp->__parent = node->__parent;
+					if (node->_isLeftChild) {
+						tmp->_isLeftChild = true;
+						tmp->__parent->__left = tmp;
+					}
+					else {
+						tmp->_isLeftChild = false;
+						tmp->__parent->__right = tmp;
+					}
+				}
+				tmp->__right = node;
+				node->_isLeftChild = false;
+				node->__parent = tmp;
+			}
+			void __left_right_rotate(__pointer node) {
+				__left_rotate(node->__right)
+			}
+			void __right_left_rotate(__pointer node) {
 			}
 			void __rotate_tree(__pointer node) {
 				if (!node->_isLeftChild) {
-					if (!node->__parent->_isLeftChild)
+					if (!node->__parent->_isLeftChild) {
 						__left_rotate(node->__parent->__parent);
-					std::cout << "here\n";
+						node->_black = false;
+						node->__parent->_black = true;
+						if (node->__parent->__left)
+							node->__parent->__left->_black = false;
+					}
+					else {
+						__left_right_rotate(node->__parent->__parent);
+						node->_black = true;
+						if (node->__right)
+							node->__right->_black = false;
+						node->__left->_black = false;
+					}
 				} else {
-					std::cout << "U go no where\n";
+					if (node->__parent->_isLeftChild) {
+						__right_rotate(node->__parent->__parent);
+						node->_black = false;
+						node->__parent->_black = true;
+						if (node->__parent->__right)
+							node->__parent->__right->_black = false;
+					}
+					else {
+						std::cout << "right_left_rotate\n";
+					}
 				}
 			}
 			void __correct_tree(__pointer node) {
@@ -229,11 +277,12 @@ namespace ft {
 						std::cout << "right rotate\n";
 						__rotate_tree(node);
 					}
-					else if (node->__parent->__parent->__right)
-						node->__parent->__parent->__right->_black = true;
-					if (node->__parent->__parent != __root)
-						node->__parent->__parent->_black = false;
-					node->__parent->_black = true;
+					else if (node->__parent->__parent->__right) {
+							node->__parent->__parent->__right->_black = true;
+						if (node->__parent->__parent != __root)
+							node->__parent->__parent->_black = false;
+						node->__parent->_black = true;
+					}
 				}
 				else {
 					if (!node->__parent->__parent->__left ||
@@ -242,12 +291,12 @@ namespace ft {
 						std::cout << "left rotate\n";
 						__rotate_tree(node);
 					}
-					else if (node->__parent->__parent->__left)
+					else if (node->__parent->__parent->__left) {
 						node->__parent->__parent->__left->_black = true;
-					if (node->__parent != __root)
-						node->__parent->_black = false;
-					node->__parent->_black = true;
-					node->__parent->__left->_black = false;
+						if (node->__parent->__parent != __root)
+							node->__parent->__parent->_black = false;
+						node->__parent->_black = true;
+					}
 				}
 			}
 			void __check_color(__pointer node) {

@@ -110,25 +110,34 @@ void run_iter()
 
 int main()
 {
-	ft::pair<int, int> p = ft::make_pair<int, int>(2, 1);
-	ft::pair<int, int> p1 = ft::make_pair<int, int>(3, 6);
-	ft::pair<int, int> p2 = ft::make_pair<int, int>(4, 7);
-	ft::pair<int, int> p3 = ft::make_pair<int, int>(-6, 8);
-	ft::pair<int, int> p4 = ft::make_pair<int, int>(6, -8);
+	ft::pair<int, int> p = ft::make_pair<int, int>(100, 1);
+	ft::pair<int, int> p1 = ft::make_pair<int, int>(99, 6);
+	ft::pair<int, int> p2 = ft::make_pair<int, int>(98, 7);
+	ft::pair<int, int> p3 = ft::make_pair<int, int>(94, 8);
+	ft::pair<int, int> p4 = ft::make_pair<int, int>(93, -8);
+	ft::pair<int, int> p5 = ft::make_pair<int, int>(92, 9);
+	ft::pair<int, int> p6 = ft::make_pair<int, int>(90, 9);
+	ft::pair<int, int> p7 = ft::make_pair<int, int>(10, 9);
 
 	ft::Node< ft::pair<int, int> > n(p);
 	ft::Node< ft::pair<int, int> > n1(p1);
 	ft::Node< ft::pair<int, int> > n2(p2);
 	ft::Node< ft::pair<int, int> > n3(p3);
 	ft::Node< ft::pair<int, int> > n4(p4);
+	ft::Node< ft::pair<int, int> > n5(p5);
+	ft::Node< ft::pair<int, int> > n6(p6);
+	ft::Node< ft::pair<int, int> > n7(p7);
 
 	ft::__red_black_tree<int, int> r;
 
 	r.__insert(&n);
-	r.__insert(&n1);
-	r.__insert(&n2);
-	// r.__insert(&n3);
-	// r.__insert(&n4);
+	//r.__insert(&n1);
+	//r.__insert(&n2);
+	//r.__insert(&n3);
+	//r.__insert(&n4);
+	//r.__insert(&n5);
+	//r.__insert(&n6);
+	//r.__insert(&n7);
 	r.__print_tree();
 	std::cout << "========================\n";  
 	/*std::map<int, int> m;

@@ -15,6 +15,7 @@
 #include "Type_traits.hpp"
 // #include "Stack.hpp"
 #include "Tree.hpp"
+#include "Map.hpp"
 // #include "Btree.hpp"
 
 // template <class T>
@@ -108,10 +109,29 @@ void run_iter()
 	// std::cout << "v.cap = " << v.capacity() << std::endl;
 }
 
-int main()
-{
+void map_iterator() {
+	std::map<int, int> m;
+	ft::map<int, int> m1;
+	// m[1] = 1;
+	// m[2] = 2;
+	// m[3] = 3;
+	// m[4] = 4;
+	// m[5] = 5;
+	// m[6] = 6;
+	std::cout << "size = " << m.size() << std::endl;
+	std::cout << "size = " << m1.size() << std::endl;
+
+	// m1[1] = 1;
+	// m1[2] = 2;
+	// m1[3] = 3;
+	// m1[4] = 4;
+	// m1[5] = 5;
+	// m1[6] = 6;
+}
+
+void tree_test() {
 	ft::pair<int, int> p = ft::make_pair<int, int>(100, 1);
-	ft::pair<int, int> p1 = ft::make_pair<int, int>(99, 6);
+	ft::pair<int, int> p1 = ft::make_pair<int, int>(70, 6);
 	ft::pair<int, int> p2 = ft::make_pair<int, int>(98, 7);
 	ft::pair<int, int> p3 = ft::make_pair<int, int>(94, 8);
 	ft::pair<int, int> p4 = ft::make_pair<int, int>(93, -8);
@@ -131,15 +151,23 @@ int main()
 	ft::__red_black_tree<int, int> r;
 
 	r.__insert(&n);
-	//r.__insert(&n1);
-	//r.__insert(&n2);
-	//r.__insert(&n3);
-	//r.__insert(&n4);
-	//r.__insert(&n5);
-	//r.__insert(&n6);
-	//r.__insert(&n7);
+	r.__insert(&n1);
+	r.__insert(&n2);
+	r.__insert(&n3);
+	r.__insert(&n4);
+	r.__insert(&n5);
+	r.__insert(&n6);
+	r.__insert(&n7);
 	r.__print_tree();
-	std::cout << "========================\n";  
+	std::cout << "========================\n";
+	ft::Node< ft::pair<int, int> >* b = r.__tree_prev(&n3);
+	std::cout << b->_data.first << std::endl;
+}
+
+int main()
+{
+	map_iterator();
+	// tree_test();
 	/*std::map<int, int> m;
 	std::pair<int, int> p1(5, 6);
 	m.insert(p1);

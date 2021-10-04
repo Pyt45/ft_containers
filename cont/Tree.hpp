@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include "Utility.hpp"
+# include "iterator_traits.hpp"
 # include <memory>
 # include <iomanip>
 # define DEBUG 1
@@ -235,9 +236,12 @@ namespace ft {
 				node->__parent = tmp;
 			}
 			void __left_right_rotate(__pointer node) {
-				__left_rotate(node->__right)
+				__left_rotate(node->__left);
+				__right_rotate(node);
 			}
 			void __right_left_rotate(__pointer node) {
+				__right_rotate(node->__right);
+				__left_rotate(node);
 			}
 			void __rotate_tree(__pointer node) {
 				if (!node->_isLeftChild) {
@@ -253,7 +257,8 @@ namespace ft {
 						node->_black = true;
 						if (node->__right)
 							node->__right->_black = false;
-						node->__left->_black = false;
+						if (node->__left)
+							node->__left->_black = false;
 					}
 				} else {
 					if (node->__parent->_isLeftChild) {
@@ -264,7 +269,12 @@ namespace ft {
 							node->__parent->__right->_black = false;
 					}
 					else {
-						std::cout << "right_left_rotate\n";
+						__right_left_rotate(node->__parent->__parent);
+						node->_black = true;
+						if (node->__right)
+							node->__right->_black = false;
+						if (node->__left)
+							node->__left->_black = false;
 					}
 				}
 			}
@@ -315,9 +325,87 @@ namespace ft {
 				__print_tree(__root, 0);
 			}
 			# endif
+			__pointer __tree_max(__pointer __x) {
+				while (__x->__right)
+					__x = __x->__right;
+				return __x;
+			}
+
+			__pointer __tree_min(__pointer __x) {
+				while (__x->__left)
+					__x = __x->__left;
+				return __x;
+			}
+			__pointer __tree_next(__pointer __x) {
+				if (__x->__right)
+					return __tree_min(__x->__right);
+				while(!__x->_isLeftChild)
+					__x = __x->__parent;
+				return __x->__parent;
+			}
+			__pointer __tree_prev(__pointer __x) {
+				if (__x->__left)
+					return __tree_max(__x->__left);
+				__pointer tmp = __x;
+				while (tmp->_isLeftChild)
+					tmp = tmp->__parent;
+				return tmp->__parent;
+			}
 	};
-	template <class Key, class T>
+	template <class __base_iter>
 	class __tree_iterator {
+		public:
+			typedef __base_iter iterator_type;
+			typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
+			typedef typename iterator_traits<iterator_type>::value_type value_type;
+			typedef typename iterator_traits<iterator_type>::difference_type difference_type;
+			typedef typename iterator_traits<iterator_type>::pointer pointer;
+			typedef typename iterator_traits<iterator_type>::reference reference;
+		private:
+			iterator_type __i;
+			reference operator*() const {
+				return *__i;
+			}
+		public:
+			__tree_iterator(): __i() {}
+			__tree_iterator(__tree_iterator const & __u): __i(__u.base()) {}
+			__tree_iterator& operator=(__tree_iterator const & __u) {
+				if (this != &__u)
+					this->__i = __u.base();
+				return (*this);
+			}
+			~__tree_iterator() {}
+
+			pointer operator->() const {
+				return &(operator*());
+			}
+			__tree_iterator& operator++() {
+				__i = __i->__tree_next(__i);
+				return *this;
+			}
+			__tree_iterator operator++(int) {
+				__tree_iterator tmp(*this);
+				++(*this);
+				return tmp;
+			}
+			__tree_iterator& operator--() {
+				__i = __i->__tree_prev(__i);
+				return *this;
+			}
+			__tree_iterator operator--(int) {
+				__tree_iterator tmp(*this);
+				--(*this);
+				return tmp;
+			}
+			iterator_type base() const {
+				return __i;
+			}
+			friend bool operator==(const __tree_iterator& __x, const __tree_iterator& __y) {
+				return __x.__ptr_ == __y.__ptr_;
+			}
+			friend bool operator!=(const __tree_iterator& __x, const __tree_iterator& __y) {
+				return !(__x == __y);
+			}
 	};
 }
 

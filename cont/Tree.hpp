@@ -109,7 +109,7 @@ namespace ft {
 				__end = tmp;
 			}
 			void __insert(__pointer root, __pointer node) {
-				if (node->_data.first > root->_data.first) {
+				if (node->_data.first >= root->_data.first) {
 				// if (cmp(root->_data, node->_data)) {
 					if (root->__right == nullptr) {
 						root->__right = node;
@@ -135,16 +135,31 @@ namespace ft {
 				// __reset_start_end();
 			}
 			__pointer __search(__pointer root, __pointer node) {
-				if (cmp(root->_data, node->_data)) {
-					if (root->__right == nullptr || root->__right->_data.first == node->_data.first)
-						return (root->__right);
-					return __search(root->__right, node);
-				}
-				else {
+				if (cmp(node->_data, root->_data)) {
 					if (root->__left == nullptr || root->__left->_data.first == node->_data.first)
 						return (root->__left);
 					return __search(root->__left, node);
 				}
+				else {
+					if (root->__right == nullptr || root->__right->_data.first == node->_data.first)
+						return (root->__right);
+					return __search(root->__right, node);
+				}
+			}
+			__pointer __search_key(__pointer root, const key_type& key) {
+				if (key < root->_data.first) {
+					if (root->__left == nullptr || root->__left->_data.first == key)
+						return root->__left;
+					return __search_key(root->__left, key);
+				}
+				else {
+					if (root->__right == nullptr || root->__right->_data.first == key)
+						return root->__right;
+					return __search_key(root->__right, key);
+				}
+			}
+			void __remove_from_tree(__pointer root, __pointer __node_to_del) {
+				__pointer __successor = (!__node_to_del->__left || !__node_to_del->__right) ? __node_to_del : __tree_next(__node_to_del);
 			}
 		public:
 			__red_black_tree() {
@@ -174,10 +189,19 @@ namespace ft {
 				__insert(__root, node);
 				__size++;
 			}
+			__pointer __search_key(const key_type& key) {
+				if (__root == nullptr || __root->_data.first == key)
+					return __root;
+				return __search_key(__root, key);
+			}
 			__pointer __search(__pointer node) {
 				if (__root == nullptr || __root->_data.first == node->_data.first)
 					return (__root);
 				return __search(__root, node);
+			}
+			void __remove(const key_type& key) {
+				__pointer __node_to_del = __search_key(key);
+				__remove_from_tree(__root, __node_to_del);
 			}
 			size_type size() const {
 				return __size;
@@ -283,10 +307,7 @@ namespace ft {
 					// aunt is node->_parent->_parent->_right
 					if (!node->__parent->__parent->__right ||
 						node->__parent->__parent->__right->_black)
-					{
-						std::cout << "right rotate\n";
 						__rotate_tree(node);
-					}
 					else if (node->__parent->__parent->__right) {
 							node->__parent->__parent->__right->_black = true;
 						if (node->__parent->__parent != __root)
@@ -297,10 +318,7 @@ namespace ft {
 				else {
 					if (!node->__parent->__parent->__left ||
 						node->__parent->__parent->__left->_black)
-					{
-						std::cout << "left rotate\n";
 						__rotate_tree(node);
-					}
 					else if (node->__parent->__parent->__left) {
 						node->__parent->__parent->__left->_black = true;
 						if (node->__parent->__parent != __root)

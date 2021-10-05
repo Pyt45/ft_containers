@@ -131,13 +131,13 @@ void map_iterator() {
 
 void tree_test() {
 	ft::pair<int, int> p = ft::make_pair<int, int>(100, 1);
-	ft::pair<int, int> p1 = ft::make_pair<int, int>(70, 6);
-	ft::pair<int, int> p2 = ft::make_pair<int, int>(98, 7);
-	ft::pair<int, int> p3 = ft::make_pair<int, int>(94, 8);
-	ft::pair<int, int> p4 = ft::make_pair<int, int>(93, -8);
-	ft::pair<int, int> p5 = ft::make_pair<int, int>(92, 9);
-	ft::pair<int, int> p6 = ft::make_pair<int, int>(90, 9);
-	ft::pair<int, int> p7 = ft::make_pair<int, int>(10, 9);
+	ft::pair<int, int> p1 = ft::make_pair<int, int>(140, 6);
+	ft::pair<int, int> p2 = ft::make_pair<int, int>(90, 7);
+	ft::pair<int, int> p3 = ft::make_pair<int, int>(120, 8);
+	ft::pair<int, int> p4 = ft::make_pair<int, int>(101, -8);
+	ft::pair<int, int> p5 = ft::make_pair<int, int>(130, 9);
+	ft::pair<int, int> p6 = ft::make_pair<int, int>(150, 9);
+	ft::pair<int, int> p7 = ft::make_pair<int, int>(132, 9);
 
 	ft::Node< ft::pair<int, int> > n(p);
 	ft::Node< ft::pair<int, int> > n1(p1);
@@ -160,14 +160,17 @@ void tree_test() {
 	r.__insert(&n7);
 	r.__print_tree();
 	std::cout << "========================\n";
-	ft::Node< ft::pair<int, int> >* b = r.__tree_prev(&n3);
+	ft::Node< ft::pair<int, int> > *b = r.__tree_next(&n3);
+	// r.__remove(10);
 	std::cout << b->_data.first << std::endl;
+	std::cout << "========================\n";
+	// r.__print_tree();
 }
 
 int main()
 {
-	map_iterator();
-	// tree_test();
+	// map_iterator();
+	tree_test();
 	/*std::map<int, int> m;
 	std::pair<int, int> p1(5, 6);
 	m.insert(p1);

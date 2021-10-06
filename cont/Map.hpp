@@ -24,7 +24,7 @@ namespace ft {
 		public:
 			typedef Key key_type;
 			typedef T mapped_type;
-			typedef pair<const key_type, mapped_type> value_type;
+			typedef pair<key_type, mapped_type> value_type;
 			typedef Compare key_compare;
 			typedef Alloc allocator_type;
 			typedef typename allocator_type::reference reference;
@@ -32,10 +32,10 @@ namespace ft {
 			typedef typename allocator_type::pointer pointer;
 			typedef typename allocator_type::const_pointer const_pointer;
 			typedef __red_black_tree<Key, T>* __map_tree;
+			typedef Node<value_type>* __node_tree;
 			// Iterators
-			typedef ft::__tree_iterator<__map_tree> iterator;
-			// typedef implementation-defined iterator;
-			// typedef implementation-defined const_iterator;
+			typedef ft::__tree_iterator<__map_tree, __node_tree, value_type> iterator;
+			typedef const ft::__tree_iterator<__map_tree, __node_tree, value_type> const_iterator;
 			// typedef ft::reverse_iterator<iterator> reverse_iterator;
 			// typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 			typedef typename allocator_type::difference_type difference_type;
@@ -61,12 +61,18 @@ namespace ft {
 					const allocator_type& alloc = allocator_type());
 			map& operator=(const map& x);
 			map(const map& x);
-			// iterator begin() {
-			// 	return iterator()
-			// }
-			// const_iterator begin() const;
-			// iterator end();
-			// const_iterator end() const;
+			iterator begin() {
+				return iterator(__tree->__get_start());
+			}
+			const_iterator begin() const {
+				return const_iterator(__tree->__get_start());
+			}
+			iterator end() {
+				return iterator(__tree->__get_end());
+			}
+			const_iterator end() const {
+				return const_iterator(__tree->__get_end());
+			}
 			// reverse_iterator rbegin();
 			// const_reverse_iterator rbegin() const;
 			// reverse_iterator rend();
@@ -81,7 +87,18 @@ namespace ft {
 			mapped_type& operator[](const key_type& k) {
 				
 			}
-			// pair<iterator, bool> insert(const value_type& val);
+			pair<iterator, bool> insert(const value_type& val) {
+				pair<iterator, bool> __pair;
+				__node_tree node = __tree->__search_key(val.first);
+				if (node) {
+					__pair = ft::make_pair(iterator(node), true);
+					return __pair;
+				}
+				__tree->__insert(val);
+				node = __tree->__search_key(val.first);
+				__pair = ft::make_pair(iterator(node), false);
+				return __pair;
+			}
 			// iterator insert(iterator position, const value_type& val);
 			// template<class InputIterator>
 			// 	void insert(InputIterator first, InputIterator last);

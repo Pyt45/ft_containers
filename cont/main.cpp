@@ -139,31 +139,36 @@ void tree_test() {
 	ft::pair<int, int> p6 = ft::make_pair<int, int>(150, 9);
 	ft::pair<int, int> p7 = ft::make_pair<int, int>(132, 9);
 
-	ft::Node< ft::pair<int, int> > n(p);
-	ft::Node< ft::pair<int, int> > n1(p1);
-	ft::Node< ft::pair<int, int> > n2(p2);
-	ft::Node< ft::pair<int, int> > n3(p3);
-	ft::Node< ft::pair<int, int> > n4(p4);
-	ft::Node< ft::pair<int, int> > n5(p5);
-	ft::Node< ft::pair<int, int> > n6(p6);
-	ft::Node< ft::pair<int, int> > n7(p7);
+	// ft::Node< ft::pair<int, int> > n(p);
+	// ft::Node< ft::pair<int, int> > n1(p1);
+	// ft::Node< ft::pair<int, int> > n2(p2);
+	// ft::Node< ft::pair<int, int> > n3(p3);
+	// ft::Node< ft::pair<int, int> > n4(p4);
+	// ft::Node< ft::pair<int, int> > n5(p5);
+	// ft::Node< ft::pair<int, int> > n6(p6);
+	// ft::Node< ft::pair<int, int> > n7(p7);
 
 	ft::__red_black_tree<int, int> r;
 
-	r.__insert(&n);
-	r.__insert(&n1);
-	r.__insert(&n2);
-	r.__insert(&n3);
-	r.__insert(&n4);
-	r.__insert(&n5);
-	r.__insert(&n6);
-	r.__insert(&n7);
+	r.__insert(p);
+	r.__insert(p1);
+	r.__insert(p2);
+	r.__insert(p3);
+	// r.__insert(p4);
+	// r.__insert(p5);
+	// r.__insert(p6);
+	// r.__insert(p7);
+	// r.__print_tree();
+	// r.__remove(140);
+	// r.__remove(100);
+	std::cout << "========================\n";
 	r.__print_tree();
 	std::cout << "========================\n";
-	ft::Node< ft::pair<int, int> > *b = r.__tree_next(&n3);
+	std::cout << "s = " << r.size() << std::endl;
+	// ft::Node< ft::pair<int, int> > *b = r.__tree_next(&n3);
 	// r.__remove(10);
-	std::cout << b->_data.first << std::endl;
-	std::cout << "========================\n";
+	// std::cout << b->_data.first << std::endl;
+	// std::cout << "========================\n";
 	// r.__print_tree();
 }
 

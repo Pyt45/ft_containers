@@ -54,6 +54,12 @@ namespace ft {
 			}
 			~Node() {
 			}
+			friend bool operator==(const Node& __x, const Node& __y) {
+				return __x._data.first == __y._data.first;
+			}
+			friend bool operator!=(const Node& __x, const Node& __y) {
+				return !(__x == __y);
+			}
 	};
 
 	template < class Key, class T, class Compare = std::less< ft::pair<Key, T> >, class Alloc = std::allocator< ft::pair<const Key, T> > >
@@ -70,8 +76,8 @@ namespace ft {
 			typedef typename allocater_type::const_pointer const_pointer;
 			typedef typename allocater_type::difference_type difference_type;
 			typedef typename allocater_type::size_type size_type;
-			typedef Node< ft::pair<Key, T> >* __pointer;
-			typedef Node< ft::pair<Key, T> > __node;
+			typedef Node< value_type >* __pointer;
+			typedef Node< value_type > __node;
 			typedef typename Alloc::template rebind< __node >::other __node_allocator;
 		private:
 			__node_allocator __alloc;
@@ -100,13 +106,9 @@ namespace ft {
 			# endif
 			void __reset_start_end() {
 				__pointer tmp = __root;
-				while (tmp->_data.first <= __root->_data.first)
-					tmp = tmp->__left;
-				__start = tmp;
+				__start = __tree_min(tmp);
 				tmp = __root;
-				while (tmp->_data.first >= __root->_data.first)
-					tmp = tmp->__right;
-				__end = tmp;
+				__end = __tree_max(tmp);
 			}
 			void __insert(__pointer root, __pointer node) {
 				if (node->_data.first >= root->_data.first) {
@@ -158,8 +160,73 @@ namespace ft {
 					return __search_key(root->__right, key);
 				}
 			}
-			void __remove_from_tree(__pointer root, __pointer __node_to_del) {
-				__pointer __successor = (!__node_to_del->__left || !__node_to_del->__right) ? __node_to_del : __tree_next(__node_to_del);
+			void __remove_from_tree(__pointer __node_to_del) {
+				// Unlink the node
+				// 1. node to be deleted has no children
+				// 2. node to be deleted has only one child
+				// 3. node to be deleted has two children
+				__pointer __successor = (!__node_to_del->__left || !__node_to_del->__right) ?
+										__node_to_del : __tree_next(__node_to_del);
+				__pointer  __successor_child = __successor->__left ? __successor->__left : __successor->__right;
+				__pointer __uncle = nullptr; // uncle of __successor_child
+				// case (1|2) if __successor == __node_to_del
+				// link __successor_child to _successor's parent
+				if (__successor_child) {
+					__successor_child->__parent = __successor->__parent;
+				}
+				// find the uncle
+				if (__successor->__parent) {
+					if (__successor->_isLeftChild) {
+						__successor->__parent->__left = __successor_child;
+						__successor_child->_isLeftChild = true;
+						if (__successor != __root)
+							__uncle = __successor->__parent->__right;
+						else
+							__root = __successor_child;
+					}
+					else {
+						__successor->__parent->__right = __successor_child;
+						if (__successor_child)
+							__successor_child->_isLeftChild = false;
+						__uncle = __successor->__parent->__left;
+					}
+				}
+				else
+					__root = __successor_child;
+				// save the origin color of the removed_node
+				bool __removed_black = __successor->_black;
+
+				// case 3 if __successor != __node_to_del
+				if (__successor != __node_to_del) {
+					__successor->__parent = __node_to_del->__parent;
+					if (__successor->__parent) {
+						if (__node_to_del->_isLeftChild) {
+							__successor->__parent->__left = __successor;
+							__successor->_isLeftChild = true;
+						}
+						else {
+							__successor->__parent->__right = __successor;
+							__successor->_isLeftChild = false;
+						}
+					}
+					// link the left child of __node_to_del to __successor's left child
+					__successor->__left = __node_to_del->__left;
+					if (__successor->__left)
+						__successor->__left->__parent = __successor;
+					// link the right child of __node_to_del to __successor's right child
+					__successor->__right = __node_to_del->__right;
+					if (__successor->__right)
+						__successor->__right->__parent = __successor;
+					// __successor will inherit the color from __node_to_del
+					__successor->_black = __node_to_del->_black;
+					if (__root == __node_to_del)
+						__root = __successor;
+				}
+				// there is no need to rebalance if remove a red, or if we removed the last node
+				if (__removed_black && __root) {
+					std::cout << "rebalance\n";
+					// __fix_tree_after_deletion(__uncle, __succsessor_child, __);
+				}
 			}
 		public:
 			__red_black_tree() {
@@ -168,26 +235,36 @@ namespace ft {
 				// __alloc.construct(__root);
 				__root = nullptr;
 				__size = 0;
-				__start = nullptr;
-				__end = nullptr;
+				__start = __end = __alloc.allocate(1);
+				__alloc.construct(__start);
+				__alloc.construct(__end);
 			}
-			__red_black_tree(value_type data) {
+			__red_black_tree(const value_type& data) {
 				// cmp = key_compare();
 				__root = __alloc.allocate(1);
 				__alloc.construct(__root, data);
 				__size = 1;
-				__start = nullptr;
-				__end = nullptr;
+				__start = __end = __alloc.allocate(1);
 			}
-			void __insert(__pointer node) {
+			__pointer __get_start() {
+				return __start;
+			}
+			__pointer __get_end() {
+				return __end;
+			}
+			void __insert(const value_type& val) {
+				__pointer node = __alloc.allocate(1);
+				__alloc.construct(node, val);
 				if (this->__root == nullptr) {
 					__root = node;
 					__root->_black = true;
+					__start = __end;
 					__size++;
 					return ;
 				}
 				__insert(__root, node);
 				__size++;
+				__reset_start_end();
 			}
 			__pointer __search_key(const key_type& key) {
 				if (__root == nullptr || __root->_data.first == key)
@@ -201,7 +278,8 @@ namespace ft {
 			}
 			void __remove(const key_type& key) {
 				__pointer __node_to_del = __search_key(key);
-				__remove_from_tree(__root, __node_to_del);
+				__remove_from_tree(__node_to_del);
+				__size--;
 			}
 			size_type size() const {
 				return __size;
@@ -370,23 +448,39 @@ namespace ft {
 				return tmp->__parent;
 			}
 	};
-	template <class __base_iter>
+	template <class __base_iter, class __node_ptr, class __pair_iter>
 	class __tree_iterator {
 		public:
 			typedef __base_iter iterator_type;
+			typedef __node_ptr iterator_ptr;
 			typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
 			typedef typename iterator_traits<iterator_type>::value_type value_type;
 			typedef typename iterator_traits<iterator_type>::difference_type difference_type;
-			typedef typename iterator_traits<iterator_type>::pointer pointer;
-			typedef typename iterator_traits<iterator_type>::reference reference;
+			// typedef typename iterator_traits<iterator_type>::pointer pointer;
+			// typedef typename iterator_traits<iterator_type>::reference reference;
+
+			typedef __pair_iter& reference;
+			typedef __pair_iter* pointer;
+
 		private:
 			iterator_type __i;
+			iterator_ptr __p;
+			__pair_iter pair;
 			reference operator*() const {
-				return *__i;
+				return __p->_data;
 			}
 		public:
 			__tree_iterator(): __i() {}
-			__tree_iterator(__tree_iterator const & __u): __i(__u.base()) {}
+			// __tree_iterator(iterator_type __u): __i(__u) {}
+			__tree_iterator(iterator_ptr __u) {
+				__i = iterator_type(__u);
+				__p = __u;
+			}
+			__tree_iterator(__tree_iterator const & __u) {
+				__i = __u.base();
+				__p = __u.__p;
+				pair = __u.pair;
+			}
 			__tree_iterator& operator=(__tree_iterator const & __u) {
 				if (this != &__u)
 					this->__i = __u.base();
@@ -398,7 +492,7 @@ namespace ft {
 				return &(operator*());
 			}
 			__tree_iterator& operator++() {
-				__i = __i->__tree_next(__i);
+				__p = __i->__tree_next(__p);
 				return *this;
 			}
 			__tree_iterator operator++(int) {
@@ -407,7 +501,7 @@ namespace ft {
 				return tmp;
 			}
 			__tree_iterator& operator--() {
-				__i = __i->__tree_prev(__i);
+				__p = __i->__tree_prev(__p);
 				return *this;
 			}
 			__tree_iterator operator--(int) {
@@ -419,7 +513,7 @@ namespace ft {
 				return __i;
 			}
 			friend bool operator==(const __tree_iterator& __x, const __tree_iterator& __y) {
-				return __x.__ptr_ == __y.__ptr_;
+				return __x.__p == __y.__p;
 			}
 			friend bool operator!=(const __tree_iterator& __x, const __tree_iterator& __y) {
 				return !(__x == __y);

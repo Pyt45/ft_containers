@@ -31,15 +31,23 @@ namespace ft {
 			typedef typename allocator_type::const_reference const_reference;
 			typedef typename allocator_type::pointer pointer;
 			typedef typename allocator_type::const_pointer const_pointer;
+
 			// Iterators
+			typedef pair<const key_type, value_type> pair_type;
+			typedef __red_black_tree<T, T>* __set_tree;
+			typedef ft::__tree_iterator<__set_tree> iterator;
 			// typedef implementation-defined iterator;
 			// typedef implementation-defined const_iterator;
 			// typedef ft::reverse_iterator<iterator> reverse_iterator;
 			// typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 			typedef typename allocater_type::difference_type difference_type;
 			typedef typename allocater_type::size_type size_type;
+			typedef typename allocator_type::template rebind< __red_black_tree<T, T> >::other __set_allocator;
 		private:
-			__red_black_tree* __tree;
+			__set_tree __tree;
+			allocator_type alloc;
+			__set_allocator __alloc;
+			key_compare __comp;
 		public:
 			// Memeber Functions
 			set(const key_compare& comp = key_compare(),

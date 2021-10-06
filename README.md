@@ -18,7 +18,7 @@ std::pair, std::make_pair | true
 - [x] implemet queue
 - [x] implement vector
 - [x] implement Stack
-- [ ] implement red black tree
+- [X] implement red black tree
 - [ ] implement map
 - [ ] implement set
 

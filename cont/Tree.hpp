@@ -229,6 +229,11 @@ namespace ft {
 				if (__removed_black && __root) {
 					std::cout << "rebalance\n";
 					// __fix_tree_after_deletion(__uncle, __succsessor_child, __);
+					if (__successor_child)
+						__successor_child->_black = true;
+					else {
+						std::cout << "do some stuff here\n";
+					}
 				}
 			}
 		public:

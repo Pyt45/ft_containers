@@ -16,6 +16,9 @@ int main() {
 	std::map<int, int>::iterator it1 = m1.begin();
 	ft::map<int, int>::iterator it = m.begin();
 
+	std::cout << m1[10] << std::endl;
+	std::cout << m[10] << std::endl;
+	std::cout << "====================\n";
 	for (; it1 != m1.end(); it1++)
 		std::cout << it1->first << std::endl;
 	std::cout << "====================\n";

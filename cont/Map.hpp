@@ -77,15 +77,22 @@ namespace ft {
 			// const_reverse_iterator rbegin() const;
 			// reverse_iterator rend();
 			// const_reverse_iterator rend() const;
-			bool empty() const;
+			bool empty() const {
+				return __tree->size() == 0;
+			}
 			size_type size() const {
 				return __tree->size();
 			}
-			// size_type max_size() const {
-			// 	return allocator_type::max_size();
-			// }
+			size_type max_size() const {
+				return __alloc.max_size();
+			}
 			mapped_type& operator[](const key_type& k) {
-				
+				__node_tree node = __tree->__search_key(k);
+				if (node)
+					return node->_data.second;
+				const value_type& p = __tree->__insert(make_pair(k, mapped_type()));
+				node = __tree->__search_key(k);
+				return node->_data.second;
 			}
 			pair<iterator, bool> insert(const value_type& val) {
 				pair<iterator, bool> __pair;

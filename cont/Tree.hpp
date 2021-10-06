@@ -110,7 +110,7 @@ namespace ft {
 				tmp = __root;
 				__end = __tree_max(tmp);
 			}
-			void __insert(__pointer root, __pointer node) {
+			const value_type& __insert(__pointer root, __pointer node) {
 				if (node->_data.first >= root->_data.first) {
 				// if (cmp(root->_data, node->_data)) {
 					if (root->__right == nullptr) {
@@ -132,6 +132,9 @@ namespace ft {
 						__insert(root->__left, node);
 				}
 				__check_color(node);
+				__size++;
+				__reset_start_end();
+				return node->_data;
 				// __fix_tree_after_insertion();
 				// __fix_tree_after_deletion();
 				// __reset_start_end();
@@ -252,7 +255,7 @@ namespace ft {
 			__pointer __get_end() {
 				return __end;
 			}
-			void __insert(const value_type& val) {
+			const value_type& __insert(const value_type& val) {
 				__pointer node = __alloc.allocate(1);
 				__alloc.construct(node, val);
 				if (this->__root == nullptr) {
@@ -260,11 +263,11 @@ namespace ft {
 					__root->_black = true;
 					__start = __end;
 					__size++;
-					return ;
+					return val;
 				}
-				__insert(__root, node);
-				__size++;
-				__reset_start_end();
+				return __insert(__root, node);
+				// __size++;
+				// __reset_start_end();
 			}
 			__pointer __search_key(const key_type& key) {
 				if (__root == nullptr || __root->_data.first == key)

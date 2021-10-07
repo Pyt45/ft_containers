@@ -19,6 +19,7 @@ namespace ft {
 		public:
 			typedef T1 first_type;
 			typedef T2 second_type;
+			typedef T1& reference;
 			first_type 	first;
 			second_type second;
 			pair<T1, T2>() {

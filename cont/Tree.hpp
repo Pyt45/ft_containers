@@ -108,20 +108,34 @@ namespace ft {
 				__pointer tmp = __root;
 				__start = __tree_min(tmp);
 				tmp = __root;
-				__end = __tree_max(tmp);
+				while (tmp->__right)
+					tmp = tmp->__right;
+				if (tmp->__right == __end)
+					tmp = tmp->__parent;
+				else
+					tmp->__right = __end;
+				__end->__parent = tmp;
+			
 			}
-			const value_type& __insert(__pointer root, __pointer node) {
-				if (node->_data.first >= root->_data.first) {
-				// if (cmp(root->_data, node->_data)) {
-					if (root->__right == nullptr) {
+			const value_type& __insert_(__pointer root, __pointer node) {
+				// if (node->_data.first >= root->_data.first) {
+				if (!cmp(node->_data, root->_data)) {
+					if (root->__right && root->__right != __end) {
+						return __insert_(root->__right, node);
+					}
+					else {
 						root->__right = node;
 						node->__parent = root;
 						node->_isLeftChild = false;
 					}
-					else
-						__insert(root->__right, node);
+					// if (root->__right == nullptr) {
+					// 	root->__right = node;
+					// 	node->__parent = root;
+					// 	node->_isLeftChild = false;
+					// }
+					// else
+					// 	__insert(root->__right, node);
 				}
-				// if (node->_data.first <= root->_data.first)
 				else {
 					if (root->__left == nullptr) {
 						root->__left = node;
@@ -129,7 +143,7 @@ namespace ft {
 						node->_isLeftChild = true;
 					}
 					else
-						__insert(root->__left, node);
+						return __insert_(root->__left, node);
 				}
 				__check_color(node);
 				__size++;
@@ -151,16 +165,16 @@ namespace ft {
 					return __search(root->__right, node);
 				}
 			}
-			__pointer __search_key(__pointer root, const key_type& key) {
+			__pointer __search_key_(__pointer root, const key_type& key) const {
 				if (key < root->_data.first) {
 					if (root->__left == nullptr || root->__left->_data.first == key)
 						return root->__left;
-					return __search_key(root->__left, key);
+					return __search_key_(root->__left, key);
 				}
 				else {
 					if (root->__right == nullptr || root->__right->_data.first == key)
 						return root->__right;
-					return __search_key(root->__right, key);
+					return __search_key_(root->__right, key);
 				}
 			}
 			void __remove_from_tree(__pointer __node_to_del) {
@@ -254,10 +268,13 @@ namespace ft {
 				__size = 1;
 				__start = __end = __alloc.allocate(1);
 			}
-			__pointer __get_start() {
+			size_type max_size() const {
+				return __alloc.max_size();
+			}
+			__pointer __get_start() const {
 				return __start;
 			}
-			__pointer __get_end() {
+			__pointer __get_end() const {
 				return __end;
 			}
 			const value_type& __insert(const value_type& val) {
@@ -266,18 +283,19 @@ namespace ft {
 				if (this->__root == nullptr) {
 					__root = node;
 					__root->_black = true;
-					__start = __end;
+					// __start = __end;
+					__reset_start_end();
 					__size++;
 					return val;
 				}
-				return __insert(__root, node);
+				return __insert_(__root, node);
 				// __size++;
 				// __reset_start_end();
 			}
-			__pointer __search_key(const key_type& key) {
+			__pointer __search_key(const key_type& key) const {
 				if (__root == nullptr || __root->_data.first == key)
 					return __root;
-				return __search_key(__root, key);
+				return __search_key_(__root, key);
 			}
 			__pointer __search(__pointer node) {
 				if (__root == nullptr || __root->_data.first == node->_data.first)
@@ -464,8 +482,6 @@ namespace ft {
 			typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
 			typedef typename iterator_traits<iterator_type>::value_type value_type;
 			typedef typename iterator_traits<iterator_type>::difference_type difference_type;
-			// typedef typename iterator_traits<iterator_type>::pointer pointer;
-			// typedef typename iterator_traits<iterator_type>::reference reference;
 
 			typedef __pair_iter& reference;
 			typedef __pair_iter* pointer;
@@ -473,10 +489,6 @@ namespace ft {
 		private:
 			iterator_type __i;
 			iterator_ptr __p;
-			__pair_iter pair;
-			reference operator*() const {
-				return __p->_data;
-			}
 		public:
 			__tree_iterator(): __i() {}
 			// __tree_iterator(iterator_type __u): __i(__u) {}
@@ -487,7 +499,6 @@ namespace ft {
 			__tree_iterator(__tree_iterator const & __u) {
 				__i = __u.base();
 				__p = __u.__p;
-				pair = __u.pair;
 			}
 			__tree_iterator& operator=(__tree_iterator const & __u) {
 				if (this != &__u)
@@ -498,6 +509,9 @@ namespace ft {
 
 			pointer operator->() const {
 				return &(operator*());
+			}
+			reference operator*() const {
+				return __p->_data;
 			}
 			__tree_iterator& operator++() {
 				__p = __i->__tree_next(__p);
@@ -520,10 +534,87 @@ namespace ft {
 			iterator_type base() const {
 				return __i;
 			}
+			iterator_ptr __base_ptr() {
+				return __p;
+			}
 			friend bool operator==(const __tree_iterator& __x, const __tree_iterator& __y) {
 				return __x.__p == __y.__p;
 			}
 			friend bool operator!=(const __tree_iterator& __x, const __tree_iterator& __y) {
+				return !(__x == __y);
+			}
+	};
+	template <class __base_iter, class __node_ptr, class __pair_iter>
+	class __set_iterator {
+		public:
+			typedef __base_iter iterator_type;
+			typedef __node_ptr iterator_ptr;
+			typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
+			typedef typename iterator_traits<iterator_type>::value_type value_type;
+			typedef typename iterator_traits<iterator_type>::difference_type difference_type;
+			// typedef typename iterator_traits<iterator_type>::pointer pointer;
+			// typedef typename iterator_traits<iterator_type>::reference reference;
+
+			typedef typename __pair_iter::first_type& reference;
+			typedef typename __pair_iter::first_type* pointer;
+
+		private:
+			iterator_type __i;
+			iterator_ptr __p;
+			// __pair_iter pair;
+		public:
+			__set_iterator(): __i() {}
+			// __set_iterator(iterator_type __u): __i(__u) {}
+			__set_iterator(iterator_ptr __u) {
+				__i = iterator_type(__u);
+				__p = __u;
+			}
+			__set_iterator(__set_iterator const & __u) {
+				__i = __u.base();
+				__p = __u.__p;
+				// pair = __u.pair;
+			}
+			__set_iterator& operator=(__set_iterator const & __u) {
+				if (this != &__u)
+					this->__i = __u.base();
+				return (*this);
+			}
+			~__set_iterator() {}
+
+			pointer operator->() const {
+				return &(operator*());
+			}
+			reference operator*() const {
+				return __p->_data.first;
+			}
+			__set_iterator& operator++() {
+				__p = __i->__tree_next(__p);
+				return *this;
+			}
+			__set_iterator operator++(int) {
+				__set_iterator tmp(*this);
+				++(*this);
+				return tmp;
+			}
+			__set_iterator& operator--() {
+				__p = __i->__tree_prev(__p);
+				return *this;
+			}
+			__set_iterator operator--(int) {
+				__set_iterator tmp(*this);
+				--(*this);
+				return tmp;
+			}
+			iterator_type base() const {
+				return __i;
+			}
+			iterator_ptr __base_ptr() {
+				return __p;
+			}
+			friend bool operator==(const __set_iterator& __x, const __set_iterator& __y) {
+				return __x.__p == __y.__p;
+			}
+			friend bool operator!=(const __set_iterator& __x, const __set_iterator& __y) {
 				return !(__x == __y);
 			}
 	};

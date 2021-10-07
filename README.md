@@ -18,9 +18,9 @@ std::pair, std::make_pair | true
 - [x] implemet queue
 - [x] implement vector
 - [x] implement Stack
-- [X] implement red black tree
-- [X] implement map
-- [X] implement set
+- [x] implement red black tree
+- [x] implement map
+- [x] implement set
 
 ### Usefel links
 [stl containers](https://www.cplusplus.com/reference/stl/) <br />

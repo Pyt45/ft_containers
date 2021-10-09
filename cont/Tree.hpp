@@ -104,53 +104,75 @@ namespace ft {
 				}
 			}
 			# endif
+			void __remove_end_from_tree() {
+				// __pointer tmp = __root;
+				// while (tmp->__right)
+				// 	tmp = tmp->__right;
+				// if (tmp == __end) {
+				// std::cout << "tmp -> " <<
+				// tmp->_data.first << std::endl;
+				// 	tmp->__parent = nullptr;
+				// 	tmp = nullptr;
+				// }
+				// __end->__parent = nullptr;
+				__alloc.destroy(__end);
+				// __alloc.deallocate(__end, 1);
+				// __end = __alloc.allocate(1);
+				// __end = nullptr;
+				// __alloc.construct(__end);
+			}
 			void __reset_start_end() {
 				__pointer tmp = __root;
 				__start = __tree_min(tmp);
 				tmp = __root;
 				while (tmp->__right)
 					tmp = tmp->__right;
-				if (tmp->__right == __end)
+				// std::cout << "4\n";
+				if (tmp == __end)
+				{
+					// std::cout << "1tmp = " << tmp->_data.first << "\n";
 					tmp = tmp->__parent;
-				else
+					// return ;
+				}
+				else {
+					// std::cout << "tmp = " << tmp->_data.first << "\n";
 					tmp->__right = __end;
+				}
 				__end->__parent = tmp;
-			
+				// std::cout << "5\n";
 			}
-			const value_type& __insert_(__pointer root, __pointer node) {
+			void __insert_(__pointer root, __pointer node) {
 				// if (node->_data.first >= root->_data.first) {
 				if (!cmp(node->_data, root->_data)) {
 					if (root->__right && root->__right != __end) {
-						return __insert_(root->__right, node);
+						__insert_(root->__right, node);
 					}
 					else {
 						root->__right = node;
 						node->__parent = root;
 						node->_isLeftChild = false;
+						__size++;
 					}
 					// if (root->__right == nullptr) {
 					// 	root->__right = node;
 					// 	node->__parent = root;
 					// 	node->_isLeftChild = false;
+					// 	__size++;
 					// }
 					// else
-					// 	__insert(root->__right, node);
+					// 	__insert_(root->__right, node);
 				}
 				else {
 					if (root->__left == nullptr) {
 						root->__left = node;
 						node->__parent = root;
 						node->_isLeftChild = true;
+						__size++;
 					}
 					else
-						return __insert_(root->__left, node);
+						__insert_(root->__left, node);
 				}
 				__check_color(node);
-				__size++;
-				__reset_start_end();
-				return node->_data;
-				// __fix_tree_after_insertion();
-				// __fix_tree_after_deletion();
 				// __reset_start_end();
 			}
 			__pointer __search(__pointer root, __pointer node) {
@@ -277,7 +299,7 @@ namespace ft {
 			__pointer __get_end() const {
 				return __end;
 			}
-			const value_type& __insert(const value_type& val) {
+			void __insert(const value_type& val) {
 				__pointer node = __alloc.allocate(1);
 				__alloc.construct(node, val);
 				if (this->__root == nullptr) {
@@ -286,11 +308,12 @@ namespace ft {
 					// __start = __end;
 					__reset_start_end();
 					__size++;
-					return val;
+					return ;
 				}
-				return __insert_(__root, node);
+				__remove_end_from_tree();
+				__insert_(__root, node);
+				__reset_start_end();
 				// __size++;
-				// __reset_start_end();
 			}
 			__pointer __search_key(const key_type& key) const {
 				if (__root == nullptr || __root->_data.first == key)
@@ -575,8 +598,10 @@ namespace ft {
 				// pair = __u.pair;
 			}
 			__set_iterator& operator=(__set_iterator const & __u) {
-				if (this != &__u)
+				if (this != &__u) {
 					this->__i = __u.base();
+					this->__p = __u.__p;
+				}
 				return (*this);
 			}
 			~__set_iterator() {}

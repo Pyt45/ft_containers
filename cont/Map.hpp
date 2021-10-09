@@ -200,33 +200,56 @@ namespace ft {
 				return 0;
 			}
 			iterator lower_bound(const key_type& k) {
-				iterator it = this->find(k);
-				if (!__comp(it->first, k))
-					return it;
+				// iterator it = this->find(k);
+				// if (!__comp(it->first, k))
+				// 	return it;
+				iterator first = begin();
+				iterator last = end();
+				for (; first != last; first++)
+					if (!__comp(first->first, k))
+						return first;
 				return end();
 			}
 			const_iterator lower_bound(const key_type& k) const {
-				iterator it = this->find(k);
-				if (!__comp(it->first, k))
-					return it;
+				// iterator it = this->find(k);
+				// if (!__comp(it->first, k))
+				// 	return it;
+				// return end();
+				iterator first = begin();
+				iterator last = end();
+				for (; first != last; first++)
+					if (!__comp(first->first, k))
+						return first;
 				return end();
 			}
 			iterator upper_bound(const key_type& k) {
-				iterator it = this->find(k);
-				if (it->first) {
-					it++;
-					if (__comp(k, it->first))
-						return it;
-				}
+				// iterator it = this->find(k);
+				// if (it->first) {
+				// 	it++;
+				// 	if (__comp(k, it->first))
+				// 		return it;
+				// }
+				// return end();
+				iterator first = begin();
+				iterator last = end();
+				for (; first != last; first++)
+					if (__comp(k, first->first))
+						return first;
 				return end();
 			}
 			const_iterator upper_bound(const key_type& k) const {
-				iterator it = this->find(k);
-				if (it->first) {
-					it++;
-					if (__comp(k, it->first))
-						return it;
-				}
+				// iterator it = this->find(k);
+				// if (it->first) {
+				// 	it++;
+				// 	if (__comp(k, it->first))
+				// 		return it;
+				// }
+				// return end();
+				iterator first = begin();
+				iterator last = end();
+				for (; first != last; first++)
+					if (__comp(k, first->first))
+						return first;
 				return end();
 			}
 			pair<const_iterator, const_iterator>	equal_range(const key_type& k) const {

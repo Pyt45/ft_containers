@@ -145,25 +145,29 @@ void lower_upper_bound_test() {
 	origin.insert(std::pair<int, int>(2, 3));
 	origin.insert(std::pair<int, int>(3, 4));
 	origin.insert(std::pair<int, int>(10, 4));
+	origin.insert(std::pair<int, int>(100, 4));
 
-	std::map<int, int>::iterator it = origin.lower_bound(3);
-	std::cout << "std->lower = " << it->first << std::endl;
-	std::cout << "std->upper = " << origin.upper_bound(3)->first << std::endl;
+	// std::map<int, int>::iterator it = origin.lower_bound(4);
+	// std::cout << "std->lower = " << it->first << std::endl;
+	// std::cout << "std->upper = " << origin.upper_bound(11)->first << std::endl;
 	std::cout << "=======================\n";
+
 	ft::map<int ,int> origin1;
 	origin1.insert(ft::pair<int, int>(1, 2));
 	origin1.insert(ft::pair<int, int>(2, 3));
 	origin1.insert(ft::pair<int, int>(3, 4));
 	origin1.insert(ft::pair<int, int>(10, 4));
-	ft::map<int, int>::iterator t = origin1.lower_bound(3);
-	std::cout << "ft->lower = " << t->first << std::endl;
-	std::cout << "ft->upper = " << origin1.upper_bound(3)->first << std::endl;
-
-
+	origin1.insert(ft::pair<int, int>(100, 4));
+	// ft::map<int, int>::iterator t = origin1.lower_bound(4);
+	// std::cout << "ft->lower = " << t->first << std::endl;
+	// std::cout << "ft->upper = " << origin1.upper_bound(11)->first << std::endl;
+	std::cout << "=======================\n";
+	std::cout << origin.size() << std::endl;
+	std::cout << origin1.size() << std::endl;
 }
 
 int main() {
-	// lower_upper_bound_test();
+	lower_upper_bound_test();
 	// find_test();
 	// std::cout << "======================= erase test           =======================\n";
 	// erase_test();
@@ -173,8 +177,8 @@ int main() {
 	// insert_test();
 	// std::cout << "====================== insertion at pos test =======================\n";
 	// insert_at_position();
-	std::map<int, int> o;
-	ft::map<int, int> f;
-	std::cout << o.max_size() << std::endl;
-	std::cout << f.max_size() << std::endl;
+	// std::map<int, int> o;
+	// ft::map<int, int> f;
+	// std::cout << o.max_size() << std::endl;
+	// std::cout << f.max_size() << std::endl;
 }

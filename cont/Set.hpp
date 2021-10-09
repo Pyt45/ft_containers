@@ -173,18 +173,19 @@ namespace ft {
 				return 0;
 			}
 			iterator lower_bound (const value_type& val) const {
-				iterator it = this->find(val);
-				if (!__comp(it->first, val))
-					return it;
+				iterator first = begin();
+				iterator last = end();
+				for (; first != last; first++)
+					if (!__comp(*first, val))
+						return first;
 				return end();
 			}
 			iterator upper_bound (const value_type& val) const {
-				iterator it = this->find(val);
-				if (it->first) {
-					it++;
-					if (__comp(val, it->first))
-						return it;
-				}
+				iterator first = begin();
+				iterator last = end();
+				for (; first != last; first++)
+					if (__comp(val, *first))
+						return first;
 				return end();
 			}
 			pair<iterator,iterator> equal_range (const value_type& val) const {

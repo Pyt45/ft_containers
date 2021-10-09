@@ -105,21 +105,11 @@ namespace ft {
 			}
 			# endif
 			void __remove_end_from_tree() {
-				// __pointer tmp = __root;
-				// while (tmp->__right)
-				// 	tmp = tmp->__right;
-				// if (tmp == __end) {
-				// std::cout << "tmp -> " <<
-				// tmp->_data.first << std::endl;
-				// 	tmp->__parent = nullptr;
-				// 	tmp = nullptr;
-				// }
-				// __end->__parent = nullptr;
-				__alloc.destroy(__end);
-				// __alloc.deallocate(__end, 1);
-				// __end = __alloc.allocate(1);
-				// __end = nullptr;
-				// __alloc.construct(__end);
+				__pointer tmp = __root;
+				while (tmp->__right && tmp->__right != __end)
+					tmp = tmp->__right;
+				tmp->__right = nullptr;
+				__end->__parent = nullptr;
 			}
 			void __reset_start_end() {
 				__pointer tmp = __root;
@@ -327,7 +317,9 @@ namespace ft {
 			}
 			void __remove(const key_type& key) {
 				__pointer __node_to_del = __search_key(key);
+				__remove_end_from_tree();
 				__remove_from_tree(__node_to_del);
+				__reset_start_end();
 				__size--;
 			}
 			size_type size() const {

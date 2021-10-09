@@ -155,9 +155,9 @@ void tree_test() {
 	r.__insert(p2);
 	r.__insert(p3);
 	r.__insert(p4);
-	// r.__insert(p5);
-	// r.__insert(p6);
-	// r.__insert(p7);
+	r.__insert(p5);
+	r.__insert(p6);
+	r.__insert(p7);
 	// r.__print_tree();
 	// r.__remove(140);
 	// r.__remove(100);

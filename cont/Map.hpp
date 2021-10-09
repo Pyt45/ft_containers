@@ -260,7 +260,7 @@ namespace ft {
 			pair<iterator, iterator>	equal_range(const key_type& k) {
 				iterator first = this->lower_bound(k);
 				iterator last = this->upper_bound(k);
-				return pair<const_iterator, const_iterator>(first, last);
+				return pair<iterator, iterator>(first, last);
 			}
 			allocator_type get_allocator() const {
 				return alloc;

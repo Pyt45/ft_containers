@@ -36,7 +36,7 @@ namespace ft {
 			typedef Node<value_type>* __node_tree;
 			// Iterators
 			typedef ft::__tree_iterator<__map_tree, __node_tree, value_type> iterator;
-			typedef const ft::__tree_iterator<__map_tree, __node_tree, value_type> const_iterator;
+			typedef ft::__tree_iterator<__map_tree, __node_tree, const value_type> const_iterator;
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 

@@ -248,17 +248,23 @@ namespace ft {
 						__successor->__right->__parent = __successor;
 					// __successor will inherit the color from __node_to_del
 					__successor->_black = __node_to_del->_black;
-					if (__root == __node_to_del)
+					if (__node_to_del == __root)
 						__root = __successor;
 				}
+				__alloc.destroy(__successor);
+				__alloc.deallocate(__successor, 1);
 				// there is no need to rebalance if remove a red, or if we removed the last node
 				if (__removed_black && __root) {
 					std::cout << "rebalance\n";
 					// __fix_tree_after_deletion(__uncle, __succsessor_child, __);
-					if (__successor_child)
+					if (__successor_child) {
 						__successor_child->_black = true;
+						std::cout << "Done rebalancing\n";
+					}
 					else {
 						std::cout << "do some stuff here\n";
+						while (true) {
+						}
 					}
 				}
 			}
@@ -317,10 +323,12 @@ namespace ft {
 			}
 			void __remove(const key_type& key) {
 				__pointer __node_to_del = __search_key(key);
-				__remove_end_from_tree();
-				__remove_from_tree(__node_to_del);
-				__reset_start_end();
-				__size--;
+				if (__node_to_del) {
+					__remove_end_from_tree();
+					__remove_from_tree(__node_to_del);
+					__reset_start_end();
+					__size--;
+				}
 			}
 			size_type size() const {
 				return __size;
@@ -515,6 +523,7 @@ namespace ft {
 				__i = __u.base();
 				__p = __u.__p;
 			}
+
 			__tree_iterator& operator=(__tree_iterator const & __u) {
 				if (this != &__u)
 					this->__i = __u.base();

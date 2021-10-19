@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Vector.hpp"
-#include <type_traits>
+// #include <type_traits>
 #include <vector>
 
 #define ns ft
@@ -16,11 +16,11 @@ typename std::enable_if< std::is_integral<T>::value, bool >::type is_odd_(T y) {
 }
 
 int main() {
-    ns::vector<int> v(3, 100);
-    ns::vector<int> v1(4, 200);
-    ns::vector<int>::iterator it = v.begin();
-    ns::vector<int>::iterator ite = v.end();
-    v.swap(v1);
-    while (it != ite)
-        std::cout << *it++ << std::endl;
+    ns::vector<int> v;
+
+    for (int i = 0; i < 1000000; i++)
+        v.push_back(i);
+    // ns::vector<int>::iterator it = v.begin();
+    for (ns::vector<int>::iterator it = v.begin(); it != v.end(); it++)
+        std::cout << *it << std::endl;
 }

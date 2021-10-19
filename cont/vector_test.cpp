@@ -16,9 +16,11 @@ typename std::enable_if< std::is_integral<T>::value, bool >::type is_odd_(T y) {
 }
 
 int main() {
-    ns::vector<int> v(10, 5);
+    ns::vector<int> v(3, 100);
+    ns::vector<int> v1(4, 200);
     ns::vector<int>::iterator it = v.begin();
-    ns::vector<int>::const_iterator ite = v.end();
+    ns::vector<int>::iterator ite = v.end();
+    v.swap(v1);
     while (it != ite)
         std::cout << *it++ << std::endl;
 }

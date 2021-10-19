@@ -310,7 +310,7 @@ namespace ft
 					push_back(*tx);
 				x.clear();
 				iterator tobj = tmp.begin();
-				for (static_cast<void>(tobj); tobj != end(); tobj)
+				for (static_cast<void>(tobj); tobj != end(); tobj++)
 					x.push_back(*tobj);
 			}
 			void clear()

@@ -60,27 +60,29 @@ namespace ft
 			void __copy_construct(size_type idx, const_reference val)
 			{
 				_alloc.construct(&_items[idx], val);
-				// new (&_items[idx]) value_type(val);
 			}
 		public:
-			vector(const allocator_type& alloc = allocator_type())
+			explicit vector(const allocator_type& alloc = allocator_type())
 			{
 				_alloc = alloc;
 				_items = _alloc.allocate(1);
 				_size = _cap = 0;
 			}
-			vector(size_type n, const value_type& val = value_type())
+			explicit vector(size_type n, const value_type& val = value_type())
 			{
 				_size = _cap = n;
 				_items = _alloc.allocate(n);
-				for (int i = 0; i < n; i++)
+				for (size_type i = 0; i < n; i++)
 					__copy_construct(i, val);
 			}
 			template <class InputIterator>
 				vector(InputIterator first, InputIterator last,
-						const allocator_type& alloc = allocator_type())
+						const allocator_type& alloc = allocator_type(),
+						typename enable_if< !is_integral<InputIterator>::value, bool >::type = true)
 				{
+					std::cout << "hey\n";
 					_size = _cap = 0;
+					_alloc = alloc;
 					_items = nullptr;
 					this->assign(first, last);
 				}
@@ -248,7 +250,9 @@ namespace ft
 					__copy_construct(k + i, val);
 				_size += n;
 			}
-			void insert (iterator position, iterator first, iterator last) {
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last,
+			typename enable_if< !is_integral<InputIterator>::value, bool >::type = true ) {
 				iterator it = begin();
 				size_type i = 0;
 				std::ptrdiff_t len = last - first;
@@ -325,7 +329,7 @@ namespace ft
 			for (size_t i = 0; i < lhs.size(); i++) {
 				if (lhs[i] != rhs[i])
 					return (false);
-				i++;
+				// i++;
 			}
 			return (true);
 		}

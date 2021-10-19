@@ -16,6 +16,7 @@
 # include "iterator_traits.hpp"
 # include "Utility.hpp"
 # include "Tree.hpp"
+#include "Type_traits.hpp"
 
 namespace ft {
 	template < class Key, class T, class Compare = std::less<Key>, 
@@ -76,7 +77,8 @@ namespace ft {
 			template <class InputIterator>
 				map(InputIterator first, InputIterator last,
 					const key_compare& comp = key_compare(),
-					const allocator_type& alloc = allocator_type());
+					const allocator_type& alloc = allocator_type(),
+					typename enable_if< !is_integral<InputIterator>::value, bool >::type = true );
 			map& operator=(const map& x) {
 				if (this != &x) {
 					__tree.clear();
@@ -144,7 +146,8 @@ namespace ft {
 				return position;
 			}
 			template<class InputIterator>
-				void insert(InputIterator first, InputIterator last) {
+				void insert(InputIterator first, InputIterator last,
+				typename enable_if< !is_integral<InputIterator>::value, bool >::type = true) {
 					while (first != last)
 						this->insert(*first++);
 				}

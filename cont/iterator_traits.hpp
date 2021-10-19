@@ -284,29 +284,64 @@ namespace ft {
 				return __i;
 			}
 	};
-	template <class Iter>
-	bool operator== (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	// template <class Iter>
+	// bool operator== (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	// 	return lhs.base() == rhs.base();
+	// }
+	// template <class Iter>
+	// bool operator< (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	// 	return lhs.base() < rhs.base();
+	// }
+	// template <class Iter>
+	// bool operator!= (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	// 	return !(lhs.base() == rhs.base());
+	// }
+	// template <class Iter>
+	// bool operator> (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	// 	return rhs.base() < lhs.base();
+	// }
+	// template <class Iter>
+	// bool operator>= (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	// 	return !(lhs.base() < rhs.base());
+	// }
+	// template <class Iter>
+	// bool operator<= (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	// 	return !(rhs.base() < lhs.base());
+	// }
+
+
+	template <class Iter1, class Iter2>
+	bool operator== (const __wrap_iter<Iter1>& lhs, const __wrap_iter<Iter2>& rhs) {
 		return lhs.base() == rhs.base();
 	}
-	template <class Iter>
-	bool operator< (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	template <class Iter1, class Iter2>
+	bool operator< (const __wrap_iter<Iter1>& lhs, const __wrap_iter<Iter2>& rhs) {
 		return lhs.base() < rhs.base();
 	}
-	template <class Iter>
-	bool operator!= (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	template <class Iter1, class Iter2>
+	bool operator!= (const __wrap_iter<Iter1>& lhs, const __wrap_iter<Iter2>& rhs) {
 		return !(lhs.base() == rhs.base());
 	}
-	template <class Iter>
-	bool operator> (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	template <class Iter1, class Iter2>
+	bool operator> (const __wrap_iter<Iter1>& lhs, const __wrap_iter<Iter2>& rhs) {
 		return rhs.base() < lhs.base();
 	}
-	template <class Iter>
-	bool operator>= (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	template <class Iter1, class Iter2>
+	bool operator>= (const __wrap_iter<Iter1>& lhs, const __wrap_iter<Iter2>& rhs) {
 		return !(lhs.base() < rhs.base());
 	}
-	template <class Iter>
-	bool operator<= (const __wrap_iter<Iter>& lhs, const __wrap_iter<Iter>& rhs) {
+	template <class Iter1, class Iter2>
+	bool operator<= (const __wrap_iter<Iter1>& lhs, const __wrap_iter<Iter2>& rhs) {
 		return !(rhs.base() < lhs.base());
+	}
+	template<class Iter1, class Iter2>
+	typename __wrap_iter<Iter1>::difference_type operator-(const __wrap_iter<Iter1>& lhs, const __wrap_iter<Iter2>& rhs) {
+		return lhs.base() - rhs.base();
+	}
+	template <class Iter>
+	__wrap_iter<Iter> operator+(typename __wrap_iter<Iter>::difference_type __n, __wrap_iter<Iter> __x) {
+		__x += __n;
+		return __x;
 	}
 }
 

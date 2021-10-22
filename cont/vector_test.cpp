@@ -16,11 +16,20 @@ typename std::enable_if< std::is_integral<T>::value, bool >::type is_odd_(T y) {
 }
 
 int main() {
-    ns::vector<int> v;
+    ns::vector<int> v(3, 100);
+    ns::vector<int> v1(4, 200);
 
-    for (int i = 0; i < 1000000; i++)
-        v.push_back(i);
-    // ns::vector<int>::iterator it = v.begin();
-    for (ns::vector<int>::iterator it = v.begin(); it != v.end(); it++)
+    ns::vector<int>::iterator it = v.begin();
+    ns::vector<int>::iterator ite = v.end();
+    // for (; it != ite; it++)
+    //     std::cout << *it << std::endl;
+    std::cout << "after wap\n";
+    v.swap(v1);
+    for (; it != ite; it++)
         std::cout << *it << std::endl;
+    std::cout << "================\n";
+    ns::vector<int>::iterator t = v.begin();
+    ns::vector<int>::iterator te = v.end();
+    for (; t != te; t++)
+        std::cout << *t << std::endl;
 }

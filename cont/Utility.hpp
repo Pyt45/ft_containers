@@ -22,24 +22,18 @@ namespace ft {
 			typedef T1& reference;
 			first_type 	first;
 			second_type second;
-			pair<T1, T2>() {
-				first = T1();
-				second = T2();
-			}
+			pair(): first(), second() {}
+			pair(const first_type& a, const second_type& b): first(a), second(b) {}
 			template<class U, class V>
-				pair (const pair<U, V>& pr) {
-					first = (T1)pr.first;
-					second = (T2)pr.second;
-					*this = pr;
+				pair (const pair<U, V>& pr): first(pr.first), second(pr.second) {
+					// first = (T1)pr.first;
+					// second = (T2)pr.second;
+					// *this = pr;
 				}
-			pair<T1, T2> (const first_type& a, const second_type& b) {
-				first = a;
-				second = b;
-			}
-			pair<T1, T2>& operator=(const pair<T1, T2>& pr) {
+			pair& operator=(const pair& pr) {
 				if (this != &pr) {
-					this->first =(T1)pr.first;
-					this->second = (T2)pr.second;
+					this->first = pr.first;
+					this->second = pr.second;
 				}
 				return (*this);
 			}

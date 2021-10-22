@@ -303,15 +303,27 @@ namespace ft
 			}
 			void swap (vector& x) {
 				vector<T> tmp(*this);
+				this->_items = x._items;
+				// this->_alloc = x._alloc;
+				this->_size = x._size;
+				this->_cap = x._cap;
+				this->begin() = x.begin();
+				this->end() = x.end();
 
-				clear();
-				iterator tx = x.begin();
-				for (static_cast<void>(tx); tx != end(); tx++)
-					push_back(*tx);
-				x.clear();
-				iterator tobj = tmp.begin();
-				for (static_cast<void>(tobj); tobj != end(); tobj++)
-					x.push_back(*tobj);
+				// x.begin() = tmp.begin();
+				// x.end() = tmp.end();
+				// x._items = tmp._items;
+				// x._alloc = tmp._alloc;
+				// x._size = tmp._size;
+				// x._cap = tmp._cap;
+				// clear();
+				// iterator tx = x.begin();
+				// for (static_cast<void>(tx); tx != end(); tx++)
+				// 	push_back(*tx);
+				// x.clear();
+				// iterator tobj = tmp.begin();
+				// for (static_cast<void>(tobj); tobj != end(); tobj++)
+				// 	x.push_back(*tobj);
 			}
 			void clear()
 			{

@@ -170,7 +170,7 @@ int main() {
 	// std::cout << "======================= erase test           =======================\n";
 	// erase_test();
 	std::cout << "======================= range insertion test =======================\n";
-	insert_range_test();
+	// insert_range_test();
 	// std::cout << "=======================       insertion test =======================\n";
 	// insert_test();
 	// std::cout << "====================== insertion at pos test =======================\n";

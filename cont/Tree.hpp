@@ -134,8 +134,27 @@ namespace ft {
 			void __insert_(__pointer root, __pointer node) {
 				// if (node->_data.first >= root->_data.first) {
 				if (!cmp(node->_data, root->_data)) {
-					if (root->__right && root->__right != __end) {
-						__insert_(root->__right, node);
+					if (root->__right) {
+						// __insert_(root->__right, node);
+						__pointer tmp = root;
+						__pointer y = nullptr;
+						while (tmp) {
+							y = tmp;
+							if (node->_data.first < tmp->_data.first)
+								tmp = tmp->__left;
+							else
+								tmp = tmp->__right;
+						}
+						
+						node->__parent = y;
+						if (node->_data.first < y->_data.first) {
+							y->__left = node;
+							node->_isLeftChild = true;
+						}
+						else {
+							y->__right = node;
+							node->_isLeftChild = false;
+						}
 					}
 					else {
 						root->__right = node;
@@ -143,14 +162,6 @@ namespace ft {
 						node->_isLeftChild = false;
 						__size++;
 					}
-					// if (root->__right == nullptr) {
-					// 	root->__right = node;
-					// 	node->__parent = root;
-					// 	node->_isLeftChild = false;
-					// 	__size++;
-					// }
-					// else
-					// 	__insert_(root->__right, node);
 				}
 				else {
 					if (root->__left == nullptr) {
@@ -159,8 +170,27 @@ namespace ft {
 						node->_isLeftChild = true;
 						__size++;
 					}
-					else
-						__insert_(root->__left, node);
+					else {
+						// __insert_(root->__left, node);
+						__pointer tmp = root;
+						__pointer y = nullptr;
+						while (tmp) {
+							y = tmp;
+							if (node->_data.first < tmp->_data.first)
+								tmp = tmp->__left;
+							else
+								tmp = tmp->__right;
+						}
+						node->__parent = y;
+						if (node->_data.first < y->_data.first) {
+							y->__left = node;
+							node->_isLeftChild = true;
+						}
+						else {
+							y->__right = node;
+							node->_isLeftChild = false;
+						}
+					}
 				}
 				__check_color(node);
 				// __reset_start_end();
@@ -176,8 +206,6 @@ namespace ft {
 						tmp = tmp->__right;
 				}
 				node->__parent = y;
-				// if (!y)
-				// 	root
 				if (node->_data.first < y->_data.first) {
 					y->__left = node;
 					node->_isLeftChild = true;
@@ -325,14 +353,14 @@ namespace ft {
 					__root = node;
 					__root->_black = true;
 					// __start = __end;
-					__reset_start_end();
+					//__reset_start_end();
 					__size++;
 					return ;
 				}
-				__remove_end_from_tree();
-				// __insert_(__root, node);
-				__optimize_insert(__root, node);
-				__reset_start_end();
+				// __remove_end_from_tree();
+				__insert_(__root, node);
+				// __optimize_insert(__root, node);
+				//__reset_start_end();
 				// __size++;
 			}
 			__pointer __search_key(const key_type& key) const {

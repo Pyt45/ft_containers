@@ -45,7 +45,7 @@
 #include <string>
 #include <deque>
 
-#define NS 1
+#define NS 0
 
 #if NS //CREATE A REAL STL EXAMPLE
 	#include <map>
@@ -54,7 +54,6 @@
 	namespace ns = std;
 #else
 	#include "Map.hpp"
-	#include "Stack.hpp"
 	#include "Vector.hpp"
     namespace ns = ft;
 #endif
@@ -141,8 +140,8 @@ int main(int argc, char** argv) {
 	{
 		map_int.insert(ns::make_pair(rand(), rand()));
 	}
-    for (ns::map<int, int>::iterator it = map_int.begin(); it != map_int.end(); it++)
-        std::cout << it->first << std::endl;
+    //for (ns::map<int, int>::iterator it = map_int.begin(); it != map_int.end(); it++)
+    //    std::cout << it->first << std::endl;
 	// int sum = 0;
 	// for (int i = 0; i < 10000; i++)
 	// {

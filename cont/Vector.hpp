@@ -106,8 +106,9 @@ namespace ft
 				return *this;
 			}
 			~vector() {
-				clear();
-				_alloc.deallocate(_items, _size);
+				// clear();
+				if (_items)
+					_alloc.deallocate(_items, _cap);
 			}
 			iterator begin() {
 				return iterator(&_items[0]);
@@ -228,7 +229,7 @@ namespace ft
 			}
 			iterator insert (iterator position, const value_type& val) {
 				insert(position, 1, val);
-				retur (++position);
+				return (++position);
 			}
 			void insert (iterator position, size_type n, const value_type& val) {
 				iterator it = begin();
@@ -302,28 +303,21 @@ namespace ft
 				return (_retpos);
 			}
 			void swap (vector& x) {
-				vector<T> tmp(*this);
-				this->_items = x._items;
-				// this->_alloc = x._alloc;
+				// vector<T> tmp = *this;
+				value_type* ptr = this->_items;
+				size_type size = this->_size;
+				size_type cap = this->_cap;
+				allocator_type alloc = this->_alloc;
+
+				this->_alloc = x._alloc;
 				this->_size = x._size;
 				this->_cap = x._cap;
-				this->begin() = x.begin();
-				this->end() = x.end();
+				this->_items = x._items;
 
-				// x.begin() = tmp.begin();
-				// x.end() = tmp.end();
-				// x._items = tmp._items;
-				// x._alloc = tmp._alloc;
-				// x._size = tmp._size;
-				// x._cap = tmp._cap;
-				// clear();
-				// iterator tx = x.begin();
-				// for (static_cast<void>(tx); tx != end(); tx++)
-				// 	push_back(*tx);
-				// x.clear();
-				// iterator tobj = tmp.begin();
-				// for (static_cast<void>(tobj); tobj != end(); tobj++)
-				// 	x.push_back(*tobj);
+				x._alloc = alloc;
+				x._items = ptr;
+				x._size = size;
+				x._cap = cap;
 			}
 			void clear()
 			{

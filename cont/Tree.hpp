@@ -165,6 +165,29 @@ namespace ft {
 				__check_color(node);
 				// __reset_start_end();
 			}
+			void __optimize_insert(__pointer root, __pointer node) {
+				__pointer tmp = root;
+				__pointer y = nullptr;
+				while (tmp) {
+					y = tmp;
+					if (node->_data.first < tmp->_data.first)
+						tmp = tmp->__left;
+					else
+						tmp = tmp->__right;
+				}
+				node->__parent = y;
+				// if (!y)
+				// 	root
+				if (node->_data.first < y->_data.first) {
+					y->__left = node;
+					node->_isLeftChild = true;
+				}
+				else {
+					y->__right = node;
+					node->_isLeftChild = false;
+				}
+				__check_color(node);
+			}
 			__pointer __search(__pointer root, __pointer node) {
 				if (cmp(node->_data, root->_data)) {
 					if (root->__left == nullptr || root->__left->_data.first == node->_data.first)
@@ -307,7 +330,8 @@ namespace ft {
 					return ;
 				}
 				__remove_end_from_tree();
-				__insert_(__root, node);
+				// __insert_(__root, node);
+				__optimize_insert(__root, node);
 				__reset_start_end();
 				// __size++;
 			}

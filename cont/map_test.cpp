@@ -180,8 +180,8 @@ int main() {
 	m[2] = 2;
 	m[3] = 3;
 
-	ft::map<int, int>::iterator cit = m.begin();
-	ft::map<int, int>::iterator ite = m.end();
+	ft::map<int, int>::reverse_iterator cit = m.rbegin();
+	ft::map<int, int>::reverse_iterator ite = m.rend();
 	while (cit != ite) {
 		std::cout << cit->first << " " << cit->second << std::endl;
 		cit++;

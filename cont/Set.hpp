@@ -34,13 +34,14 @@ namespace ft {
 			typedef typename allocator_type::const_pointer const_pointer;
 
 			// Iterators
-			typedef pair<key_type, value_type> pair_type;
-			typedef __red_black_tree<key_type, value_type>* __set_tree;
-			typedef __red_black_tree<key_type, value_type> __set_tree_r;
+			typedef pair<const key_type, const value_type> pair_type;
+			typedef __red_black_tree<const key_type, const value_type>* __set_tree;
+			typedef __red_black_tree<const key_type, const value_type> __set_tree_r;
 			typedef Node<pair_type>* __node_tree;
 			// Iterators
 			typedef ft::__set_iterator<__set_tree, __node_tree, pair_type> iterator;
-			typedef const ft::__set_iterator<__set_tree, __node_tree, pair_type> const_iterator;
+			typedef ft::__const_set_iterator<__set_tree, __node_tree, pair_type> const_iterator;
+			// typedef const ft::__set_iterator<__set_tree, __node_tree, pair_type> const_iterator;
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 

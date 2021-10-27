@@ -139,6 +139,10 @@ void tree_test() {
 	ft::pair<int, int> p6 = ft::make_pair<int, int>(150, 9);
 	ft::pair<int, int> p7 = ft::make_pair<int, int>(132, 9);
 	ft::pair<int, int> p8 = ft::make_pair<int, int>(160, 9);
+	ft::pair<int, int> p9 = ft::make_pair<int, int>(170, 9);
+	ft::pair<int, int> p10 = ft::make_pair<int, int>(165, 9);
+	ft::pair<int, int> p11 = ft::make_pair<int, int>(169, 9);
+	ft::pair<int, int> p12 = ft::make_pair<int, int>(180, 9);
 
 	// ft::Node< ft::pair<int, int> > n(p);
 	// ft::Node< ft::pair<int, int> > n1(p1);
@@ -159,7 +163,11 @@ void tree_test() {
 	r.__insert(p5);
 	r.__insert(p6);
 	r.__insert(p7);
-	r.__insert(p8);
+	// r.__insert(p8);
+	// r.__insert(p9);
+	// r.__insert(p10);
+	// r.__insert(p11);
+	// r.__insert(p12);
 	// r.__print_tree();
 	// r.__remove(140);
 	// r.__remove(132);

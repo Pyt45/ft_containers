@@ -25,19 +25,20 @@ namespace ft {
 		public:
 			typedef Key key_type;
 			typedef T mapped_type;
-			typedef pair<key_type, mapped_type> value_type;
+			typedef pair<const key_type, mapped_type> value_type;
 			typedef Compare key_compare;
 			typedef Alloc allocator_type;
 			typedef typename allocator_type::reference reference;
 			typedef typename allocator_type::const_reference const_reference;
 			typedef typename allocator_type::pointer pointer;
 			typedef typename allocator_type::const_pointer const_pointer;
-			typedef __red_black_tree<Key, T>* __map_tree;
-			typedef __red_black_tree<Key, T> __map_tree_r;
+			typedef __red_black_tree<const Key, T>* __map_tree;
+			typedef __red_black_tree<const Key, T> __map_tree_r;
 			typedef Node<value_type>* __node_tree;
 			// Iterators
 			typedef ft::__tree_iterator<__map_tree, __node_tree, value_type> iterator;
-			typedef ft::__tree_iterator<__map_tree, __node_tree, const value_type> const_iterator;
+			typedef ft::__const_tree_iterator<__map_tree, __node_tree, value_type> const_iterator;
+			// typedef ft::__tree_iterator<__map_tree, __node_tree, const value_type> const_iterator;
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 

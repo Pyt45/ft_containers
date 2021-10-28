@@ -80,11 +80,23 @@ int main() {
 	// equal_range_test();
 	NS::set<int> s;
 
-	s.insert(11);
-	s.insert(11);
-	s.insert(11);
+	s.insert(100);
+	s.insert(140);
+	s.insert(90);
+	s.insert(120);
+	s.insert(101);
+	s.insert(130);
+	s.insert(150);
+	s.insert(132);
+	s.insert(160);
+	s.insert(170);
+	s.insert(165);
+	s.insert(169);
+	s.insert(180);
 	NS::set<int>::iterator it = s.begin();
 	NS::set<int>::const_iterator t = s.end();
 	for (; it != t; it++)
 		std::cout << *it << std::endl;
+	std::cout << "===============\n";
+	s.__print_set();
 }

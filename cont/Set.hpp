@@ -21,10 +21,20 @@
 namespace ft {
 	template <class T, class Compare = std::less<T>, class Alloc = std::allocator<T> >
 	class set {
+		private:
+			class val_cmp: public std::binary_function< pair<const T, const T>, pair<const T, const T>, bool > {
+				friend class set;
+				protected:
+					Compare cmp;
+					val_cmp (Compare c): cmp(c) { }
+				public:
+					bool operator()(const pair<const T, const T>& __x, const pair<const T, const T>& __y) const {
+						return cmp(__x.first, __y.first);
+					}
+			};
 		public:
 			typedef T key_type;
 			typedef T value_type;
-			// typedef pair<key_type, value_type> pair_type;
 			typedef Compare key_compare;
 			typedef key_compare value_compare;
 			typedef Alloc allocator_type;
@@ -35,38 +45,44 @@ namespace ft {
 
 			// Iterators
 			typedef pair<const key_type, const value_type> pair_type;
-			typedef __red_black_tree<const key_type, const value_type>* __set_tree;
-			typedef __red_black_tree<const key_type, const value_type> __set_tree_r;
+			typedef __red_black_tree<const key_type, const value_type, val_cmp>* __set_tree;
+			typedef __red_black_tree<const key_type, const value_type, val_cmp> __set_tree_r;
 			typedef Node<pair_type>* __node_tree;
 			// Iterators
 			typedef ft::__set_iterator<__set_tree, __node_tree, pair_type> iterator;
 			typedef ft::__const_set_iterator<__set_tree, __node_tree, pair_type> const_iterator;
-			// typedef const ft::__set_iterator<__set_tree, __node_tree, pair_type> const_iterator;
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 			typedef typename allocator_type::difference_type difference_type;
 			typedef typename allocator_type::size_type size_type;
-			// typedef typename allocator_type::template rebind< __red_black_tree<T, T> >::other __set_allocator;
+
 		private:
 			__set_tree_r __tree;
 			allocator_type alloc;
-			// __set_allocator __alloc;
 			key_compare __comp;
 			value_compare __value_cmp;
+			// val_cmp __val_cmp(value_compare());
 		public:
 			// Memeber Functions
 			set(const key_compare& comp = key_compare(),
-				const allocator_type& alloc = allocator_type()) {
-					this->__comp = comp;
-					this->alloc = alloc;
-				}
+				const allocator_type& alloc = allocator_type()): __tree(val_cmp(comp)), alloc(alloc), __comp(comp) {}
 			template <class InputIterator>
 				set(InputIterator first, InputIterator last,
 					const key_compare& comp = key_compare(),
-					const allocator_type& alloc = allocator_type());
-			set(const set& x);
-
+					const allocator_type& alloc = allocator_type()): __tree(val_cmp(comp)), alloc(alloc), __comp(comp) {
+						insert(first, last);
+					}
+			set& operator=(const set& x) {
+				if (this != &x) {
+					clear();
+					insert(x.begin(), x.end());
+				}
+				return *this;
+			}
+			set(const set& x): __tree(x.__tree) {
+				this->insert(x.begin(), x.end());
+			}
 			// Iterators
 			iterator begin() {
 				return iterator(__tree.__get_start());
@@ -92,8 +108,6 @@ namespace ft {
 			const_reverse_iterator rend() const {
 				return const_reverse_iterator(begin());
 			}
-
-			// Capacity
 			bool empty() const {
 				return __tree.size() == 0;
 			}
@@ -103,8 +117,6 @@ namespace ft {
 			size_type max_size() const {
 				return __tree.max_size();
 			}
-
-			// Modifiers
 			pair<iterator,bool> insert (const value_type& val) {
 				__node_tree node = __tree.__search_key(val);
 				if (node)
@@ -114,10 +126,8 @@ namespace ft {
 				return pair<iterator, bool>(iterator(node), true);
 			}
 			iterator insert (iterator position, const value_type& val) {
-				// must return an iterator to newly inserted ele or
-				// if alredy exist
-				this->insert(val);
-				return position;
+				static_cast<void>(position);
+				return insert(val).first;
 			}
 			template <class InputIterator>
 				void insert (InputIterator first, InputIterator last) {
@@ -125,14 +135,11 @@ namespace ft {
 						this->insert(*first);
 				}
 			void erase (iterator position) {
-				// __node_tree node = __tree->__search_key(position->first)
-				// __tree->__remove(position->first);
+				__tree->__remove(position->first);
 			}
 			size_type erase (const value_type& val) {
-				if (__tree->__search_key(val)) {
-					__tree->__remove(val);
+				if (__tree.__remove(val))
 					return 1;
-				}
 				return 0;
 			}
 			void erase (iterator first, iterator last) {
@@ -140,27 +147,17 @@ namespace ft {
 					this->erase(first);
 			}
 			void swap (set& x) {
-				set tmp;
-				tmp.insert(this->begin(), this->end());
-				this->clear();
-				this->insert(x.begin(), x.end());
-				x.clear();
-				x.insert(tmp.begin(), tmp.end());
-				tmp.clear();
+				__tree.swap(x.__tree);
 			}
 			void clear() {
 				this->erase(this->begin(), this->end());
 			}
-
-			// Observers
 			key_compare key_comp() const {
 				return __comp;
 			}
 			value_compare value_comp() const {
 				return __value_cmp;
 			}
-
-			// Operations
 			iterator find (const value_type& val) const {
 				__node_tree node = __tree.__search_key(val);
 				if (node)
@@ -194,6 +191,9 @@ namespace ft {
 			}
 			allocator_type get_allocator() const {
 				return alloc;
+			}
+			void __print_set() {
+				__tree.__print_tree();
 			}
 	};
 }

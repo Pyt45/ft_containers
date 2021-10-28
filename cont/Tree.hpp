@@ -42,15 +42,6 @@ namespace ft {
 				_black = false;
 				_isLeftChild = false;
 			}
-			// Node<D>& operator=(const Node<D>& rhs) {
-			// 	if (this != &rhs) {
-			// 		__parent = rhs.__parent;
-			// 		__left = rhs.__left;
-			// 		__right = rhs.__right;
-			// 		_black = rhs._black;
-			// 		_data = rhs._data;
-			// 	}
-			// }
 			~Node() {
 			}
 			friend bool operator==(const Node& __x, const Node& __y) {
@@ -61,14 +52,14 @@ namespace ft {
 			}
 	};
 
-	template < class Key, class T, class Compare = std::less< ft::pair<Key, T> >, class Alloc = std::allocator< ft::pair<const Key, T> > >
+	template < class Key, class T, class Compare, class Alloc = std::allocator< ft::pair<const Key, T> > >
 	class __red_black_tree {
 		public:
 			typedef Key key_type;
 			typedef T mapped_type;
 			typedef Alloc allocater_type;
-			typedef ft::pair<key_type, mapped_type> value_type;
-			typedef Compare key_compare;
+			typedef ft::pair<const key_type, mapped_type> value_type;
+			typedef Compare value_compare;
 			typedef typename allocater_type::reference reference;
 			typedef typename allocater_type::const_reference const_reference;
 			typedef typename allocater_type::pointer pointer;
@@ -79,12 +70,12 @@ namespace ft {
 			typedef Node< value_type > __node;
 			typedef typename Alloc::template rebind< __node >::other __node_allocator;
 		private:
-			__node_allocator __alloc;
-			size_type __size;
-			__pointer __root;
-			__pointer __start;
-			__pointer __end;
-			key_compare cmp;
+			__node_allocator	__alloc;
+			size_type			__size;
+			__pointer			__root;
+			__pointer			__start;
+			__pointer			__end;
+			value_compare		cmp;
 			// Debug mode
 
 			# if DEBUG >= 1
@@ -112,23 +103,18 @@ namespace ft {
 			}
 			void __reset_start_end() {
 				__pointer tmp = __root;
-				__start = __tree_min(tmp);
+				if (tmp)
+					__start = __tree_min(tmp);
 				tmp = __root;
+				if (tmp) {
 				while (tmp->__right)
-					tmp = tmp->__right;
-				// std::cout << "4\n";
-				if (tmp == __end)
-				{
-					// std::cout << "1tmp = " << tmp->_data.first << "\n";
-					tmp = tmp->__parent;
-					// return ;
+						tmp = tmp->__right;
+					if (tmp == __end)
+						tmp = tmp->__parent;
+					else 
+						tmp->__right = __end;
+					__end->__parent = tmp;
 				}
-				else {
-					// std::cout << "tmp = " << tmp->_data.first << "\n";
-					tmp->__right = __end;
-				}
-				__end->__parent = tmp;
-				// std::cout << "5\n";
 			}
 			void __insert_(__pointer root, __pointer node) {
 				// if (!cmp(node->_data, root->_data)) {
@@ -192,20 +178,19 @@ namespace ft {
 					}
 				}
 				__check_color(node);
-				// __reset_start_end();
 			}
 			void __optimize_insert(__pointer root, __pointer node) {
 				__pointer tmp = root;
 				__pointer y = nullptr;
 				while (tmp) {
 					y = tmp;
-					if (node->_data.first < tmp->_data.first)
+					if (cmp(node->_data, tmp->_data))
 						tmp = tmp->__left;
 					else
 						tmp = tmp->__right;
 				}
 				node->__parent = y;
-				if (node->_data.first < y->_data.first) {
+				if (cmp(node->_data, y->_data)) {
 					y->__left = node;
 					node->_isLeftChild = true;
 					__size++;
@@ -259,7 +244,8 @@ namespace ft {
 				if (__successor->__parent) {
 					if (__successor->_isLeftChild) {
 						__successor->__parent->__left = __successor_child;
-						__successor_child->_isLeftChild = true;
+						if (__successor_child)
+							__successor_child->_isLeftChild = true;
 						if (__successor != __root)
 							__uncle = __successor->__parent->__right;
 						else
@@ -307,42 +293,30 @@ namespace ft {
 				__alloc.deallocate(__successor, 1);
 				// there is no need to rebalance if remove a red, or if we removed the last node
 				if (__removed_black && __root) {
-					std::cout << "rebalance\n";
 					// __fix_tree_after_deletion(__uncle, __succsessor_child, __);
-					if (__successor_child) {
+					if (__successor_child)
 						__successor_child->_black = true;
-						std::cout << "Done rebalancing\n";
-					}
 					else {
-						std::cout << "do some stuff here\n";
 						while (true) {
+							break ;
 						}
 					}
 				}
 			}
 		public:
-			__red_black_tree() {
-				// cmp = key_compare();
-				// __root = __alloc.allocate(0);
-				// __alloc.construct(__root);
+			__red_black_tree(value_compare c): cmp(c) {
 				__root = nullptr;
 				__size = 0;
 				__start = __end = __alloc.allocate(1);
 				__alloc.construct(__start);
 				__alloc.construct(__end);
 			}
-			// __red_black_tree(const value_type& data) {
-			// 	// cmp = key_compare();
-			// 	__root = __alloc.allocate(1);
-			// 	__alloc.construct(__root, data);
-			// 	__size = 1;
-			// 	__start = __end = __alloc.allocate(1);
-			// }
 			size_type max_size() const {
 				return __alloc.max_size();
 			}
 			__pointer __get_start() const {
-				return __start;
+				__pointer tmp = __root;
+				return __tree_min(tmp);
 			}
 			__pointer __get_end() const {
 				return __end;
@@ -353,7 +327,6 @@ namespace ft {
 				if (this->__root == nullptr) {
 					__root = node;
 					__root->_black = true;
-					// __start = __end;
 					__reset_start_end();
 					__size++;
 					return ;
@@ -374,18 +347,41 @@ namespace ft {
 					return (__root);
 				return __search(__root, node);
 			}
-			void __remove(const key_type& key) {
+			size_type __remove(const key_type& key) {
 				__pointer __node_to_del = __search_key(key);
 				if (__node_to_del) {
 					__remove_end_from_tree();
 					__remove_from_tree(__node_to_del);
 					__reset_start_end();
+					if (!__root)
+						__start = __end;
 					__size--;
+					return 1;
 				}
+				return 0;
+			}
+			void swap(__red_black_tree& __t) {
+				__pointer _root = __root;
+				__pointer _start = __start;
+				__pointer _end = __end;
+				size_type _size = __size;
+
+				__root = __t.__root;
+				__start = __t.__start;
+				__end = __t.__end;
+				__size = __t.__size;
+
+				__t.__root = _root;
+				__t.__start = _start;
+				__t.__end = _end;
+				__t.__size = _size;
 			}
 			size_type size() const {
 				return __size;
 			}
+			void set_size(size_type s) {
+				__size = s;
+			} 
 			void __left_rotate(__pointer node) {
 				__pointer tmp = node->__right;
 				node->__right = tmp->__left;
@@ -523,25 +519,25 @@ namespace ft {
 				__print_tree(__root, 0);
 			}
 			# endif
-			__pointer __tree_max(__pointer __x) {
+			__pointer __tree_max(__pointer __x) const {
 				while (__x->__right)
 					__x = __x->__right;
 				return __x;
 			}
 
-			__pointer __tree_min(__pointer __x) {
+			__pointer __tree_min(__pointer __x) const {
 				while (__x->__left)
 					__x = __x->__left;
 				return __x;
 			}
-			__pointer __tree_next(__pointer __x) {
+			__pointer __tree_next(__pointer __x) const {
 				if (__x->__right)
 					return __tree_min(__x->__right);
 				while(!__x->_isLeftChild)
 					__x = __x->__parent;
 				return __x->__parent;
 			}
-			__pointer __tree_prev(__pointer __x) {
+			__pointer __tree_prev(__pointer __x) const {
 				if (__x->__left)
 					return __tree_max(__x->__left);
 				__pointer tmp = __x;
@@ -567,7 +563,6 @@ namespace ft {
 			iterator_ptr __p;
 		public:
 			__tree_iterator(): __i() {}
-			// __tree_iterator(iterator_type __u): __i(__u) {}
 			__tree_iterator(iterator_ptr __u) {
 				__i = iterator_type(__u);
 				__p = __u;
@@ -576,10 +571,11 @@ namespace ft {
 				__i = __u.base();
 				__p = __u.__p;
 			}
-
 			__tree_iterator& operator=(const __tree_iterator & __u) {
-				if (this != &__u)
+				if (this != &__u) {
 					this->__i = __u.base();
+					this->__p = __u.__base_ptr();
+				}
 				return (*this);
 			}
 			~__tree_iterator() {}
@@ -640,7 +636,6 @@ namespace ft {
 			iterator_ptr __p;
 		public:
 			__const_tree_iterator(): __i() {}
-			// __tree_iterator(iterator_type __u): __i(__u) {}
 			__const_tree_iterator(iterator_ptr __u) {
 				__i = iterator_type(__u);
 				__p = __u;
@@ -655,8 +650,10 @@ namespace ft {
 			}
 
 			 __const_tree_iterator& operator=(const __const_tree_iterator& __u) {
-				if (this != &__u)
+				if (this != &__u) {
 					this->__i = __u.base();
+					this->__p = __u.__base_ptr();
+				}
 				return (*this);
 			}
 			~ __const_tree_iterator() {}
@@ -724,10 +721,8 @@ namespace ft {
 		private:
 			iterator_type __i;
 			iterator_ptr __p;
-			// __pair_iter pair;
 		public:
 			__set_iterator(): __i() {}
-			// __set_iterator(iterator_type __u): __i(__u) {}
 			__set_iterator(iterator_ptr __u) {
 				__i = iterator_type(__u);
 				__p = __u;
@@ -740,7 +735,7 @@ namespace ft {
 			__set_iterator& operator=(__set_iterator const & __u) {
 				if (this != &__u) {
 					this->__i = __u.base();
-					this->__p = __u.__p;
+					this->__p = __u.__base_ptr();
 				}
 				return (*this);
 			}
@@ -799,10 +794,8 @@ namespace ft {
 		private:
 			iterator_type __i;
 			iterator_ptr __p;
-			// __pair_iter pair;
 		public:
 			__const_set_iterator(): __i() {}
-			// __const_set_iterator(iterator_type __u): __i(__u) {}
 			__const_set_iterator(iterator_ptr __u) {
 				__i = iterator_type(__u);
 				__p = __u;
@@ -810,7 +803,6 @@ namespace ft {
 			__const_set_iterator(const __const_set_iterator & __u) {
 				__i = __u.base();
 				__p = __u.__p;
-				// pair = __u.pair;
 			}
 			__const_set_iterator(const iterator& it) {
 				__i = it.base();
@@ -819,7 +811,7 @@ namespace ft {
 			__const_set_iterator& operator=(const __const_set_iterator & __u) {
 				if (this != &__u) {
 					this->__i = __u.base();
-					this->__p = __u.__p;
+					this->__p = __u.__base_ptr();
 				}
 				return (*this);
 			}

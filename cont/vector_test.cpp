@@ -137,9 +137,9 @@ int main(int argc, char** argv) {
 	// }
 	
 	for (int i = 0; i < COUNT; ++i)
-	{
 		map_int.insert(ns::make_pair(rand(), rand()));
-	}
+	
+	std::cout << map_int.find(5096)->first << std::endl;
     // for (ns::map<int, int>::iterator it = map_int.begin(); it != map_int.end(); it++)
     //    std::cout << it->first << std::endl;
 	// int sum = 0;
@@ -163,3 +163,7 @@ int main(int argc, char** argv) {
 	// std::cout << std::endl;
 	return (0);
 }
+
+// // 
+
+// insert()

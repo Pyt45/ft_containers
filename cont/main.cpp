@@ -153,16 +153,16 @@ void tree_test() {
 	// ft::Node< ft::pair<int, int> > n6(p6);
 	// ft::Node< ft::pair<int, int> > n7(p7);
 
-	ft::__red_black_tree<int, int> r;
+	// ft::__red_black_tree<int, int, ft::map<int, int>::value_compare> r;
 
-	r.__insert(p);
-	r.__insert(p1);
-	r.__insert(p2);
-	r.__insert(p3);
-	r.__insert(p4);
-	r.__insert(p5);
-	r.__insert(p6);
-	r.__insert(p7);
+	// r.__insert(p);
+	// r.__insert(p1);
+	// r.__insert(p2);
+	// r.__insert(p3);
+	// r.__insert(p4);
+	// r.__insert(p5);
+	// r.__insert(p6);
+	// r.__insert(p7);
 	// r.__insert(p8);
 	// r.__insert(p9);
 	// r.__insert(p10);
@@ -171,10 +171,10 @@ void tree_test() {
 	// r.__print_tree();
 	// r.__remove(140);
 	// r.__remove(132);
-	std::cout << "========================\n";
-	r.__print_tree();
-	std::cout << "========================\n";
-	std::cout << "s = " << r.size() << std::endl;
+	// std::cout << "========================\n";
+	// r.__print_tree();
+	// std::cout << "========================\n";
+	// std::cout << "s = " << r.size() << std::endl;
 	// ft::Node< ft::pair<int, int> > *b = r.__tree_next(&n3);
 	// r.__remove(10);
 	// std::cout << b->_data.first << std::endl;

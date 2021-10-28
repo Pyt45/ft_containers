@@ -1,4 +1,5 @@
 #include <map>
+#include <iostream>
 #include "Map.hpp"
 
 // void insert_range_test() {
@@ -163,7 +164,7 @@
 // 	std::cout << "ft->upper = " << origin1.upper_bound(11)->first << std::endl;
 // 	std::cout << "=======================\n";
 // }
-
+#define NS ft
 int main() {
 	// lower_upper_bound_test();
 	// find_test();
@@ -175,13 +176,66 @@ int main() {
 	// insert_test();
 	// std::cout << "====================== insertion at pos test =======================\n";
 	// insert_at_position();
-	ft::map<int, int> m;
-	m[0] = 1;
-	m[2] = 2;
-	m[3] = 3;
+	NS::map<int, int> m;
+	NS::map<int, int> m1;
+	m[100] = 0;
+	m[140] = 1;
+	m[90] = 2;
+	m[120] = 2;
+	m[101] = 2;
 
-	ft::map<int, int>::reverse_iterator cit = m.rbegin();
-	ft::map<int, int>::reverse_iterator ite = m.rend();
+	m1[500] = 500;
+	m1[400] = 400;
+	m1[700] = 700;
+	// m[130] = 2;
+	// m[150] = 2;
+	// m[132] = 2;
+	// m[160] = 2;
+	// m[170] = 2;
+	// m[165] = 2;
+	// m[169] = 2;
+	// m[180] = 2;
+
+	// m.__print_map();
+	// m[90] = 2;
+	// m[90] = 2;
+	// m[90] = 2;
+	// m[90] = 2;
+	// m[90] = 2;
+	// NS::map<int, int>::iterator t = m.end();
+	// NS::map<int, int>::iterator it = m.insert(t, NS::pair<int, int>(200, 5));
+	// std::cout << it->first << std::endl;
+
+	std::cout << "=======================\n";
+	// NS::map<int, int> m1(m);
+	// while (cit != ite) {
+	// 	std::cout << cit->first << " " << cit->second << std::endl;
+	// 	cit++;
+	// }
+	// m.clear();
+	// NS::map<int, int>::iterator t = m.end();
+	// t--;
+	// m.erase(100);
+	// m.erase(140);
+	NS::map<int, int>::iterator cit = m.begin();
+	NS::map<int, int>::iterator ite = m.end();
+	// while (cit != ite) {
+	// 	std::cout << cit->first << " " << cit->second << std::endl;
+	// 	cit++;
+	// }
+	std::cout << "before swap\n";
+	std::cout << "=======================\n";
+	m.swap(m1);
+	std::cout << "after swap\n";
+
+	// ite = m1.end();
+	std::cout << m1.size() << std::endl;
+	// m.__print_map();
+	// cit = m.begin();
+
+	cit = m.begin();
+	ite = m.end();
+	// std::cout << cit->first << std::endl;
 	while (cit != ite) {
 		std::cout << cit->first << " " << cit->second << std::endl;
 		cit++;

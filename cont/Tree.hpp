@@ -311,6 +311,9 @@ namespace ft {
 				__alloc.construct(__start);
 				__alloc.construct(__end);
 			}
+			~__red_black_tree() {
+				
+			}
 			size_type max_size() const {
 				return __alloc.max_size();
 			}

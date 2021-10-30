@@ -289,8 +289,8 @@ namespace ft {
 					if (__node_to_del == __root)
 						__root = __successor;
 				}
-				__alloc.destroy(__successor);
-				__alloc.deallocate(__successor, 1);
+				__alloc.destroy(__node_to_del);
+				__alloc.deallocate(__node_to_del, 1);
 				// there is no need to rebalance if remove a red, or if we removed the last node
 				if (__removed_black && __root) {
 					// __fix_tree_after_deletion(__uncle, __succsessor_child, __);

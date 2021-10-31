@@ -107,7 +107,7 @@ namespace ft {
 					__start = __tree_min(tmp);
 				tmp = __root;
 				if (tmp) {
-				while (tmp->__right)
+					while (tmp->__right)
 						tmp = tmp->__right;
 					if (tmp == __end)
 						tmp = tmp->__parent;
@@ -246,8 +246,11 @@ namespace ft {
 						__successor->__parent->__left = __successor_child;
 						if (__successor_child)
 							__successor_child->_isLeftChild = true;
-						if (__successor != __root)
+						if (__successor != __root) {
 							__uncle = __successor->__parent->__right;
+							if (__uncle)
+								__uncle->_isLeftChild = false;
+						}
 						else
 							__root = __successor_child;
 					}
@@ -256,6 +259,8 @@ namespace ft {
 						if (__successor_child)
 							__successor_child->_isLeftChild = false;
 						__uncle = __successor->__parent->__left;
+						if (__uncle)
+							__uncle->_isLeftChild = true;
 					}
 				}
 				else
@@ -298,7 +303,72 @@ namespace ft {
 						__successor_child->_black = true;
 					else {
 						while (true) {
-							break ;
+							if (!__uncle->_isLeftChild) {
+								if (!__uncle->_black) {
+									__uncle->_black = true;
+									__uncle->__parent->_black = false;
+									__left_rotate(__uncle->__parent);
+									if (__root == __uncle->__left)
+										__root = __uncle;
+									__uncle = __uncle->__left->__right;
+								}
+								if ((!__uncle->__left || __uncle->__left->_black) &&
+									(!__uncle->__right || __uncle->__right->_black)) {
+									__uncle->_black = false;
+									__successor_child = __uncle->__parent;
+									if (__successor_child == __root || !__successor_child->_black) {
+										__successor_child->_black = true;
+										break ;
+									}
+									__uncle = (__successor_child->_isLeftChild) ? __successor_child->__parent->__right : __successor_child->__parent->__left;
+								}
+								else {
+									if (!__uncle->__right || __uncle->__right->_black) {
+										__uncle->__left->_black = true;
+										__uncle->_black = false;
+										__right_rotate(__uncle);
+										__uncle = __uncle->__parent;
+									}
+									__uncle->_black = __uncle->__parent->_black;
+									__uncle->__parent->_black = true;
+									__uncle->__right->_black = true;
+									__left_rotate(__uncle->__parent);
+									break ;
+								}
+							}
+							else {
+								if (!__uncle->_black) {
+									__uncle->_black = true;
+									__uncle->__parent->_black = false;
+									__right_rotate(__uncle->__parent);
+									if (__root == __uncle->__right)
+										__root = __uncle;
+									__uncle = __uncle->__right->__left;
+								}
+								if ((!__uncle->__left || __uncle->__left->_black) &&
+									(!__uncle->__right || __uncle->__right->_black)) {
+									__uncle->_black = false;
+									__successor_child = __uncle->__parent;
+									if (!__successor_child->_black || __successor_child == __root) {
+										__successor_child->_black = true;
+										break ;
+									}
+									__uncle = __successor_child->_isLeftChild ? __successor_child->__parent->__right : __successor_child->__parent->__left;
+								}
+								else {
+									if (!__uncle->__left || __uncle->__left->_black) {
+										__uncle->__right->_black = true;
+										__uncle->_black = false;
+										__left_rotate(__uncle);
+										__uncle = __uncle->__parent;
+									}
+									__uncle->_black = __uncle->__parent->_black;
+									__uncle->__parent->_black = true;
+									__uncle->__left->_black = true;
+									__right_rotate(__uncle->__parent);
+									break ;
+								}
+							}
 						}
 					}
 				}

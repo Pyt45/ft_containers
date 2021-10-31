@@ -130,7 +130,7 @@ __tree_remove(_NodePtr __root, _NodePtr __z)
                         break;
                     }
                 }
-                else
+                else // x is a right child
                 {
                     if (!__w->__is_black_)
                     {

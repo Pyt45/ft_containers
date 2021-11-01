@@ -299,8 +299,10 @@ namespace ft {
 				// there is no need to rebalance if remove a red, or if we removed the last node
 				if (__removed_black && __root) {
 					// __fix_tree_after_deletion(__uncle, __succsessor_child, __);
-					if (__successor_child)
+					if (__successor_child) {
 						__successor_child->_black = true;
+						std::cout << "DONE\n";
+					}
 					else {
 						while (true) {
 							if (!__uncle->_isLeftChild) {

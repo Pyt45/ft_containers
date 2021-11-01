@@ -80,7 +80,6 @@ namespace ft
 						const allocator_type& alloc = allocator_type(),
 						typename enable_if< !is_integral<InputIterator>::value, bool >::type = true)
 				{
-					std::cout << "hey\n";
 					_size = _cap = 0;
 					_alloc = alloc;
 					_items = nullptr;

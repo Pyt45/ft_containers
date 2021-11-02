@@ -48,7 +48,7 @@ namespace ft
 					T* tmp = _items;
 					// _items = new T[size];
 					_items = _alloc.allocate(size);
-					for (size_t i = 0; i < _size; i++)
+					for (size_type i = 0; i < _size; i++)
 						__copy_construct(i, tmp[i]);
 					// _items[i] = tmp[i];
 					for (size_type i = 0; i < _size; i++)
@@ -65,7 +65,8 @@ namespace ft
 			explicit vector(const allocator_type& alloc = allocator_type())
 			{
 				_alloc = alloc;
-				_items = _alloc.allocate(1);
+				_items = _alloc.allocate(0);
+				_alloc.construct(_items);
 				_size = _cap = 0;
 			}
 			explicit vector(size_type n, const value_type& val = value_type())
@@ -80,27 +81,37 @@ namespace ft
 						const allocator_type& alloc = allocator_type(),
 						typename enable_if< !is_integral<InputIterator>::value, bool >::type = true)
 				{
-					_size = _cap = 0;
+					size_type len = static_cast<size_type>(last - first);
+					_cap = len;
+					_size = 0;
 					_alloc = alloc;
-					_items = nullptr;
+					_items = _alloc.allocate(0);
+					_alloc.construct(_items);
 					this->assign(first, last);
 				}
-			vector(vector const& x)
+			vector(vector const& x): _size(0), _cap(x._size), _alloc(x._alloc)
 			{
-				_size = _cap = 0;
-				_items = _alloc.allocate(1);
-				*this = x;
+				this->_items = _alloc.allocate(_cap);
+				for (;_size < _cap; _size++)
+					__copy_construct(_size, x._items[_size]);
 			}
 			vector& operator=(vector const& x)
 			{
 				if (this != &x)
 				{
-					this->_size = x._size;
-					this->_cap = x._cap;
-					this->_alloc = x._alloc;
-					this->_items = _alloc.allocate(_size);
-					for (int i = 0; i < x._size; i++)
-						__copy_construct(i, x._items[i]);
+					// this->_size = x._size;
+					// this->_cap = x._cap;
+					// this->_alloc = x._alloc;
+					// this->_items = _alloc.allocate(_size);
+					// for (size_type i = 0; i < x._size; i++)
+					// 	__copy_construct(i, x._items[i]);
+					if (x._size > _cap) {
+						__allocate_container(x._size);
+						this->_size = x._size;
+					} else {
+						__allocate_container(x._cap);
+						this->_size = x._size;
+					}
 				}
 				return *this;
 			}
@@ -177,12 +188,12 @@ namespace ft
 				return _items[n];
 			}
 			reference at (size_type n) {
-				if (n >= _cap)
+				if (n >= _size)
 					throw std::out_of_range("Index out of range");
 				return _items[n];
 			}
 			const_reference at (size_type n) const {
-				if (n >= _cap)
+				if (n >= _size)
 					throw std::out_of_range("Index out of range");
 				return _items[n];
 			}
@@ -211,10 +222,7 @@ namespace ft
 					push_back(val);
 			}
 			void push_back (const value_type& val) {
-				// std::cout << "_cap = " << _cap << std::endl;
-				// std::cout << "_size = " << _size << std::endl;
-				if (_size  ==  _cap)
-				{
+				if (_size == _cap) {
 					__allocate_container(_cap * 2);
 				}
 				if (_cap == 0)
@@ -224,7 +232,6 @@ namespace ft
 			void pop_back() {
 				_alloc.destroy(_items + _size);
 				_size--;
-				// _items[--_size].value_type::~value_type();
 			}
 			iterator insert (iterator position, const value_type& val) {
 				insert(position, 1, val);

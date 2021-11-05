@@ -71,10 +71,10 @@ namespace ft
 			}
 			explicit vector(size_type n, const value_type& val = value_type())
 			{
-				_size = _cap = n;
+				_cap = n;
 				_items = _alloc.allocate(n);
-				for (size_type i = 0; i < n; i++)
-					__copy_construct(i, val);
+				for (_size = 0; _size < n; _size++)
+					__copy_construct(_size, val);
 			}
 			template <class InputIterator>
 				vector(InputIterator first, InputIterator last,
@@ -85,9 +85,9 @@ namespace ft
 					_cap = len;
 					_size = 0;
 					_alloc = alloc;
-					_items = _alloc.allocate(0);
-					_alloc.construct(_items);
-					this->assign(first, last);
+					_items = _alloc.allocate(_cap);
+					for (; first != last; first++)
+						__copy_construct(_size++, *first);
 				}
 			vector(vector const& x): _size(0), _cap(x._size), _alloc(x._alloc)
 			{
@@ -99,6 +99,7 @@ namespace ft
 			{
 				if (this != &x)
 				{
+					// problem here
 					// this->_size = x._size;
 					// this->_cap = x._cap;
 					// this->_alloc = x._alloc;
@@ -109,16 +110,16 @@ namespace ft
 						__allocate_container(x._size);
 						this->_size = x._size;
 					} else {
-						__allocate_container(x._cap);
+						__allocate_container(x._cap * 2);
 						this->_size = x._size;
 					}
 				}
 				return *this;
 			}
 			~vector() {
-				// clear();
+				clear();
 				if (_items)
-					_alloc.deallocate(_items, _cap);
+					_alloc.deallocate(_items, _size);
 			}
 			iterator begin() {
 				return iterator(&_items[0]);
@@ -156,13 +157,13 @@ namespace ft
 					for (size_type i = _size - n; i > 0; i--)
 						pop_back();
 				}
-				if (n > _size) {
+				else if (n > _size) {
 					// _size = _cap = n;
 					// this->reserve(n);
 					if (_size + 1 > _cap)
-						reserve(n);
+						reserve(_cap * 2);
 					else if (n > _cap)
-						__allocate_container(_cap * 2);
+						__allocate_container(n);
 					for (size_type i = _size; i < n; i++)
 					{
 						__copy_construct(i, val);
@@ -189,12 +190,12 @@ namespace ft
 			}
 			reference at (size_type n) {
 				if (n >= _size)
-					throw std::out_of_range("Index out of range");
+					throw std::out_of_range("vector");
 				return _items[n];
 			}
 			const_reference at (size_type n) const {
 				if (n >= _size)
-					throw std::out_of_range("Index out of range");
+					throw std::out_of_range("vector");
 				return _items[n];
 			}
 			reference front() {
@@ -212,9 +213,13 @@ namespace ft
 			template <class InputIterator>
 				void assign (InputIterator first, InputIterator last,
 				typename enable_if<!is_integral<InputIterator>::value, bool>::type = true) {
-					clear();
+					size_type len = static_cast<size_type>(last - first);
+					if (len > _cap)
+						_cap = len;
+					_size = 0;
+					_items = _alloc.allocate(_cap);
 					for (; first != last; first++)
-						push_back(*first);
+						__copy_construct(_size++, *first);
 				}
 			void assign (size_type n, const value_type& val) {
 				clear();

@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 
-#define NS 0
+#define NS 1
 
 #if NS
     #include <map>
@@ -76,16 +76,53 @@ void vector_iterator_test() {
     std::cout << "size of vector = " << v.size() << std::endl;
     std::cout << "capacity of vector = " << v.capacity() << std::endl;
     ns::vector<std::string> vector_swap;
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 12; i++)
         vector_swap.push_back("1");
-    vector_swap = v;
+    // vector_swap = v;
     std::cout << "===========\n";
     std::cout << "size of vector_swap = " << vector_swap.size() << std::endl;
     std::cout << "capacity of vector_swap = " << vector_swap.capacity() << std::endl;
 }
-// void vector_capacity_test();
-// void vector_access_test();
-// void vector_modifiers_test();
+void vector_capacity_test() {
+    ns::vector<int> vector_int(10, 5);
+    std::cout << "max size = " << vector_int.max_size() << std::endl;
+    std::cout << "size = " << vector_int.size() << std::endl;
+    std::cout << "capacity = " << vector_int.capacity() << std::endl;
+    vector_int.push_back(1);
+    std::cout << "==== after push_back ====\n";
+    std::cout << "size = " << vector_int.size() << std::endl;
+    std::cout << "capacity = " << vector_int.capacity() << std::endl;
+    vector_int.resize(50, 2);
+    std::cout << "==== vector_int after resize ====\n";
+    std::cout << "size = " << vector_int.size() << std::endl;
+    std::cout << "capacity = " << vector_int.capacity() << std::endl;
+    vector_int.resize(10, 3);
+    std::cout << "size = " << vector_int.size() << std::endl;
+    std::cout << "capacity = " << vector_int.capacity() << std::endl;
+    std::cout << "==== vector_int after reserve ====\n";
+    vector_int.reserve(100);
+    std::cout << "size = " << vector_int.size() << std::endl;
+    std::cout << "capacity = " << vector_int.capacity() << std::endl;
+}
+void vector_access_test() {
+    int arr[] = {1, 2, 3, 4, 5, 6, 7};
+    ns::vector<int> vector_string(arr, arr + static_cast<int>(sizeof(arr) / sizeof(int)));
+    std::cout << "==== test try catch ====\n";
+    try {
+        for (size_t i = 0; i < 8; i++)
+            std::cout << vector_string.at(i) << std::endl;
+    } catch(const std::exception& e) {
+        std::cout << e.what() << std::endl;
+    }
+}
+void vector_modifiers_test() {
+    ns::vector<int> vector_int;
+    ns::vector<int> vector_range;
+    for (int i = 0; i < 10; i++)
+        vector_range.push_back(i);
+    vector_int.assign(vector_range.begin(), vector_range.end());
+    
+}
 // void vector_random_test();
 void vector_time_test() {
     ns::vector<int> vector_int;
@@ -145,7 +182,10 @@ int main(int argc, char **argv) {
 	srand(seed);
 
     // Vector
-    vector_iterator_test();
+    // vector_iterator_test();
+    // vector_capacity_test();
+    // vector_access_test();
+    vector_modifiers_test();
     // Map
 
     // Set

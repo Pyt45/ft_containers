@@ -185,7 +185,8 @@ int main(int argc, char **argv) {
     // vector_iterator_test();
     // vector_capacity_test();
     // vector_access_test();
-    vector_modifiers_test();
+    // vector_modifiers_test();
+    vector_time_test();
     // Map
 
     // Set

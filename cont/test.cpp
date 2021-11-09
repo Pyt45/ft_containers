@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 
-#define NS 0
+#define NS 1
 
 #if NS
     #include <map>
@@ -118,9 +118,17 @@ void vector_access_test() {
 void vector_modifiers_test() {
     ns::vector<int> vector_int;
     ns::vector<int> vector_range;
+    std::cout << "==== assign range method ====\n";
     for (int i = 0; i < 10; i++)
         vector_range.push_back(i);
     vector_int.assign(vector_range.begin(), vector_range.end());
+    std::cout << "vector_int size: " << vector_int.size() << std::endl;
+    std::cout << "vector_int capacity: " << vector_int.capacity() << std::endl;
+    std::cout << "==== assign method ====\n";
+    ns::vector<int> v_range(15, 5);
+    v_range.assign(10, 10);
+    std::cout << "v_range size: " << v_range.size() << std::endl;
+    std::cout << "v_range capacity: " << v_range.capacity() << std::endl;
 }
 void vector_random_test() {
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
@@ -152,8 +160,8 @@ void vector_time_test() {
     vector_swap.swap(vector_int);
     std::cout << "vector_swap size: " << vector_swap.size() << std::endl;
     std::cout << "vector_swap capacity: " << vector_swap.capacity() << std::endl;
-    // for (int i = 0; i < COUNT; i++)
-    //     std::cout << vector_swap[i] << std::endl;
+    for (int i = 0; i < COUNT; i++)
+        std::cout << vector_swap[i] << std::endl;
 }
 
 
@@ -207,9 +215,9 @@ int main(int argc, char **argv) {
     // vector_iterator_test();
     // vector_capacity_test();
     // vector_access_test();
-    // vector_modifiers_test();
+    vector_modifiers_test();
     // vector_time_test();
-    vector_random_test();
+    // vector_random_test();
     // Map
 
     // Set

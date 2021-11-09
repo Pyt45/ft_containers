@@ -99,24 +99,11 @@ namespace ft
 			{
 				if (this != &x)
 				{
-					// problem here
-					// this->_size = x._size;
-					// this->_cap = x._cap;
-					// this->_alloc = x._alloc;
-					// this->_items = _alloc.allocate(_size);
-					// for (size_type i = 0; i < x._size; i++)
-					// 	__copy_construct(i, x._items[i]);
-					// if (x._size > _cap) {
-					// 	__allocate_container(x._size);
-					// 	this->_size = x._size;
-					// } else {
-					// 	__allocate_container(x._cap * 2);
-					// 	this->_size = x._size;
-					// }
 					vector tmp(x);
 					if (_cap > x._cap) {
+						_alloc.deallocate(_items, _size);
+						_items = _alloc.allocate(_cap);
 						this->_size = x._size;
-						__allocate_container(_cap);
 						for (size_t i = 0; i < _size; i++)
 							__copy_construct(i, x._items[i]);
 					}
@@ -231,9 +218,19 @@ namespace ft
 						__copy_construct(_size++, *first);
 				}
 			void assign (size_type n, const value_type& val) {
+				size_type s = _size;
 				clear();
-				for (size_type i = 0; i < n; i++)
-					push_back(val);
+				if (_items)
+					_alloc.deallocate(_items, s);
+				_items = _alloc.allocate(n);
+				if (n > _cap) {
+					_cap = n;
+					while (_size < n)
+						__copy_construct(_size++, val);
+				} else {
+					while (_size < n)
+						__copy_construct(_size++, val);
+				}
 			}
 			void push_back (const value_type& val) {
 				if (_size == _cap) {

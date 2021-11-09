@@ -116,6 +116,9 @@ namespace ft
 					vector tmp(x);
 					if (_cap > x._cap) {
 						this->_size = x._size;
+						__allocate_container(_cap);
+						for (size_t i = 0; i < _size; i++)
+							__copy_construct(i, x._items[i]);
 					}
 					else
 						swap(tmp);

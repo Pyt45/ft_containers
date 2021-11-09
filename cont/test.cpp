@@ -123,10 +123,10 @@ void vector_modifiers_test() {
     vector_int.assign(vector_range.begin(), vector_range.end());
 }
 void vector_random_test() {
-    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8};
+    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
     ns::vector<int> vector_range(arr, arr + static_cast<int>(sizeof(arr) / sizeof(int)));
     ns::vector<int> vector_int;
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 15; i++)
         vector_int.push_back(i); 
     std::cout << "size of vector_int: " << vector_int.size() << std::endl;
     std::cout << "size of vector_range: " << vector_range.size() << std::endl;
@@ -135,6 +135,14 @@ void vector_random_test() {
     vector_int = vector_range;
     std::cout << "size of vector_int: " << vector_int.size() << std::endl;
     std::cout << "capacity of vector_int: " << vector_int.capacity() << std::endl;
+    for (auto i: vector_int)
+        std::cout << i << std::endl;
+    std::cout << "=== copy constructor ====\n";
+    ns::vector<int> vector_copy(vector_int);
+    for (auto j: vector_copy)
+        std::cout << j << std::endl; 
+    std::cout << "size of vector_copy: " << vector_copy.size() << std::endl;
+    std::cout << "capacity of vector_copy: " << vector_copy.capacity() << std::endl;
 }
 void vector_time_test() {
     ns::vector<int> vector_int;

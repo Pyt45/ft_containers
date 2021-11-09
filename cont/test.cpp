@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 
-#define NS 1
+#define NS 0
 
 #if NS
     #include <map>
@@ -130,6 +130,17 @@ void vector_modifiers_test() {
     std::cout << "v_range size: " << v_range.size() << std::endl;
     std::cout << "v_range capacity: " << v_range.capacity() << std::endl;
 }
+
+void vector_modifiers_second_test() {
+    ns::vector<int> vector_int;
+    vector_int.assign(10, 5);
+    ns::vector<int>::iterator it = vector_int.insert(vector_int.begin(), 15);
+    std::cout << *it << std::endl;
+    std::cout << "vec\n";
+    for (int i = 0; i < (int)vector_int.size(); i++)
+        std::cout << vector_int[i] << std::endl;
+}
+
 void vector_random_test() {
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
     ns::vector<int> vector_range(arr, arr + static_cast<int>(sizeof(arr) / sizeof(int)));
@@ -215,7 +226,8 @@ int main(int argc, char **argv) {
     // vector_iterator_test();
     // vector_capacity_test();
     // vector_access_test();
-    vector_modifiers_test();
+    // vector_modifiers_test();
+    vector_modifiers_second_test();
     // vector_time_test();
     // vector_random_test();
     // Map

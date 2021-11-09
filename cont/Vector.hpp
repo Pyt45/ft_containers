@@ -245,14 +245,41 @@ namespace ft
 				_size--;
 			}
 			iterator insert (iterator position, const value_type& val) {
-				insert(position, 1, val);
-				return (++position);
+				// insert(position, 1, val);
+				// // ++position;
+				// std::cout << "pos = " << *position << std::endl;
+				// return (position);
+				size_type i = 0;
+				T* tmp;
+				if (_size + 1 >= _cap) {
+					tmp = _alloc.allocate(_size + 1);
+					for (size_type j = 0; j < _size; j++)
+						tmp[j] = _items[j];
+					
+				}
+				// __allocate_container(_size + 1);
+				iterator it = begin();
+				while (it != position) {
+					it++;
+					i++;
+				}
+				
+				for (size_type idx = _size + 1; ; idx--)
+				{
+					__copy_construct(idx, _items[idx - 1]);
+					if (idx == i)
+						break ;
+				}
+				for (size_type k = 0; k < 1; k++)
+					__copy_construct(k + i, val);
+				_size += 1;
+				return it;
 			}
 			void insert (iterator position, size_type n, const value_type& val) {
-				iterator it = begin();
 				size_type i = 0;
 				if (_size + n >= _cap)
 					__allocate_container(_size + n);
+				iterator it = begin();
 				while (it != position) {
 					it++;
 					i++;
@@ -271,11 +298,11 @@ namespace ft
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last,
 			typename enable_if< !is_integral<InputIterator>::value, bool >::type = true ) {
-				iterator it = begin();
 				size_type i = 0;
 				std::ptrdiff_t len = last - first;
 				if (len + _size >= _cap)
 					__allocate_container(len + _size);
+				iterator it = begin();
 				while (it != position) {
 					it++;
 					i++;

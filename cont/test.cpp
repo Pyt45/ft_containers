@@ -135,12 +135,12 @@ void vector_random_test() {
     vector_int = vector_range;
     std::cout << "size of vector_int: " << vector_int.size() << std::endl;
     std::cout << "capacity of vector_int: " << vector_int.capacity() << std::endl;
-    for (auto i: vector_int)
-        std::cout << i << std::endl;
+    for (int i = 0; i < (int)vector_int.size(); i++)
+        std::cout << vector_int[i] << std::endl;
     std::cout << "=== copy constructor ====\n";
     ns::vector<int> vector_copy(vector_int);
-    for (auto j: vector_copy)
-        std::cout << j << std::endl; 
+    for (int i = 0; i < (int)vector_copy.size(); i++)
+        std::cout << vector_copy[i] << std::endl; 
     std::cout << "size of vector_copy: " << vector_copy.size() << std::endl;
     std::cout << "capacity of vector_copy: " << vector_copy.capacity() << std::endl;
 }

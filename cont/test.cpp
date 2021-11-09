@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 
-#define NS 1
+#define NS 0
 
 #if NS
     #include <map>
@@ -121,17 +121,31 @@ void vector_modifiers_test() {
     for (int i = 0; i < 10; i++)
         vector_range.push_back(i);
     vector_int.assign(vector_range.begin(), vector_range.end());
-    
 }
-// void vector_random_test();
+void vector_random_test() {
+    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8};
+    ns::vector<int> vector_range(arr, arr + static_cast<int>(sizeof(arr) / sizeof(int)));
+    ns::vector<int> vector_int;
+    for (int i = 0; i < 10; i++)
+        vector_int.push_back(i); 
+    std::cout << "size of vector_int: " << vector_int.size() << std::endl;
+    std::cout << "size of vector_range: " << vector_range.size() << std::endl;
+    std::cout << "capacity of vector_range: " << vector_range.capacity() << std::endl;
+    std::cout << "==== after = operator ====\n";
+    vector_int = vector_range;
+    std::cout << "size of vector_int: " << vector_int.size() << std::endl;
+    std::cout << "capacity of vector_int: " << vector_int.capacity() << std::endl;
+}
 void vector_time_test() {
     ns::vector<int> vector_int;
     ns::vector<int> vector_swap;
     for (int i = 0; i < COUNT; i++)
         vector_int.push_back(i);
     vector_swap.swap(vector_int);
-    for (int i = 0; i < COUNT; i++)
-        std::cout << vector_swap[i] << std::endl;
+    std::cout << "vector_swap size: " << vector_swap.size() << std::endl;
+    std::cout << "vector_swap capacity: " << vector_swap.capacity() << std::endl;
+    // for (int i = 0; i < COUNT; i++)
+    //     std::cout << vector_swap[i] << std::endl;
 }
 
 
@@ -186,7 +200,8 @@ int main(int argc, char **argv) {
     // vector_capacity_test();
     // vector_access_test();
     // vector_modifiers_test();
-    vector_time_test();
+    // vector_time_test();
+    vector_random_test();
     // Map
 
     // Set

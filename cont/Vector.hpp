@@ -106,13 +106,19 @@ namespace ft
 					// this->_items = _alloc.allocate(_size);
 					// for (size_type i = 0; i < x._size; i++)
 					// 	__copy_construct(i, x._items[i]);
-					if (x._size > _cap) {
-						__allocate_container(x._size);
-						this->_size = x._size;
-					} else {
-						__allocate_container(x._cap * 2);
+					// if (x._size > _cap) {
+					// 	__allocate_container(x._size);
+					// 	this->_size = x._size;
+					// } else {
+					// 	__allocate_container(x._cap * 2);
+					// 	this->_size = x._size;
+					// }
+					vector tmp(x);
+					if (_cap > x._cap) {
 						this->_size = x._size;
 					}
+					else
+						swap(tmp);
 				}
 				return *this;
 			}

@@ -13,7 +13,7 @@
 #else
     #include "map.hpp"
     #include "set.hpp"
-    #include "stack.hpp"
+    // #include "stack.hpp"
     #include "vector.hpp"
     namespace ns = ft;
 #endif
@@ -29,7 +29,7 @@ struct Buffer
 };
 
 #define COUNT (MAX_RAM / (int)sizeof(Buffer))
-
+/*
 template <typename T, class Container = std::deque<T> >
 class MuntantStack: public ns::stack<T, Container>
 {
@@ -57,7 +57,7 @@ class MuntantStack: public ns::stack<T, Container>
             return this->c.end();
         }
 };
-
+*/
 
 // Vector tests
 void vector_iterator_test() {
@@ -135,6 +135,7 @@ void vector_modifiers_second_test() {
     ns::vector<int> vector_int;
     vector_int.assign(10, 5);
     ns::vector<int>::iterator it = vector_int.insert(vector_int.begin(), 15);
+    it = vector_int.insert(vector_int.end(), 100);
     std::cout << *it << std::endl;
     std::cout << "vec\n";
     for (int i = 0; i < (int)vector_int.size(); i++)
@@ -192,6 +193,7 @@ void vector_time_test() {
 // void set_time_test();
 
 // Stack tests
+/*
 void stack_test() {
     MuntantStack<int, ns::vector<int> > s;
     for (int i = 0; i < 10; i++)
@@ -210,6 +212,7 @@ void stack_test() {
     }
     std::cout << "\n";
 }
+*/
 int main(int argc, char **argv) {
 
     if (argc != 2) {

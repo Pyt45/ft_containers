@@ -45,15 +45,18 @@ namespace ft
 			void	__allocate_container(size_type size) {
 				// size_type size = size ? size : _cap * 2;
 				if (_items) {
-					T* tmp = _items;
+					//T* tmp = _items;
+					T* tmp = _alloc.allocate(size);
 					// _items = new T[size];
-					_items = _alloc.allocate(size);
+					//_items = _alloc.allocate(size);
 					for (size_type i = 0; i < _size; i++)
-						__copy_construct(i, tmp[i]);
+						_alloc.construct(&tmp[i], _items[i]);
+						//__copy_construct(i, tmp[i]);
 					// _items[i] = tmp[i];
 					for (size_type i = 0; i < _size; i++)
-						_alloc.destroy(tmp + i);
-					_alloc.deallocate(tmp, size);
+						_alloc.destroy(_items + i);
+					_alloc.deallocate(_items, size);
+					_items = tmp;
 				}
 				_cap = size;
 			}
@@ -245,35 +248,19 @@ namespace ft
 				_size--;
 			}
 			iterator insert (iterator position, const value_type& val) {
-				// insert(position, 1, val);
-				// // ++position;
-				// std::cout << "pos = " << *position << std::endl;
-				// return (position);
 				size_type i = 0;
-				T* tmp;
-				if (_size + 1 >= _cap) {
-					tmp = _alloc.allocate(_size + 1);
-					for (size_type j = 0; j < _size; j++)
-						tmp[j] = _items[j];
-					
+				for (iterator it = begin(); it != position; it++, i++) {}
+				if (_size + 1 > _cap) {
+					__allocate_container(_size + 1);
+					position = _items + i;
 				}
-				// __allocate_container(_size + 1);
-				iterator it = begin();
-				while (it != position) {
-					it++;
-					i++;
+				for (iterator it = end(); it != position; it--) {
+					_alloc.destroy(it.base());
+					_alloc.construct(it.base(), *(it - 1));
 				}
-				
-				for (size_type idx = _size + 1; ; idx--)
-				{
-					__copy_construct(idx, _items[idx - 1]);
-					if (idx == i)
-						break ;
-				}
-				for (size_type k = 0; k < 1; k++)
-					__copy_construct(k + i, val);
+				*position = val;
 				_size += 1;
-				return it;
+				return position;
 			}
 			void insert (iterator position, size_type n, const value_type& val) {
 				size_type i = 0;

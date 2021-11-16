@@ -2,7 +2,7 @@
 # define POS_TYPES_HPP
 
 #include <iostream>
-
+#define END_OF_FILE -1
 namespace ft {
     typedef long long streamoff;
     typedef std::ptrdiff_t streamsize;
@@ -20,15 +20,15 @@ namespace ft {
         public:
             fpos(): __off_(0), __st_() {  }
             fpos(streamoff __off = streamoff()): __st_(), __off_(__off) {}
-            fpod(const fpos& rhs) {}
+            fpos(const fpos& rhs) {}
             fpos& operator=(const fpos& rhs);
             ~fpos();
-            operator streamoff() const { return __of_; }
+            operator streamoff() const { return __off_; }
             StateT state() const { return __st_; }
             void state(StateT __st) { __st_ = __st; }
-            fpos& operator+=(streamoff __off) { __off_ += __off; return *this };
+            fpos& operator+=(streamoff __off) { __off_ += __off; return *this; };
             fpos operator+(streamoff __off) const { fpos __t(*this); __t += __off; return __t; }
-            fpos& operator-=(streamoff __off) { __off_ -= __off; return *this };
+            fpos& operator-=(streamoff __off) { __off_ -= __off; return *this; };
             fpos operator-(streamoff __off) const { fpos __t(*this); __t -= __off; return __t; }
     };
     template <class StateT>

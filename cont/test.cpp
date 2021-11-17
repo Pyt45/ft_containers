@@ -140,6 +140,10 @@ void vector_modifiers_second_test() {
     std::cout << "vec\n";
     for (int i = 0; i < (int)vector_int.size(); i++)
         std::cout << vector_int[i] << std::endl;
+    vector_int.insert(it, 10, 17);
+    std::cout << "vec\n";
+    for (int i = 0; i < (int)vector_int.size(); i++)
+        std::cout << vector_int[i] << std::endl;
 }
 
 void vector_random_test() {

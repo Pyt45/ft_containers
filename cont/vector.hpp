@@ -263,24 +263,25 @@ namespace ft
 				return position;
 			}
 			void insert (iterator position, size_type n, const value_type& val) {
-				size_type i = 0;
-				if (_size + n >= _cap)
-					__allocate_container(_size + n);
-				iterator it = begin();
-				while (it != position) {
-					it++;
-					i++;
-				}
+				// size_type i = 0;
+				// if (_size + n >= _cap)
+				// 	__allocate_container(_size + n);
+				// iterator it = begin();
+				// while (it != position) {
+				// 	it++;
+				// 	i++;
+				// }
 				
-				for (size_type idx = _size + n; ; idx--)
-				{
-					__copy_construct(idx, _items[idx - n]);
-					if (idx == i)
-						break ;
-				}
-				for (size_type k = 0; k < n; k++)
-					__copy_construct(k + i, val);
-				_size += n;
+				// for (size_type idx = _size + n; ; idx--)
+				// {
+				// 	__copy_construct(idx, _items[idx - n]);
+				// 	if (idx == i)
+				// 		break ;
+				// }
+				// for (size_type k = 0; k < n; k++)
+				// 	__copy_construct(k + i, val);
+				// _size += n;
+				// size_t i = 0;
 			}
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last,

@@ -263,6 +263,9 @@ namespace ft
 				return position;
 			}
 			void insert (iterator position, size_type n, const value_type& val) {
+				static_cast<void>(position);
+				static_cast<void>(position);
+				static_cast<void>(position);
 				// size_type i = 0;
 				// if (_size + n >= _cap)
 				// 	__allocate_container(_size + n);

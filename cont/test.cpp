@@ -14,7 +14,7 @@
 // #else
     #include "map.hpp"
     #include "set.hpp"
-    // #include "stack.hpp"
+    #include "stack.hpp"
     #include "vector.hpp"
 //     namespace ns = ft;
 // #endif
@@ -30,7 +30,7 @@ struct Buffer
 };
 
 #define COUNT (MAX_RAM / (int)sizeof(Buffer))
-/*
+
 template <typename T, class Container = std::deque<T> >
 class MuntantStack: public ns::stack<T, Container>
 {
@@ -58,28 +58,28 @@ class MuntantStack: public ns::stack<T, Container>
             return this->c.end();
         }
 };
-*/
+
 
 // Vector tests
 void vector_iterator_test() {
-    // std::string arr[] = {"1", "2", "3", "4", "5", "6"};
-    // ns::vector<std::string> v(arr, arr + static_cast<int>(sizeof(arr) / sizeof(std::string)));
-    ns::vector<std::string> v;
+    std::string arr[] = {"1", "2", "3", "4", "5", "6"};
+    ns::vector<std::string> v(arr, arr + static_cast<int>(sizeof(arr) / sizeof(std::string)));
+    // ns::vector<std::string> v;
     v.push_back("1");
     v.push_back("2");
     v.push_back("3");
-    // v.push_back("4");
-    // v.push_back("5");
-    // ns::vector<std::string>::const_iterator it = v.begin();
-    // ns::vector<std::string>::iterator ite = v.end();
-    // for (; it != ite; it++)
-        // std::cout << *it << std::endl; 
+    v.push_back("4");
+    v.push_back("5");
+    ns::vector<std::string>::const_iterator it = v.begin();
+    ns::vector<std::string>::iterator ite = v.end();
+    for (; it != ite; it++)
+        std::cout << *it << std::endl; 
     std::cout << "size of vector = " << v.size() << std::endl;
     std::cout << "capacity of vector = " << v.capacity() << std::endl;
     ns::vector<std::string> vector_swap;
     for (int i = 0; i < 12; i++)
         vector_swap.push_back("1");
-    // vector_swap = v;
+    vector_swap = v;
     std::cout << "===========\n";
     std::cout << "size of vector_swap = " << vector_swap.size() << std::endl;
     std::cout << "capacity of vector_swap = " << vector_swap.capacity() << std::endl;
@@ -138,13 +138,43 @@ void vector_modifiers_second_test() {
     ns::vector<int>::iterator it = vector_int.insert(vector_int.begin(), 15);
     it = vector_int.insert(vector_int.end(), 100);
     std::cout << *it << std::endl;
-    std::cout << "vec\n";
+    std::cout << "insert(p, v)\n";
     for (int i = 0; i < (int)vector_int.size(); i++)
         std::cout << vector_int[i] << std::endl;
     vector_int.insert(it, 10, 17);
-    std::cout << "vec\n";
+    std::cout << "vector_int size: " << vector_int.size() << std::endl;
+    std::cout << "vector_int capactiy: " << vector_int.capacity() << std::endl;
+    std::cout << "insert(p, n, v)\n";
     for (int i = 0; i < (int)vector_int.size(); i++)
         std::cout << vector_int[i] << std::endl;
+    std::cout << "insert(p, f, l)\n";
+    ns::vector<int> vector_range;
+    vector_range.assign(10, 5);
+    ns::vector<int>::iterator itv = vector_range.begin();
+    // itv++;
+    // itv++;
+    // itv++;
+    vector_range.insert(itv, vector_int.begin(), vector_int.end());
+    for (int i = 0; i < (int)vector_range.size(); i++)
+        std::cout << vector_range[i] << std::endl;
+    std::cout << "vector_int size: " << vector_int.size() << std::endl;
+    std::cout << "vector_int capactiy: " << vector_int.capacity() << std::endl;
+    std::cout << "vector_range size: " << vector_range.size() << std::endl;
+    std::cout << "vector_range capactiy: " << vector_range.capacity() << std::endl;
+    ns::vector<int>::iterator r = vector_int.erase(vector_int.begin());
+    std::cout << *r << std::endl;
+    ns::vector<int>::iterator e = vector_int.end();
+    e--;
+    e--;
+    e--;
+    vector_int.erase(vector_int.begin(), e);
+    for (int i = 0; i < vector_int.size(); i++)
+        std::cout << vector_int[i] << std::endl;
+    std::cout << "vector_int size: " << vector_int.size() << std::endl;
+    std::cout << "vector_int capactiy: " << vector_int.capacity() << std::endl;
+    vector_range.clear();
+    std::cout << "vector_range size: " << vector_range.size() << std::endl;
+    std::cout << "vector_range capactiy: " << vector_range.capacity() << std::endl;
 }
 
 void vector_random_test() {
@@ -181,6 +211,19 @@ void vector_time_test() {
         std::cout << vector_swap[i] << std::endl;
 }
 
+void vector_test_operations() {
+    // ns::vector<int> v;
+    // ns::vector<int> v1;
+    // v.assign(10, 15);
+    // for (int i = 0; i < 12; i++)
+    //     v.push_back(i);
+    // std::cout << (v == v1) << std::endl;
+    // std::cout << (v != v1) << std::endl;
+    // std::cout << (v < v1) << std::endl;
+    // std::cout << (v <= v1) << std::endl;
+    // std::cout << (v > v1) << std::endl;
+    // std::cout << (v >= v1) << std::endl;
+}
 
 // Map tests
 // void map_iterator_test();
@@ -198,7 +241,7 @@ void vector_time_test() {
 // void set_time_test();
 
 // Stack tests
-/*
+
 void stack_test() {
     MuntantStack<int, ns::vector<int> > s;
     for (int i = 0; i < 10; i++)
@@ -217,7 +260,7 @@ void stack_test() {
     }
     std::cout << "\n";
 }
-*/
+
 int main(int argc, char **argv) {
 
     if (argc != 2) {
@@ -231,17 +274,20 @@ int main(int argc, char **argv) {
 	srand(seed);
 
     // Vector
-    // vector_iterator_test();
-    // vector_capacity_test();
-    // vector_access_test();
-    // vector_modifiers_test();
+    vector_iterator_test();
+    vector_capacity_test();
+    vector_modifiers_test();
     vector_modifiers_second_test();
+    vector_random_test();
+    vector_access_test();
+    // vector_test_operations();
     // vector_time_test();
-    // vector_random_test();
+
+    // Stack
+    // stack_test();
+
     // Map
 
     // Set
 
-    // Stack
-    // stack_test();
 }

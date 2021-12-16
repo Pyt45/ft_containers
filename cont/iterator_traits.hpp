@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 10:56:38 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/07/05 15:02:09 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/12/16 23:50:06 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,7 @@ namespace ft {
 				return __i[__n];
 			}
 			iterator_type base() const {
-				return __i;
+				return static_cast<_Iter>(__i);
 			}
 	};
 	// template <class Iter>

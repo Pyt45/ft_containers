@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayoub <ayoub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 18:35:44 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/07/05 10:41:10 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/12/16 23:31:11 by ayoub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ namespace ft
 				size_type i = 0;
 				for (iterator it = begin(); it != position; it++, i++) {}
 				if (_size + 1 > _cap) {
-					__allocate_container(_size + 1);
+					__allocate_container(_cap * 2);
 					position = _items + i;
 				}
 				for (iterator it = end(); it != position; it--) {
@@ -263,49 +263,59 @@ namespace ft
 				return position;
 			}
 			void insert (iterator position, size_type n, const value_type& val) {
-				static_cast<void>(position);
-				static_cast<void>(n);
-				static_cast<void>(val);
-				// size_type i = 0;
-				// if (_size + n >= _cap)
-				// 	__allocate_container(_size + n);
-				// iterator it = begin();
-				// while (it != position) {
-				// 	it++;
-				// 	i++;
-				// }
-				
-				// for (size_type idx = _size + n; ; idx--)
-				// {
-				// 	__copy_construct(idx, _items[idx - n]);
-				// 	if (idx == i)
-				// 		break ;
-				// }
-				// for (size_type k = 0; k < n; k++)
-				// 	__copy_construct(k + i, val);
-				// _size += n;
-				// size_t i = 0;
+				size_type i = 0;
+				for (iterator it = begin(); it != position; it++, i++) {}
+				if (_size + n > _cap) {
+					// what the hell _size + n;
+					__allocate_container(_size * 2);
+					size_type size = _size + n;
+					while (_size < size)
+						__copy_construct(_size++, val);
+					position = _items + i;
+				}
+				// it != position + n - 1
+				for (iterator it = iterator(&_items[_size - 1]); it != position; it--)
+				{
+					_alloc.destroy(it.base());
+					_alloc.construct(it.base(), *(it - n));
+				}
+				for (iterator it = position; it != position + n; it++) {
+					_alloc.destroy(it.base());
+					_alloc.construct(it.base(), val);
+				}
 			}
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last,
 			typename enable_if< !is_integral<InputIterator>::value, bool >::type = true ) {
 				size_type i = 0;
 				std::ptrdiff_t len = last - first;
-				if (len + _size >= _cap)
+				iterator _first = first;
+				iterator _last = last;
+				for (iterator it = begin(); it != position; it++, i++) {}
+				if (len + _size > _cap) {
 					__allocate_container(len + _size);
-				iterator it = begin();
-				while (it != position) {
-					it++;
-					i++;
+					size_type size = len + _size;
+					for (; _size < size && first != last; _size++, first++)
+						__copy_construct(_size, *first);
+					position = _items + i;
 				}
-				for (size_type idx = _size + len; ; idx--) {
-					__copy_construct(idx, _items[idx - len]);
-					if (idx == i)
-						break ;
+				for (iterator it = iterator(&_items[_size - 1]); it != position; it--)
+				{
+					_alloc.destroy(it.base());
+					_alloc.construct(it.base(), *(it - len));
 				}
-				for (size_type k = 0; k < len && first != last; k++, first++)
-					__copy_construct(k + i, *first);
-				_size += len;
+				for (iterator it = position; it != position + len; it++, _first++) {
+					_alloc.destroy(it.base());
+					_alloc.construct(it.base(), *_first);
+				}
+				// for (size_type idx = _size + len; ; idx--) {
+				// 	__copy_construct(idx, _items[idx - len]);
+				// 	if (idx == i)
+				// 		break ;
+				// }
+				// for (size_type k = 0; k < len && first != last; k++, first++)
+				// 	__copy_construct(k + i, *first);
+				//_size += len;
 			}
 			iterator erase (iterator position) {
 				iterator it(position);
@@ -326,8 +336,7 @@ namespace ft
 				size_type _delete = 0;
 				while (first != last)
 				{
-					// (*first++).value_type::~value_type();
-					_alloc.destroy((*first++));
+					_alloc.destroy((first++).base());
 					_stoppos++;
 					_delete++;
 				}

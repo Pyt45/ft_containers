@@ -2,21 +2,22 @@
 #include <string>
 #include <deque>
 
-#define NS 0
+// #define NS 0
 
-#if NS
+
+// #if NS
     #include <map>
     #include <set>
     #include <stack>
     #include <vector>
-    namespace ns = std;
-#else
+//     namespace ns = std;
+// #else
     #include "map.hpp"
     #include "set.hpp"
     // #include "stack.hpp"
     #include "vector.hpp"
-    namespace ns = ft;
-#endif
+//     namespace ns = ft;
+// #endif
 
 #include <stdlib.h>
 

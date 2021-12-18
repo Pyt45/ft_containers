@@ -186,3 +186,31 @@ __tree_remove(_NodePtr __root, _NodePtr __z)
         }
     }
 }
+
+    ns::vector<int> vector_int;
+    vector_int.assign(3, 2);
+    std::cout << "insert(p, v)\n";
+    ns::vector<int>::iterator it = vector_int.insert(vector_int.begin(), 10);
+    std::cout << "vector_int size: " << vector_int.size() << std::endl;
+    std::cout << "vector_int capactiy: " << vector_int.capacity() << std::endl;
+    std::cout << "insert(p, v)\n";
+    it = vector_int.insert(vector_int.end(), 100);
+    std::cout << *it << std::endl;
+    for (ns::vector<int>::iterator b = vector_int.begin(); b != vector_int.end(); b++)
+        std::cout << *b<< std::endl;
+    std::cout << "insert(p, n, v)\n";
+    vector_int.insert(it, 2, 6); // n = 70
+    std::cout << "vector_int size: " << vector_int.size() << std::endl;
+    std::cout << "vector_int capactiy: " << vector_int.capacity() << std::endl;
+    for (ns::vector<int>::iterator b = vector_int.begin(); b != vector_int.end(); b++)
+        std::cout << *b<< std::endl;
+    ns::vector<int> vector_range;
+    vector_range.assign(3, 4);
+    ns::vector<int>::iterator itv = vector_range.begin();
+    // // itv++;
+    // // itv++;
+    // // itv++;
+    std::cout << "insert(p, f, l)\n";
+    vector_range.insert(itv, vector_int.begin(), vector_int.end());
+    for (int i = 0; i < (int)vector_range.size(); i++)
+        std::cout << vector_range[i] << std::endl;

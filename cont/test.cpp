@@ -134,26 +134,29 @@ void vector_modifiers_test() {
 
 void vector_modifiers_second_test() {
     ns::vector<int> vector_int;
-    vector_int.assign(10, 5);
-    ns::vector<int>::iterator it = vector_int.insert(vector_int.begin(), 15);
-    it = vector_int.insert(vector_int.end(), 100);
-    std::cout << *it << std::endl;
+    vector_int.assign(60, 2);
     std::cout << "insert(p, v)\n";
-    for (int i = 0; i < (int)vector_int.size(); i++)
-        std::cout << vector_int[i] << std::endl;
-    vector_int.insert(it, 10, 17);
+    ns::vector<int>::iterator it = vector_int.insert(vector_int.begin(), 10);
     std::cout << "vector_int size: " << vector_int.size() << std::endl;
     std::cout << "vector_int capactiy: " << vector_int.capacity() << std::endl;
+    std::cout << "insert(p, v)\n";
+    it = vector_int.insert(vector_int.end(), 100);
+    std::cout << *it << std::endl;
+    for (ns::vector<int>::iterator b = vector_int.begin(); b != vector_int.end(); b++)
+        std::cout << *b<< std::endl;
     std::cout << "insert(p, n, v)\n";
-    for (int i = 0; i < (int)vector_int.size(); i++)
-        std::cout << vector_int[i] << std::endl;
-    std::cout << "insert(p, f, l)\n";
+    vector_int.insert(it, 70, 17); // n = 70
+    std::cout << "vector_int size: " << vector_int.size() << std::endl;
+    std::cout << "vector_int capactiy: " << vector_int.capacity() << std::endl;
+    for (ns::vector<int>::iterator b = vector_int.begin(); b != vector_int.end(); b++)
+        std::cout << *b<< std::endl;
     ns::vector<int> vector_range;
     vector_range.assign(10, 5);
     ns::vector<int>::iterator itv = vector_range.begin();
     // itv++;
     // itv++;
     // itv++;
+    std::cout << "insert(p, f, l)\n";
     vector_range.insert(itv, vector_int.begin(), vector_int.end());
     for (int i = 0; i < (int)vector_range.size(); i++)
         std::cout << vector_range[i] << std::endl;
@@ -212,17 +215,17 @@ void vector_time_test() {
 }
 
 void vector_test_operations() {
-    // ns::vector<int> v;
-    // ns::vector<int> v1;
-    // v.assign(10, 15);
-    // for (int i = 0; i < 12; i++)
-    //     v.push_back(i);
-    // std::cout << (v == v1) << std::endl;
-    // std::cout << (v != v1) << std::endl;
-    // std::cout << (v < v1) << std::endl;
-    // std::cout << (v <= v1) << std::endl;
-    // std::cout << (v > v1) << std::endl;
-    // std::cout << (v >= v1) << std::endl;
+    ns::vector<int> v;
+    ns::vector<int> v1;
+    v.assign(10, 15);
+    for (int i = 0; i < 12; i++)
+        v.push_back(i);
+    std::cout << (v == v1) << std::endl;
+    std::cout << (v != v1) << std::endl;
+    std::cout << (v < v1) << std::endl;
+    std::cout << (v <= v1) << std::endl;
+    std::cout << (v > v1) << std::endl;
+    std::cout << (v >= v1) << std::endl;
 }
 
 // Map tests
@@ -244,8 +247,11 @@ void vector_test_operations() {
 
 void stack_test() {
     MuntantStack<int, ns::vector<int> > s;
+    MuntantStack<int, ns::vector<int> > s1;
     for (int i = 0; i < 10; i++)
         s.push(i);
+    for (int i = 0; i < 11; i++)
+        s1.push(i);
     MuntantStack<int, ns::vector<int> >::iterator it = s.begin();
     for (; it != s.end(); it++)
         std::cout << *it << std::endl;
@@ -259,6 +265,12 @@ void stack_test() {
         s.pop();
     }
     std::cout << "\n";
+    std::cout << (s == s1) << std::endl;
+    std::cout << (s != s1) << std::endl;
+    std::cout << (s < s1) << std::endl;
+    std::cout << (s <= s1) << std::endl;
+    std::cout << (s > s1) << std::endl;
+    std::cout << (s >= s1) << std::endl;
 }
 
 int main(int argc, char **argv) {
@@ -274,12 +286,12 @@ int main(int argc, char **argv) {
 	srand(seed);
 
     // Vector
-    vector_iterator_test();
-    vector_capacity_test();
-    vector_modifiers_test();
-    vector_modifiers_second_test();
-    vector_random_test();
-    vector_access_test();
+    // vector_iterator_test();
+    // vector_capacity_test();
+    // vector_modifiers_test();
+    // vector_modifiers_second_test();
+    // vector_random_test();
+    // vector_access_test();
     // vector_test_operations();
     // vector_time_test();
 

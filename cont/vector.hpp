@@ -266,15 +266,13 @@ namespace ft
 				size_type i = 0;
 				for (iterator it = begin(); it != position; it++, i++) {}
 				if (_size + n > _cap) {
-					// what the hell _size + n;
-					__allocate_container(_size * 2);
-					size_type size = _size + n;
-					while (_size < size)
-						__copy_construct(_size++, val);
+					n > _cap ? __allocate_container(_size + n) : __allocate_container(_cap * 2);
+					for (size_type j = 0; j < n; j++)
+						__copy_construct(j + _size, val);
 					position = _items + i;
 				}
 				// it != position + n - 1
-				for (iterator it = iterator(&_items[_size - 1]); it != position; it--)
+				for (iterator it = iterator(&_items[(_size + n) - 1]); it != position + n - 1; it--)
 				{
 					_alloc.destroy(it.base());
 					_alloc.construct(it.base(), *(it - n));
@@ -283,30 +281,29 @@ namespace ft
 					_alloc.destroy(it.base());
 					_alloc.construct(it.base(), val);
 				}
+				_size += n;
 			}
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last,
 			typename enable_if< !is_integral<InputIterator>::value, bool >::type = true ) {
 				size_type i = 0;
 				std::ptrdiff_t len = last - first;
-				iterator _first = first;
-				iterator _last = last;
 				for (iterator it = begin(); it != position; it++, i++) {}
 				if (len + _size > _cap) {
-					__allocate_container(len + _size);
-					size_type size = len + _size;
-					for (; _size < size && first != last; _size++, first++)
-						__copy_construct(_size, *first);
-					position = _items + i;
+					len > _cap ? __allocate_container(len + _size) : __allocate_container(_cap * 2);
+					iterator it = first;
+					for (size_type j = 0; j < len && it != last; j++, it++)
+						__copy_construct(j + _size, *it);
+					position = iterator(&_items[i]);
 				}
-				for (iterator it = iterator(&_items[_size - 1]); it != position; it--)
+				for (iterator t = iterator(&_items[(_size + len) - 1]); t != position + len - 1; t--)
 				{
-					_alloc.destroy(it.base());
-					_alloc.construct(it.base(), *(it - len));
+					_alloc.destroy(t.base());
+					_alloc.construct(t.base(), *(t - len));
 				}
-				for (iterator it = position; it != position + len; it++, _first++) {
-					_alloc.destroy(it.base());
-					_alloc.construct(it.base(), *_first);
+				for (iterator t = position; t != position + len; t++, first++) {
+					_alloc.destroy(t.base());
+					_alloc.construct(t.base(), *first);
 				}
 				// for (size_type idx = _size + len; ; idx--) {
 				// 	__copy_construct(idx, _items[idx - len]);
@@ -315,7 +312,7 @@ namespace ft
 				// }
 				// for (size_type k = 0; k < len && first != last; k++, first++)
 				// 	__copy_construct(k + i, *first);
-				//_size += len;
+				_size += len;
 			}
 			iterator erase (iterator position) {
 				iterator it(position);
@@ -374,14 +371,15 @@ namespace ft
 	};
 	template <class T, class Alloc>
 		bool operator== (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
-			if (lhs.size() != rhs.size())
-				return (false);
-			for (size_t i = 0; i < lhs.size(); i++) {
-				if (lhs[i] != rhs[i])
-					return (false);
-				// i++;
-			}
-			return (true);
+			// if (lhs.size() != rhs.size())
+			// 	return (false);
+			// for (size_t i = 0; i < lhs.size(); i++) {
+			// 	if (lhs[i] != rhs[i])
+			// 		return (false);
+			// 	// i++;
+			// }
+			// return (true);
+			return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.end());
 		}
 	template <class T, class Alloc>
 		bool operator!= (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
@@ -389,18 +387,19 @@ namespace ft
 		}
 	template <class T, class Alloc>
 		bool operator<  (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
-			typename vector<T>::iterator tlhs = lhs.begin();
-			typename vector<T>::iterator trhs = rhs.begin();
+			// typename vector<T>::iterator tlhs = lhs.begin();
+			// typename vector<T>::iterator trhs = rhs.begin();
 			
-			while (tlhs != lhs.end()) {
-				if (trhs == rhs.end() || *trhs < *tlhs)
-					return (false);
-				else if (*tlhs < *trhs)
-					return (true);
-				tlhs++;
-				trhs++;
-			}
-			return (trhs != rhs.end());
+			// while (tlhs != lhs.end()) {
+			// 	if (trhs == rhs.end() || *trhs < *tlhs)
+			// 		return (false);
+			// 	else if (*tlhs < *trhs)
+			// 		return (true);
+			// 	tlhs++;
+			// 	trhs++;
+			// }
+			// return (trhs != rhs.end());
+			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		}
 	template <class T, class Alloc>
 		bool operator<= (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {

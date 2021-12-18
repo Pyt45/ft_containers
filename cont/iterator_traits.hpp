@@ -281,7 +281,7 @@ namespace ft {
 				return __i[__n];
 			}
 			iterator_type base() const {
-				return static_cast<_Iter>(__i);
+				return __i;
 			}
 	};
 	// template <class Iter>

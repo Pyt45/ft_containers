@@ -301,7 +301,7 @@ namespace ft {
 					// __fix_tree_after_deletion(__uncle, __succsessor_child, __);
 					if (__successor_child) {
 						__successor_child->_black = true;
-						std::cout << "DONE\n";
+						// std::cout << "DONE\n";
 					}
 					else {
 						while (true) {
@@ -876,13 +876,13 @@ namespace ft {
 				__i = iterator_type(__u);
 				__p = __u;
 			}
-			__const_set_iterator(const __const_set_iterator & __u) {
-				__i = __u.base();
-				__p = __u.__p;
-			}
 			__const_set_iterator(const iterator& it) {
 				__i = it.base();
 				__p = it.__base_ptr();
+			}
+			__const_set_iterator(const __const_set_iterator & __u) {
+				__i = __u.base();
+				__p = __u.__p;
 			}
 			__const_set_iterator& operator=(const __const_set_iterator & __u) {
 				if (this != &__u) {

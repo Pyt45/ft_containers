@@ -2,24 +2,16 @@
 #include <string>
 #include <deque>
 
-// #define NS 0
+#include <map>
+#include <set>
+#include <stack>
+#include <vector>
 
-
-// #if NS
-    #include <map>
-    #include <set>
-    #include <stack>
-    #include <vector>
-//     namespace ns = std;
-// #else
-    #include "map.hpp"
-    #include "set.hpp"
-    #include "stack.hpp"
-    #include "vector.hpp"
-//     namespace ns = ft;
-// #endif
-
-#include <stdlib.h>
+#include "map.hpp"
+#include "set.hpp"
+#include "stack.hpp"
+#include "vector.hpp"
+#include <cstdlib>
 
 #define MAX_RAM 4294967296
 #define BUFFER_SIZE 4096
@@ -58,6 +50,36 @@ class MuntantStack: public ns::stack<T, Container>
             return this->c.end();
         }
 };
+
+// Stack tests
+
+void stack_test() {
+    MuntantStack<int, ns::vector<int> > s;
+    MuntantStack<int, ns::vector<int> > s1;
+    for (int i = 0; i < 10; i++)
+        s.push(i);
+    for (int i = 0; i < 11; i++)
+        s1.push(i);
+    MuntantStack<int, ns::vector<int> >::iterator it = s.begin();
+    for (; it != s.end(); it++)
+        std::cout << *it << std::endl;
+    std::cout << "=========== empty ===========\n";
+    std::cout << s.empty() << std::endl;
+    std::cout << "=========== size ===========\n";
+    std::cout << s.size() << std::endl;
+    std::cout << "=========== pop ===========\n";
+    while (!s.empty()) {
+        std::cout << ' ' << s.top();
+        s.pop();
+    }
+    std::cout << "\n";
+    std::cout << (s == s1) << std::endl;
+    std::cout << (s != s1) << std::endl;
+    std::cout << (s < s1) << std::endl;
+    std::cout << (s <= s1) << std::endl;
+    std::cout << (s > s1) << std::endl;
+    std::cout << (s >= s1) << std::endl;
+}
 
 
 // Vector tests
@@ -229,48 +251,271 @@ void vector_test_operations() {
 }
 
 // Map tests
-// void map_iterator_test();
-// void map_capacity_test();
-// void map_access_test();
-// void map_modifiers_test();
-// void map_operations_test();
-// void map_time_test();
+void map_iterator_test() {
+    ns::map<std::string, int> _map;
+
+    _map["a"] = 1;
+    _map["b"] = 2;
+    _map["c"] = 3;
+    _map["d"] = 4;
+    _map["e"] = 5;
+    _map["f"] = 6;
+    std::cout << "_map\n";
+    for (ns::map<std::string, int>::iterator it = _map.begin(); it != _map.end(); it++)
+        std::cout << "first: " << it->first << " second: " << it->second << std::endl;
+    ns::map<std::string, int> _map_range(_map.begin(), _map.end());
+    std::cout << "_map_range\n";
+    for (ns::map<std::string, int>::iterator it = _map_range.begin(); it != _map_range.end(); it++)
+        std::cout << "first: " << it->first << " second: " << it->second << std::endl;
+    std::cout << "_map_copy\n";
+    ns::map<std::string, int> _map_copy(_map_range);
+    for (ns::map<std::string, int>::iterator it = _map_copy.begin(); it != _map_copy.end(); it++)
+        std::cout << "first: " << it->first << " second: " << it->second << std::endl;
+    std::cout << "_map_assign\n";
+    ns::map<std::string, int> _map_assign = _map_copy;
+    for (ns::map<std::string, int>::iterator it = _map_assign.begin(); it != _map_assign.end(); it++)
+        std::cout << "first: " << it->first << " second: " << it->second << std::endl;
+    
+}
+void map_capacity_test() {
+    ns::map<char, int> _map;
+
+    _map['a'] = 1;
+    _map['b'] = 2;
+    _map['c'] = 3;
+    std::cout << "size method\n";
+    std::cout << "_map size is " << _map.size() << "\n";
+    std::cout << "max size method\n";
+    std::cout << "theoretically the map container can hold up to " << _map.max_size() << "\n";
+    std::cout << "empty method\n";
+    while (!_map.empty()) {
+        std::cout << _map.begin()->first << " => " << _map.begin()->second << "\n";
+        _map.erase(_map.begin());
+    }
+}
+void map_access_test() {
+    ns::map<char, std::string> _map;
+
+    _map['1'] = "C";
+    _map['2'] = "C++";
+    _map['3'] = "RUST";
+
+    std::cout << "_map['a'] is " << _map['1'] << "\n";
+    std::cout << "_map['b'] is " << _map['2'] << "\n";
+    std::cout << "_map['c'] is " << _map['3'] << "\n";
+    std::cout << "_map['d'] is " << _map['4'] << "\n";
+    std::cout << "_map now contains " << _map.size() << " elements\n";
+}
+void map_modifiers_test() {
+    ns::map<char, int> _map;
+	std::cout << "======================= INSERT BEGIN =======================\n";
+    std::cout << "first insert method\n";
+    _map.insert(ns::pair<char, int>('a', 100));
+    _map.insert(ns::pair<char, int>('z', 200));
+    ns::pair<ns::map<char, int>::iterator, bool> ret;
+    ret = _map.insert(ns::pair<char, int>('z', 500));
+    if (ret.second == false) {
+        std::cout << "element 'z' already existed";
+        std::cout << " with a value of " << ret.first->second << "\n";
+    }
+    std::cout << "second insert method\n";
+	ns::map<char,int>::iterator r = _map.begin();
+	_map.insert(r, ns::pair<char,int>('b',300));
+	_map.insert(r, ns::pair<char,int>('c',400)); 
+	for (ns::map<char, int>::iterator it = _map.begin(); it != _map.end(); it++)
+		std::cout << "first " << it->first << " second " << it->second << "\n";
+	std::cout << "third insert method\n";
+	ns::map<char, int> _map_range;
+
+	_map_range.insert(_map.begin(), _map.end());
+	for (ns::map<char, int>::iterator it = _map_range.begin(); it != _map_range.end(); it++)
+		std::cout << "first " << it->first << " second " << it->second << "\n";
+	std::cout << "======================= INSERT END =======================\n\n";
+	std::cout << "======================= ERASE BEGIN =======================\n";
+	std::cout << "erasing by iterator\n";
+	ns::map<char, int>::iterator itrm = _map_range.find('b');
+	_map_range.erase(itrm);
+	std::cout << "erasing by key\n";
+	_map_range.erase('c');
+	itrm = _map_range.find('z');
+	std::cout << "erasing by range\n";
+	_map_range.erase(itrm, _map_range.end());
+	for (itrm = _map_range.begin(); itrm != _map_range.end(); itrm++)
+		std::cout << "first " << itrm->first << " second " << itrm->second << "\n";
+	std::cout << "======================= ERASE BEGIN =======================\n\n";
+	std::cout << "======================= SWAP BEGIN =======================\n";
+	ns::map<char, int> foo, bar;
+	foo['x'] = 100;
+	foo['y'] = 200;
+
+	bar['a'] = 11;
+	bar['b'] = 22;
+	bar['c'] = 33;
+	foo.swap(bar);
+	std::cout << "foo contains:\n";
+	for (ns::map<char, int>::iterator it = foo.begin(); it != foo.end(); it++)
+		std::cout << "first " << it->first << " second " << it->second << "\n";
+	std::cout << "bar contains:\n";
+	for (ns::map<char, int>::iterator it = bar.begin(); it != bar.end(); it++)
+		std::cout << "first " << it->first << " second " << it->second << "\n";
+	std::cout << "======================= SWAP END =======================\n\n";
+	std::cout << "======================= CLEAR BEGIN =======================\n";
+	_map.clear();
+	std::cout << "_map size after clear: " << _map.size() << "\n";
+	_map['m'] = 100;
+	_map['r'] = 125;
+	for (ns::map<char, int>::iterator it = _map.begin(); it != _map.end(); it++)
+		std::cout << "first " << it->first << " second " << it->second << "\n";
+	std::cout << "======================= CLEAR END =======================\n";
+}
+void map_operations_test() {
+	ns::map<char, int> _map;
+	ns::map<char, int>::iterator itf;
+
+	_map['a'] = 50;
+	_map['b'] = 100;
+	_map['c'] = 200;
+	_map['d'] = 400;
+	_map['e'] = 800;
+	_map['f'] = 1600;
+	std::cout << "======================= FIND BEGIN =======================\n";
+	itf = _map.find('c');
+	if (itf != _map.end())
+		_map.erase(itf);
+	for (ns::map<char, int>::iterator it = _map.begin(); it != _map.end(); it++)
+		std::cout << "first " << it->first << " second " << it->second << "\n";
+	std::cout << "======================= FIND END =======================\n\n";
+	std::cout << "======================= COUNT BEGIN =======================\n";
+	for (char c = 'a'; c < 'h'; c++)
+	{
+		std::cout << c;
+		if (_map.count(c) > 0)
+			std::cout << " is an element of _map\n";
+		else
+			std::cout << " is not an element of _map\n";
+	}
+	std::cout << "======================= COUNT END =======================\n\n";
+	std::cout << "======================= LOWER_BOUND BEGIN =======================\n";
+	ns::map<char, int>::iterator lb = _map.lower_bound('b');
+	std::cout << "lower bound of 'b' is " << lb->first << "\n";
+	lb = _map.lower_bound('f');
+	std::cout << "lower bound of 'f' is " << lb->first << "\n";
+	std::cout << "======================= LOWER_BOUND END =======================\n\n";
+	std::cout << "======================= UPPER_BOUND BEGIN =======================\n";
+	ns::map<char, int>::iterator ub = _map.upper_bound('b');
+	std::cout << "upper bound of 'b' is " << ub->first << "\n";
+	ub = _map.upper_bound('e');
+	std::cout << "upper bound of 'e' is " << ub->first << "\n";
+	std::cout << "======================= UPPER_BOUND END =======================\n\n";
+		std::cout << "======================= EQUAL_RANGE BEGIN =======================\n";
+	ns::pair<ns::map<char, int>::iterator, ns::map<char, int>::iterator> ret = _map.equal_range('b');
+	std::cout << "lower_bound points to " << ret.first->first << std::endl;
+	std::cout << "upper_bound points to " << ret.second->first << std::endl;
+	std::cout << "======================= EQUAL_RANGE END =======================\n\n";
+}
+void map_time_test() {
+	ns::map<int, int> _map_int;
+	ns::map<int, int> _map_swap;
+
+	for (int i = 0; i < COUNT; i++)
+		_map_int.insert(ns::pair<int, int>(i, i));
+	_map_swap.swap(_map_int);
+	for (int i = 0; i < COUNT; i++)
+		std::cout << _map_swap[i] << std::endl;
+}
 
 // Set tests
-// void set_iterator_test();
-// void set_capacity_test();
-// void set_modifiers_test();
-// void set_operations_test();
-// void set_time_test();
-
-// Stack tests
-
-void stack_test() {
-    MuntantStack<int, ns::vector<int> > s;
-    MuntantStack<int, ns::vector<int> > s1;
-    for (int i = 0; i < 10; i++)
-        s.push(i);
-    for (int i = 0; i < 11; i++)
-        s1.push(i);
-    MuntantStack<int, ns::vector<int> >::iterator it = s.begin();
-    for (; it != s.end(); it++)
+void set_iterator_test() {
+    int arr[] = {10, 20, 30, 40, 50, 60, 70, 80};
+    std::cout << "construct a set with a range of ints\n";
+    ns::set<int> _set(arr, arr + static_cast<int>(sizeof(arr) / sizeof(int)));
+    for (ns::set<int>::iterator it = _set.begin(); it != _set.end(); it++)
         std::cout << *it << std::endl;
-    std::cout << "=========== empty ===========\n";
-    std::cout << s.empty() << std::endl;
-    std::cout << "=========== size ===========\n";
-    std::cout << s.size() << std::endl;
-    std::cout << "=========== pop ===========\n";
-    while (!s.empty()) {
-        std::cout << ' ' << s.top();
-        s.pop();
-    }
-    std::cout << "\n";
-    std::cout << (s == s1) << std::endl;
-    std::cout << (s != s1) << std::endl;
-    std::cout << (s < s1) << std::endl;
-    std::cout << (s <= s1) << std::endl;
-    std::cout << (s > s1) << std::endl;
-    std::cout << (s >= s1) << std::endl;
+    std::cout << "set copy constructor\n";
+    ns::set<int> _set_copy(_set);
+    for (ns::set<int>::iterator it = _set_copy.begin(); it != _set_copy.end(); it++)
+        std::cout << *it << std::endl;
+	std::cout << "set range constructor\n";
+	ns::set<int> _set_range(_set.begin(), _set.end());
+	_set_range.insert(90);
+	_set_range.insert(100);
+    for (ns::set<int>::iterator it = _set_range.begin(); it != _set_range.end(); it++)
+        std::cout << *it << std::endl;
+}
+void set_capacity_test() {
+	ns::set<char> _set;
+
+	_set.insert('a');
+	_set.insert('b');
+	_set.insert('c');
+	_set.insert('d');
+
+	std::cout << "size method\n";
+    std::cout << "_set size is " << _set.size() << "\n";
+	std::cout << "max size method\n";
+    std::cout << "theoretically the set container can hold up to " << _set.max_size() << "\n";
+	std::cout << "empty method\n";
+	while (!_set.empty()) {
+		std::cout << *(_set.begin()) << "\n";
+		_set.erase(_set.begin());
+	}
+}
+void set_modifiers_test() {
+	//
+}
+void set_operations_test() {
+	ns::set<char> _set;
+	ns::set<char>::iterator itf;
+
+	_set.insert('a');
+	_set.insert('b');
+	_set.insert('c');
+	_set.insert('d');
+	_set.insert('e');
+	_set.insert('f');
+	std::cout << "======================= FIND BEGIN =======================\n";
+	itf = _set.find('c');
+	if (itf != _set.end())
+		_set.erase(itf);
+	for (ns::set<char>::iterator it = _set.begin(); it != _set.end(); it++)
+		std::cout << *it << std::endl;
+	std::cout << "======================= FIND END =======================\n\n";
+	std::cout << "======================= COUNT BEGIN =======================\n";
+	for (char c = 'a'; c < 'h'; c++) {
+		std::cout << c;
+		if (_set.count(c) > 0)
+			std::cout << " is an element of _set\n";
+		else
+			std::cout << " is not an element of _set\n";
+	}
+	std::cout << "======================= COUNT END =======================\n\n";
+	std::cout << "======================= LOWER_BOUND BEGIN =======================\n";
+	ns::set<char>::iterator lb = _set.lower_bound('b');
+	std::cout << "lower bound of 'b' is " << *lb << "\n";
+	lb = _set.lower_bound('f');
+	std::cout << "lower bound of 'f' is " << *lb << "\n";
+	std::cout << "======================= LOWER_BOUND END =======================\n\n";
+	std::cout << "======================= UPPER_BOUND BEGIN =======================\n";
+	ns::set<char>::iterator ub = _set.upper_bound('b');
+	std::cout << "upper bound of 'b' is " << *ub << "\n";
+	ub = _set.upper_bound('e');
+	std::cout << "upper bound of 'e' is " << *ub << "\n";
+	std::cout << "======================= UPPER_BOUND END =======================\n\n";
+		std::cout << "======================= EQUAL_RANGE BEGIN =======================\n";
+	ns::pair<ns::set<char>::iterator, ns::set<char>::iterator> ret = _set.equal_range('b');
+	std::cout << "lower_bound points to " << *ret.first << std::endl;
+	std::cout << "upper_bound points to " << *ret.second << std::endl;
+	std::cout << "======================= EQUAL_RANGE END =======================\n\n";
+}
+void set_time_test() {
+	ns::set<int> _set_int;
+	ns::set<int> _set_swap;
+
+	for (int i = 0; i < COUNT; i++)
+		_set_int.insert(i);
+	_set_swap.swap(_set_int);
+	for (ns::set<int>::iterator it = _set_swap.begin(); it != _set_swap.end(); it++)
+		std::cout << *it << std::endl;
 }
 
 int main(int argc, char **argv) {
@@ -299,7 +544,17 @@ int main(int argc, char **argv) {
     // stack_test();
 
     // Map
+    // map_iterator_test();
+    // map_capacity_test();
+    // map_access_test();
+    // map_modifiers_test();
+    // map_operations_test();
+    // map_time_test();
 
     // Set
-
+    // set_iterator_test();
+    // set_capacity_test();
+    set_modifiers_test();
+    // set_operations_test();
+    // set_time_test();
 }

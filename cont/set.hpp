@@ -135,7 +135,7 @@ namespace ft {
 						this->insert(*first);
 				}
 			void erase (iterator position) {
-				__tree->__remove(position->first);
+				__tree.__remove(*position);
 			}
 			size_type erase (const value_type& val) {
 				if (__tree.__remove(val))
@@ -162,7 +162,7 @@ namespace ft {
 				__node_tree node = __tree.__search_key(val);
 				if (node)
 					return iterator(node);
-				return end();
+				return iterator(__tree.__get_end());
 			}
 			size_type count (const value_type& val) const {
 				__node_tree node = __tree.__search_key(val);
@@ -171,20 +171,20 @@ namespace ft {
 				return 0;
 			}
 			iterator lower_bound (const value_type& val) const {
-				iterator first = begin();
-				iterator last = end();
+				iterator first = iterator(__tree.__get_start());
+				iterator last = iterator(__tree.__get_end());
 				for (; first != last; first++)
 					if (!__comp(*first, val))
 						return first;
-				return end();
+				return iterator(__tree.__get_end());
 			}
 			iterator upper_bound (const value_type& val) const {
-				iterator first = begin();
-				iterator last = end();
+				iterator first = iterator(__tree.__get_start());
+				iterator last = iterator(__tree.__get_end());
 				for (; first != last; first++)
 					if (__comp(val, *first))
 						return first;
-				return end();
+				return iterator(__tree.__get_end());
 			}
 			pair<iterator,iterator> equal_range (const value_type& val) const {
 				return pair<iterator, iterator>(lower_bound(val), upper_bound(val));

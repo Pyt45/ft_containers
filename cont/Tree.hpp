@@ -391,7 +391,7 @@ namespace ft {
 			}
 			__pointer __get_start() const {
 				__pointer tmp = __root;
-				return __tree_min(tmp);
+				return tmp ? __tree_min(tmp) : __end;
 			}
 			__pointer __get_end() const {
 				return __end;
@@ -595,13 +595,13 @@ namespace ft {
 			}
 			# endif
 			__pointer __tree_max(__pointer __x) const {
-				while (__x->__right)
+				while (__x && __x->__right)
 					__x = __x->__right;
 				return __x;
 			}
 
 			__pointer __tree_min(__pointer __x) const {
-				while (__x->__left)
+				while (__x && __x->__left)
 					__x = __x->__left;
 				return __x;
 			}

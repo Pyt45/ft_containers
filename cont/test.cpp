@@ -193,7 +193,7 @@ void vector_modifiers_second_test() {
     e--;
     e--;
     vector_int.erase(vector_int.begin(), e);
-    for (int i = 0; i < vector_int.size(); i++)
+    for (int i = 0; i < (int)vector_int.size(); i++)
         std::cout << vector_int[i] << std::endl;
     std::cout << "vector_int size: " << vector_int.size() << std::endl;
     std::cout << "vector_int capactiy: " << vector_int.capacity() << std::endl;
@@ -250,6 +250,14 @@ void vector_test_operations() {
     std::cout << (v >= v1) << std::endl;
 }
 
+void vector_reverse_iterator_test() {
+    ns::vector<int> vector_int;
+    for (int i = 0; i < 10; i++)
+        vector_int.push_back(i);
+    for (ns::vector<int>::reverse_iterator it = vector_int.rbegin(); it != vector_int.rend(); it++)
+        std::cout << *it << std::endl;
+}
+
 // Map tests
 void map_iterator_test() {
     ns::map<std::string, int> _map;
@@ -272,10 +280,11 @@ void map_iterator_test() {
     for (ns::map<std::string, int>::iterator it = _map_copy.begin(); it != _map_copy.end(); it++)
         std::cout << "first: " << it->first << " second: " << it->second << std::endl;
     std::cout << "_map_assign\n";
-    ns::map<std::string, int> _map_assign = _map_copy;
+    ns::map<std::string, int> _map_assign;
+
+    _map_assign = _map_range;
     for (ns::map<std::string, int>::iterator it = _map_assign.begin(); it != _map_assign.end(); it++)
         std::cout << "first: " << it->first << " second: " << it->second << std::endl;
-    
 }
 void map_capacity_test() {
     ns::map<char, int> _map;
@@ -378,6 +387,7 @@ void map_operations_test() {
 	_map['d'] = 400;
 	_map['e'] = 800;
 	_map['f'] = 1600;
+
 	std::cout << "======================= FIND BEGIN =======================\n";
 	itf = _map.find('c');
 	if (itf != _map.end())
@@ -424,6 +434,21 @@ void map_time_test() {
 		std::cout << _map_swap[i] << std::endl;
 }
 
+void map_reverse_iterator_test() {
+    ns::map<int, char> _map;
+
+    _map[1] = 'a';
+    _map[2] = 'b';
+    _map[3] = 'c';
+    _map[4] = 'd';
+    _map[5] = 'e';
+    _map[6] = 'f';
+    _map[7] = 'g';
+    _map[8] = 'h';
+    for (ns::map<int, char>::reverse_iterator it = _map.rbegin(); it != _map.rend(); it++)
+        std::cout << "first: " << it->first << " second: " << it->second << std::endl;
+}
+
 // Set tests
 void set_iterator_test() {
     int arr[] = {10, 20, 30, 40, 50, 60, 70, 80};
@@ -440,6 +465,12 @@ void set_iterator_test() {
 	_set_range.insert(90);
 	_set_range.insert(100);
     for (ns::set<int>::iterator it = _set_range.begin(); it != _set_range.end(); it++)
+        std::cout << *it << std::endl;
+    std::cout << "_set_assign\n";
+    ns::set<int> _set_assign;
+
+    _set_assign = _set_range;
+    for (ns::set<int>::iterator it = _set_assign.begin(); it != _set_assign.end(); it++)
         std::cout << *it << std::endl;
 }
 void set_capacity_test() {
@@ -461,7 +492,67 @@ void set_capacity_test() {
 	}
 }
 void set_modifiers_test() {
-	//
+	ns::set<int> _set;
+    std::cout << "======================= INSERT BEGIN =======================\n";
+    std::cout << "first insert method\n";
+    _set.insert(100);
+    _set.insert(200);
+    ns::pair<ns::set<int>::iterator, bool> ret;
+    ret = _set.insert(200);
+    if (ret.second == false) {
+        std::cout << "this element already existed";
+        std::cout << " with a value of " << *ret.first << "\n";
+    }
+    std::cout << "second insert method\n";
+	ns::set<int>::iterator r = _set.begin();
+	_set.insert(r, 300);
+	_set.insert(r, 400);
+    _set.insert(r, 500);
+	for (ns::set<int>::iterator it = _set.begin(); it != _set.end(); it++)
+		std::cout << *it << "\n";
+	std::cout << "third insert method\n";
+	ns::set<int> _set_range;
+
+	_set_range.insert(_set.begin(), _set.end());
+	for (ns::set<int>::iterator it = _set.begin(); it != _set.end(); it++)
+		std::cout << *it << "\n";
+    std::cout << "======================= INSERT END =======================\n\n";
+    std::cout << "======================= ERASE BEGIN =======================\n";
+	std::cout << "erasing by iterator\n";
+	ns::set<int>::iterator itrm = _set_range.find(300);
+	_set_range.erase(itrm);
+	std::cout << "erasing by value\n";
+	_set_range.erase(400);
+	itrm = _set_range.find(200);
+	std::cout << "erasing by range\n";
+	_set_range.erase(itrm, _set_range.end());
+	for (itrm = _set_range.begin(); itrm != _set_range.end(); itrm++)
+		std::cout << *itrm << "\n";
+    std::cout << "======================= ERASE END =======================\n\n";
+    std::cout << "======================= SWAP BEGIN =======================\n";
+	ns::set<char> foo, bar;
+	foo.insert('x');
+	foo.insert('y');
+
+	bar.insert('a');
+	bar.insert('b');
+	bar.insert('c');
+	foo.swap(bar);
+	std::cout << "foo contains:\n";
+	for (ns::set<char>::iterator it = foo.begin(); it != foo.end(); it++)
+		std::cout << *it << "\n";
+	std::cout << "bar contains:\n";
+	for (ns::set<char>::iterator it = bar.begin(); it != bar.end(); it++)
+		std::cout << *it << "\n";
+    std::cout << "======================= SWAP END =======================\n\n";
+    std::cout << "======================= CLEAR BEGIN =======================\n";
+	_set.clear();
+	std::cout << "_map size after clear: " << _set.size() << "\n";
+	_set.insert(100);
+	_set.insert(125);
+	for (ns::set<int>::iterator it = _set.begin(); it != _set.end(); it++)
+		std::cout << *it << "\n";
+    std::cout << "======================= CLEAR END =======================\n\n";
 }
 void set_operations_test() {
 	ns::set<char> _set;
@@ -473,6 +564,7 @@ void set_operations_test() {
 	_set.insert('d');
 	_set.insert('e');
 	_set.insert('f');
+
 	std::cout << "======================= FIND BEGIN =======================\n";
 	itf = _set.find('c');
 	if (itf != _set.end())
@@ -518,6 +610,14 @@ void set_time_test() {
 		std::cout << *it << std::endl;
 }
 
+void set_reverse_iterator_test() {
+    ns::set<int> _set;
+    for (int i = 0; i < 12; i++)
+        _set.insert(i);
+    for (ns::set<int>::reverse_iterator it = _set.rbegin(); it != _set.rend(); it++)
+        std::cout << *it << std::endl;
+}
+
 int main(int argc, char **argv) {
 
     if (argc != 2) {
@@ -531,30 +631,33 @@ int main(int argc, char **argv) {
 	srand(seed);
 
     // Vector
-    // vector_iterator_test();
-    // vector_capacity_test();
-    // vector_modifiers_test();
-    // vector_modifiers_second_test();
-    // vector_random_test();
-    // vector_access_test();
-    // vector_test_operations();
+    vector_iterator_test();
+    vector_capacity_test();
+    vector_modifiers_test();
+    vector_modifiers_second_test();
+    vector_random_test();
+    vector_access_test();
+    vector_test_operations();
+    vector_reverse_iterator_test();
     // vector_time_test();
 
     // Stack
-    // stack_test();
+    stack_test();
 
     // Map
-    // map_iterator_test();
-    // map_capacity_test();
-    // map_access_test();
-    // map_modifiers_test();
-    // map_operations_test();
+    map_iterator_test();
+    map_capacity_test();
+    map_access_test();
+    map_modifiers_test();
+    map_operations_test();
+    map_reverse_iterator_test();
     // map_time_test();
 
     // Set
-    // set_iterator_test();
-    // set_capacity_test();
+    set_iterator_test();
+    set_capacity_test();
     set_modifiers_test();
-    // set_operations_test();
+    set_operations_test();
+    set_reverse_iterator_test();
     // set_time_test();
 }

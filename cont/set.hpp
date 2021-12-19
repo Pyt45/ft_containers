@@ -80,8 +80,11 @@ namespace ft {
 				}
 				return *this;
 			}
-			set(const set& x): __tree(x.__tree) {
+			set(const set& x): __tree(val_cmp(x.__comp)), alloc(x.alloc), __comp(x.__comp) {
 				this->insert(x.begin(), x.end());
+			}
+			~set() {
+				clear();
 			}
 			// Iterators
 			iterator begin() {
@@ -131,8 +134,8 @@ namespace ft {
 			}
 			template <class InputIterator>
 				void insert (InputIterator first, InputIterator last) {
-					for (; first != last; first++)
-						this->insert(*first);
+					while (first != last)
+						this->insert(*first++);
 				}
 			void erase (iterator position) {
 				__tree.__remove(*position);
@@ -143,8 +146,8 @@ namespace ft {
 				return 0;
 			}
 			void erase (iterator first, iterator last) {
-				for (; first != last; first++)
-					this->erase(first);
+				while (first != last)
+					this->erase(*first++);
 			}
 			void swap (set& x) {
 				__tree.swap(x.__tree);

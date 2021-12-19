@@ -77,8 +77,11 @@ namespace ft {
 				}
 				return *this;
 			}
-			map(const map& x): __tree(x.__tree) {
+			map(const map& x): __tree(value_compare(x.__comp)), alloc(x.alloc), __comp(x.__comp) {
 				this->insert(x.begin(), x.end());
+			}
+			~map() {
+				clear();
 			}
 			iterator begin() {
 				return iterator(__tree.__get_start());

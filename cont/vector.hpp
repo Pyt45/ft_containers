@@ -43,16 +43,10 @@ namespace ft
 			size_type _cap;
 			allocator_type _alloc;
 			void	__allocate_container(size_type size) {
-				// size_type size = size ? size : _cap * 2;
 				if (_items) {
-					//T* tmp = _items;
 					T* tmp = _alloc.allocate(size);
-					// _items = new T[size];
-					//_items = _alloc.allocate(size);
 					for (size_type i = 0; i < _size; i++)
 						_alloc.construct(&tmp[i], _items[i]);
-						//__copy_construct(i, tmp[i]);
-					// _items[i] = tmp[i];
 					for (size_type i = 0; i < _size; i++)
 						_alloc.destroy(_items + i);
 					_alloc.deallocate(_items, size);
@@ -167,7 +161,6 @@ namespace ft
 					{
 						__copy_construct(i, val);
 						_size++;
-						// push_back(val);
 					}
 				}
 			}
@@ -271,7 +264,6 @@ namespace ft
 						__copy_construct(j + _size, val);
 					position = _items + i;
 				}
-				// it != position + n - 1
 				for (iterator it = iterator(&_items[(_size + n) - 1]); it != position + n - 1; it--)
 				{
 					_alloc.destroy(it.base());
@@ -290,9 +282,9 @@ namespace ft
 				std::ptrdiff_t len = last - first;
 				for (iterator it = begin(); it != position; it++, i++) {}
 				if (len + _size > _cap) {
-					len > _cap ? __allocate_container(len + _size) : __allocate_container(_cap * 2);
+					static_cast<size_type>(len) > _cap ? __allocate_container(len + _size) : __allocate_container(_cap * 2);
 					iterator it = first;
-					for (size_type j = 0; j < len && it != last; j++, it++)
+					for (size_type j = 0; j < static_cast<size_type>(len) && it != last; j++, it++)
 						__copy_construct(j + _size, *it);
 					position = iterator(&_items[i]);
 				}
@@ -305,13 +297,6 @@ namespace ft
 					_alloc.destroy(t.base());
 					_alloc.construct(t.base(), *first);
 				}
-				// for (size_type idx = _size + len; ; idx--) {
-				// 	__copy_construct(idx, _items[idx - len]);
-				// 	if (idx == i)
-				// 		break ;
-				// }
-				// for (size_type k = 0; k < len && first != last; k++, first++)
-				// 	__copy_construct(k + i, *first);
 				_size += len;
 			}
 			iterator erase (iterator position) {
@@ -339,12 +324,10 @@ namespace ft
 				}
 				for (; _stoppos < _size; _stoppos++)
 					__copy_construct(i++, _items[_stoppos]);
-					// _items[i++] = _items[_stoppos];
 				_size -= _delete;
 				return (_retpos);
 			}
 			void swap (vector& x) {
-				// vector<T> tmp = *this;
 				value_type* ptr = this->_items;
 				size_type size = this->_size;
 				size_type cap = this->_cap;
@@ -371,14 +354,6 @@ namespace ft
 	};
 	template <class T, class Alloc>
 		bool operator== (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
-			// if (lhs.size() != rhs.size())
-			// 	return (false);
-			// for (size_t i = 0; i < lhs.size(); i++) {
-			// 	if (lhs[i] != rhs[i])
-			// 		return (false);
-			// 	// i++;
-			// }
-			// return (true);
 			return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.end());
 		}
 	template <class T, class Alloc>
@@ -387,18 +362,6 @@ namespace ft
 		}
 	template <class T, class Alloc>
 		bool operator<  (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
-			// typename vector<T>::iterator tlhs = lhs.begin();
-			// typename vector<T>::iterator trhs = rhs.begin();
-			
-			// while (tlhs != lhs.end()) {
-			// 	if (trhs == rhs.end() || *trhs < *tlhs)
-			// 		return (false);
-			// 	else if (*tlhs < *trhs)
-			// 		return (true);
-			// 	tlhs++;
-			// 	trhs++;
-			// }
-			// return (trhs != rhs.end());
 			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		}
 	template <class T, class Alloc>

@@ -384,7 +384,16 @@ namespace ft {
 				__alloc.construct(__end);
 			}
 			~__red_black_tree() {
-				
+				if (__root) {
+					if (__end) {
+						__alloc.destroy(__end);
+						__alloc.deallocate(__end, 1);
+					}
+					if (__start) {
+						__alloc.destroy(__start);
+						__alloc.deallocate(__start, 1);
+					}
+				}	
 			}
 			size_type max_size() const {
 				return __alloc.max_size();

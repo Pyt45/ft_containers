@@ -47,10 +47,14 @@ namespace ft
 					T* tmp = _alloc.allocate(size);
 					for (size_type i = 0; i < _size; i++)
 						_alloc.construct(&tmp[i], _items[i]);
-					for (size_type i = 0; i < _size; i++)
-						_alloc.destroy(_items + i);
-					_alloc.deallocate(_items, size);
+					if (_items) {
+						for (size_type i = 0; i < _size; i++)
+							_alloc.destroy(_items + i);
+						_alloc.deallocate(_items, size);
+					}
 					_items = tmp;
+				} else {
+					_items = _alloc.allocate(size);
 				}
 				_cap = size;
 			}
@@ -62,8 +66,9 @@ namespace ft
 			explicit vector(const allocator_type& alloc = allocator_type())
 			{
 				_alloc = alloc;
-				_items = _alloc.allocate(0);
-				_alloc.construct(_items);
+				_items = nullptr;
+				// _items = _alloc.allocate(0);
+				// _alloc.construct(_items);
 				_size = _cap = 0;
 			}
 			explicit vector(size_type n, const value_type& val = value_type())
@@ -110,9 +115,10 @@ namespace ft
 				return *this;
 			}
 			~vector() {
-				clear();
-				if (_items)
+				if (_items) {
+					clear();
 					_alloc.deallocate(_items, _size);
+				}
 			}
 			iterator begin() {
 				return iterator(&_items[0]);
@@ -229,11 +235,11 @@ namespace ft
 				}
 			}
 			void push_back (const value_type& val) {
-				if (_size == _cap) {
-					__allocate_container(_cap * 2);
+				if (_size + 1 > _cap) {
+					__allocate_container(_cap == 0 ? 1 : _cap * 2);
 				}
-				if (_cap == 0)
-					_cap = 1;
+				// if (_cap == 0)
+				// 	_cap = 1;
 				__copy_construct(_size++, val);
 			}
 			void pop_back() {

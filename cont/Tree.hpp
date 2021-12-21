@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 18:41:03 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/10/27 09:56:05 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/12/20 17:06:47 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,6 +296,7 @@ namespace ft {
 				}
 				__alloc.destroy(__node_to_del);
 				__alloc.deallocate(__node_to_del, 1);
+				__node_to_del = nullptr;
 				// there is no need to rebalance if remove a red, or if we removed the last node
 				if (__removed_black && __root) {
 					// __fix_tree_after_deletion(__uncle, __succsessor_child, __);
@@ -379,21 +380,25 @@ namespace ft {
 			__red_black_tree(value_compare c): cmp(c) {
 				__root = nullptr;
 				__size = 0;
-				__start = __end = __alloc.allocate(1);
-				__alloc.construct(__start);
+				__end = __alloc.allocate(1);
+				// __start =  __alloc.allocate(1);
+				// __alloc.construct(__start);
 				__alloc.construct(__end);
 			}
 			~__red_black_tree() {
 				if (__root) {
+						__alloc.destroy(__root);
+						__alloc.deallocate(__root, 1);
 					if (__end) {
 						__alloc.destroy(__end);
 						__alloc.deallocate(__end, 1);
 					}
-					if (__start) {
-						__alloc.destroy(__start);
-						__alloc.deallocate(__start, 1);
+				} else {
+					if (__end) {
+						__alloc.destroy(__end);
+						__alloc.deallocate(__end, 1);
 					}
-				}	
+				}
 			}
 			size_type max_size() const {
 				return __alloc.max_size();
@@ -411,7 +416,10 @@ namespace ft {
 				if (this->__root == nullptr) {
 					__root = node;
 					__root->_black = true;
-					__reset_start_end();
+					// __reset_start_end();
+					__start = __root;
+					__root->__right = __end;
+					__end->__parent = __root;
 					__size++;
 					return ;
 				}
@@ -634,14 +642,14 @@ namespace ft {
 	template <class __base_iter, class __node_ptr, class __pair_iter>
 	class __tree_iterator {
 		public:
+			typedef __pair_iter value_type;
+			typedef std::ptrdiff_t difference_type;
+			typedef __pair_iter* pointer;
+			typedef __pair_iter& reference;
+			typedef std::bidirectional_iterator_tag iterator_category;
+		public:
 			typedef __base_iter iterator_type;
 			typedef __node_ptr iterator_ptr;
-			typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
-			typedef typename iterator_traits<iterator_type>::value_type value_type;
-			typedef typename iterator_traits<iterator_type>::difference_type difference_type;
-
-			typedef __pair_iter& reference;
-			typedef __pair_iter* pointer;
 
 		private:
 			iterator_type __i;
@@ -706,15 +714,16 @@ namespace ft {
 	template <class __base_iter, class __node_ptr, class __pair_iter>
 	class __const_tree_iterator {
 		public:
+			typedef __pair_iter value_type;
+			typedef std::ptrdiff_t difference_type;
+			typedef __pair_iter* pointer;
+			typedef __pair_iter& reference;
+			typedef std::bidirectional_iterator_tag iterator_category;
+
+		public:
 			typedef __base_iter iterator_type;
 			typedef __node_ptr iterator_ptr;
-			typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
-			typedef typename iterator_traits<iterator_type>::value_type value_type;
-			typedef typename iterator_traits<iterator_type>::difference_type difference_type;
 			typedef __tree_iterator<__base_iter, __node_ptr, __pair_iter> iterator;
-
-			typedef __pair_iter& reference;
-			typedef __pair_iter* pointer;
 
 		private:
 			iterator_type __i;
@@ -792,16 +801,16 @@ namespace ft {
 	template <class __base_iter, class __node_ptr, class __pair_iter>
 	class __set_iterator {
 		public:
+			typedef typename __pair_iter::first_type value_type;
+			typedef std::ptrdiff_t difference_type;
+			// typedef __pair_iter* pointer;
+			typedef typename __pair_iter::first_type* pointer;
+			typedef typename __pair_iter::first_type& reference;
+			// typedef __pair_iter& reference;
+			typedef std::bidirectional_iterator_tag iterator_category;
+		public:
 			typedef __base_iter iterator_type;
 			typedef __node_ptr iterator_ptr;
-			typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
-			typedef typename iterator_traits<iterator_type>::value_type value_type;
-			typedef typename iterator_traits<iterator_type>::difference_type difference_type;
-			// typedef typename iterator_traits<iterator_type>::pointer pointer;
-			// typedef typename iterator_traits<iterator_type>::reference reference;
-
-			typedef typename __pair_iter::first_type& reference;
-			typedef typename __pair_iter::first_type* pointer;
 
 		private:
 			iterator_type __i;
@@ -865,16 +874,27 @@ namespace ft {
 	};
 	template <class __base_iter, class __node_ptr, class __pair_iter>
 	class __const_set_iterator {
+				public:
+			typedef typename __pair_iter::first_type value_type;
+			typedef std::ptrdiff_t difference_type;
+			// typedef __pair_iter* pointer;
+			typedef typename __pair_iter::first_type* pointer;
+			typedef typename __pair_iter::first_type& reference;
+			// typedef __pair_iter& reference;
+			typedef std::bidirectional_iterator_tag iterator_category;
 		public:
 			typedef __base_iter iterator_type;
 			typedef __node_ptr iterator_ptr;
-			typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
-			typedef typename iterator_traits<iterator_type>::value_type value_type;
-			typedef typename iterator_traits<iterator_type>::difference_type difference_type;
 			typedef __set_iterator<__base_iter, __node_ptr, __pair_iter> iterator;
+		// public:
+		// 	typedef __base_iter iterator_type;
+		// 	typedef __node_ptr iterator_ptr;
+		// 	typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
+		// 	typedef typename iterator_traits<iterator_type>::value_type value_type;
+		// 	typedef typename iterator_traits<iterator_type>::difference_type difference_type;
 
-			typedef typename __pair_iter::first_type& reference;
-			typedef typename __pair_iter::first_type* pointer;
+		// 	typedef typename __pair_iter::first_type& reference;
+		// 	typedef typename __pair_iter::first_type* pointer;
 
 		private:
 			iterator_type __i;

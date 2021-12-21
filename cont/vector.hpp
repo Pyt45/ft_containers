@@ -115,7 +115,8 @@ namespace ft
 				return *this;
 			}
 			~vector() {
-				if (_items) {
+				if (_items)
+				{
 					clear();
 					_alloc.deallocate(_items, _size);
 				}
@@ -237,6 +238,7 @@ namespace ft
 			void push_back (const value_type& val) {
 				if (_size + 1 > _cap) {
 					__allocate_container(_cap == 0 ? 1 : _cap * 2);
+					// std::cout << "_cap = " << _cap << std::endl;
 				}
 				// if (_cap == 0)
 				// 	_cap = 1;

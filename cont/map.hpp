@@ -6,7 +6,7 @@
 /*   By: aaqlzim <aaqlzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 18:35:37 by aaqlzim           #+#    #+#             */
-/*   Updated: 2021/07/05 09:09:05 by aaqlzim          ###   ########.fr       */
+/*   Updated: 2021/12/20 16:30:52 by aaqlzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "iterator_traits.hpp"
 # include "Utility.hpp"
 # include "Tree.hpp"
-#include "Type_traits.hpp"
+# include "Type_traits.hpp"
 
 namespace ft {
 	template < class Key, class T, class Compare = std::less<Key>, 

@@ -6,6 +6,7 @@
 #include <set>
 #include <stack>
 #include <vector>
+#include <algorithm>
 
 #include "map.hpp"
 #include "set.hpp"
@@ -618,46 +619,73 @@ void set_reverse_iterator_test() {
         std::cout << *it << std::endl;
 }
 
-int main(int argc, char **argv) {
+template<typename Iter>
+void advanced_helper(Iter p, int n, ns::forward_iterator_tag) {
+    if (n > 0)
+        while (n--) ++p;
+    else if (n < 0)
+        while (n++) --p;
+}
 
-    if (argc != 2) {
-		std::cerr << "Usage: ./test seed" << std::endl;
-		std::cerr << "Provide a seed please" << std::endl;
-		std::cerr << "Count value:" << COUNT << std::endl;
-		return 1;
-	}
+template<typename Iter>
+void advanced_helper(Iter p, int n, ns::random_access_iterator_tag) {
+    p += n;
+}
 
-	const int seed = atoi(argv[1]);
-	srand(seed);
+template <typename Iter>
+void advanced(Iter p, int n) {
+    advanced_helper(p, n, typename ns::iterator_traits<Iter>::iterator_category());
+}
 
+
+void generic_algorithms_test() {
+    std::cout << "===================== Iterator traits =====================\n";
+    ns::vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    v.push_back(4);
+    ns::vector<int>::iterator it;
+    advanced(v.begin(), 2);
+    it = v.begin();
+    std::cout << *it << std::endl;
+}
+
+int main() {
     // Vector
-    vector_iterator_test();
-    vector_capacity_test();
-    vector_modifiers_test();
-    vector_modifiers_second_test();
-    vector_random_test();
-    vector_access_test();
-    vector_test_operations();
-    vector_reverse_iterator_test();
+    // vector_iterator_test();
+    // vector_capacity_test();
+    // vector_modifiers_test();
+    // vector_modifiers_second_test();
+    // vector_random_test();
+    // vector_access_test();
+    // vector_test_operations();
+    // vector_reverse_iterator_test();
     // vector_time_test();
 
     // Stack
-    stack_test();
+    // stack_test();
 
     // Map
-    map_iterator_test();
-    map_capacity_test();
-    map_access_test();
-    map_modifiers_test();
-    map_operations_test();
-    map_reverse_iterator_test();
+    // map_iterator_test();
+    // map_capacity_test();
+    // map_access_test();
+    // map_modifiers_test();
+    // map_operations_test();
+    // map_reverse_iterator_test();
     // map_time_test();
 
     // Set
-    set_iterator_test();
-    set_capacity_test();
-    set_modifiers_test();
-    set_operations_test();
-    set_reverse_iterator_test();
+    // set_iterator_test();
+    // set_capacity_test();
+    // set_modifiers_test();
+    // set_operations_test();
+    // set_reverse_iterator_test();
     // set_time_test();
+
+    // Generic algorithms
+    generic_algorithms_test();
+	// ns::map<int, int> m;
+
+	// m.insert(ns::pair<int, int>(1, 2));
 }

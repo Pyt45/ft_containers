@@ -17,11 +17,11 @@
 # include "Type_traits.hpp"
 
 namespace ft {
-	struct input_iterator_tag {};
-	struct output_iterator_tag {};
-	struct forward_iterator_tag: public input_iterator_tag {};
-	struct bidirectional_iterator_tag : public forward_iterator_tag {};
-	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+	// struct input_iterator_tag {};
+	// struct output_iterator_tag {};
+	// struct forward_iterator_tag: public input_iterator_tag {};
+	// struct bidirectional_iterator_tag : public forward_iterator_tag {};
+	// struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
 	template <class Category, class T, class Distance = std::ptrdiff_t,
 	class Pointer = T*, class Reference = T &>
@@ -42,7 +42,7 @@ namespace ft {
 	};
 	template <class T>
 	struct iterator_traits<T *> {
-		typedef random_access_iterator_tag iterator_category;
+		typedef std::random_access_iterator_tag iterator_category;
 		typedef T value_type;
 		typedef std::ptrdiff_t difference_type;
 		typedef T* pointer;
@@ -50,7 +50,7 @@ namespace ft {
 	};
 	template <class T>
 	struct iterator_traits<const T *> {
-		typedef random_access_iterator_tag iterator_category;
+		typedef std::random_access_iterator_tag iterator_category;
 		typedef T value_type;
 		typedef std::ptrdiff_t difference_type;
 		typedef const T* pointer;
@@ -166,7 +166,7 @@ namespace ft {
 	// Distance
 	template <class _InputIter>
 	typename iterator_traits<_InputIter>::difference_type
-	__distance(_InputIter __first, _InputIter __last, input_iterator_tag) {
+	__distance(_InputIter __first, _InputIter __last, std::input_iterator_tag) {
 		typename iterator_traits<_InputIter>::difference_type __r(0);
 
 		for (; __first != __last; ++__first)
@@ -175,7 +175,7 @@ namespace ft {
 	}
 	template <class _RandIter>
 	typename iterator_traits<_RandIter>::difference_type
-	__distance(_RandIter __first, _RandIter __last, random_access_iterator_tag) {
+	__distance(_RandIter __first, _RandIter __last, std::random_access_iterator_tag) {
 		return __last - __first;
 	}
 	template <class _InputIter>
@@ -186,13 +186,13 @@ namespace ft {
 	// Advance
 	template <class _InputIter>
 	void __advanced(_InputIter& __i,
-					typename iterator_traits<_InputIter>::difference_type __n, input_iterator_tag) {
+					typename iterator_traits<_InputIter>::difference_type __n, std::input_iterator_tag) {
 		for (; __n > 0; --__n)
 			++__i;
 	}
 	template <class _BiDirIter>
 	void __advanced(_BiDirIter& __i,
-					typename iterator_traits<_BiDirIter>::difference_type __n, bidirectional_iterator_tag) {
+					typename iterator_traits<_BiDirIter>::difference_type __n, std::bidirectional_iterator_tag) {
 		if (__n >= 0)
 			for (; __n > 0; --__n)
 				++__i;
@@ -202,7 +202,7 @@ namespace ft {
 	}
 	template <class _RandIter>
 	void __advanced(_RandIter& __i,
-					typename iterator_traits<_RandIter>::difference_type __n, random_access_iterator_tag) {
+					typename iterator_traits<_RandIter>::difference_type __n, std::random_access_iterator_tag) {
 		__i += __n;
 	}
 	template <class _InputIter>

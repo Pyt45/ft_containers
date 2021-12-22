@@ -1,13 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 
 function run () {
 	clang++ -std=c++98 -Wall -Wextra -Werror test.cpp -D ns=ft -o ft
 	clang++ -std=c++98 -Wall -Wextra -Werror test.cpp -D ns=std -o std
 
-	./ft $1 > ft_test
-	./std $1 > std_test
+	./ft > ft_test
+	./std > std_test
 
 	diff ft_test std_test
 }
 
-run 50
+function check_leak() {
+	clang++ -std=c++98 -Wall -Wextra -Werror test.cpp -D ns=ft -o ft
+	valgrind --leak-check=full -s ./ft
+}
+
+if [ $@ = "run" ]; then
+	run
+elif [ $@ = "leak" ]; then
+	check_leak
+fi

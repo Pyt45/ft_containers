@@ -13,6 +13,13 @@ is_integral | true
 equal/lexicographical compare | true
 std::pair, std::make_pair | true
 
+### Run tests
+```bash
+bash script.sh "run"
+# To check leak run
+bash script.sh "leak"
+```
+
 ### Task list
 - [x] implemet list
 - [x] implemet queue

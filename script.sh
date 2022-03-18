@@ -12,8 +12,13 @@ function run () {
 }
 
 function check_leak() {
-	clang++ -std=c++98 -Wall -Wextra -Werror ./cont/test.cpp -D ns=ft -o ft
-	valgrind --leak-check=full -s ./ft
+	is_installed=$(which valgrind &>/dev/null; echo -n $?)
+	if [[ $is_installed -eq 0 ]]; then
+		clang++ -std=c++98 -Wall -Wextra -Werror ./cont/test.cpp -D ns=ft -o ft
+		valgrind --leak-check=full -s ./ft
+	else
+		printf "\e[1;32mPlease run this command ./script.sh install to install valgrind\n\e[m"
+	fi
 }
 
 function spinner() {

@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#Author: Ayoub Aqlzim
 
 function run () {
 	clang++ -std=c++98 -Wall -Wextra -Werror ./cont/test.cpp -D ns=ft -o ft

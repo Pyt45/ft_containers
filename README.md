@@ -1,6 +1,6 @@
 # FT_CONTAINERS
 ### In this project we will implement the various container types of C++ standard template library aka STL
-### WE conding in C++98, so any new feature of the containers will not be implemented
+### We are coding in C++98, so any new feature (c++11 to c++20) of the containers will not be implemented
 
 ### At below some of what we will implement
 feature | implemented
@@ -16,6 +16,10 @@ std::pair, std::make_pair | true
 ### Run tests
 ```bash
 bash script.sh "run"
+
+# before checking the leak memory run first this commnad to install valgrind
+bash script.sh "install"
+
 # To check leak run
 bash script.sh "leak"
 ```

@@ -17,7 +17,7 @@ std::pair, std::make_pair | true
 ```bash
 bash script.sh "run"
 
-# before checking the leak memory run first this commnad to install valgrind
+# before checking the leak memory run first this command to install valgrind
 bash script.sh "install"
 
 # To check leak run
